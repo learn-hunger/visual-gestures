@@ -1,0 +1,2 @@
+https://github.com/microsoft/TypeScript/blob/7c14aff09383f3814d7aae1406b5b2707b72b479/lib/typescript.d.ts#L78
+https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API

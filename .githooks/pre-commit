@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Specify the directory for the hooks.
+# We'll use the current one (.githooks)
+echo "checking code guidelines tests..."
+hookDir=$(dirname $0)
+
+red='\033[0;31m X '
+blue='\033[0;34m ! '
+green='\033[0;32m ✔ '
+reset_color='\033[0m'
+
+code_guidelines_success="$green* code guidelines tests check succeded$reset_color"
+# pwd
+./.githooks/tests.sh
+code_guidelines_status=$?
+if [ $code_guidelines_status -ne 0 ]; then
+    exit 1
+fi
+echo "${code_guidelines_success}"
+# Specify the hooks you want to run during
+# the pre-commit process:
+# echo " sorry not commited"
+# exit 1
+# "$hookDir/areYouSure.sh"
+# && "hookDir/add-your-own-scripts-here"

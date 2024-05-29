@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "ES2018",
+      "module": "NodeNext",
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "declaration": true,
+      "strictNullChecks": true,
+      "sourceMap": true,
+      "strict":true,
+      "moduleResolution": "NodeNext"
+      // "declarationDir": "dist/types"
+    },
+  }
+  

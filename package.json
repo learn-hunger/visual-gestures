@@ -1,0 +1,41 @@
+{
+  "name": "test_token2",
+  "version": "0.0.3",
+  "description": "A package for visulisation ,especially for landmarks",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p ./tsconfig.json",
+    "config": "git config core.hooksPath .githooks",
+    "linting": "ts-node ./.npm_colab/index.ts './.npm_colab/test.ts'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pvscreations/npm.git"
+  },
+  "keywords": [
+    "tensorflowjs",
+    "tensorflow",
+    "canvas",
+    "visualisation",
+    "visualization",
+    "landmarks",
+    "skelton",
+    "data",
+    "kit"
+  ],
+  "author": "Nagendra dharmireddi (pvscreations)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pvscreations/npm/issues"
+  },
+  "homepage": "https://github.com/pvscreations/npm#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "tsc-node": "^0.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  }
+}

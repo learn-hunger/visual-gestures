@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Specify the directory for the hooks.
+# We'll use the current one (.githooks)
+echo "checking before pushing..."
+red='\033[0;31m X '
+blue='\033[0;34m ! '
+green='\033[0;32m ✔ '
+reset_color='\033[0m'
+reset_color='\033[0m'
+
+branch_pattern="^(feature|bugfix|hotfix|release|maintenance|experiment|doc|refactor|integration|personal)/.*|^(main|master|develop|stage|prod)$"
+branch_name="$(git branch --show-current)"
+branch_error_msg="${red}* invalid branch name$reset_color"
+branch_name_syntax="${blue}* syntax : <prefix></><description>\n* only supports branch name with prefix pattern: \n ${branch_pattern}$reset_color"
+branch_name_placeholder="${blue}* example feature/pp-120/adding-logo$reset_color"
+branch_name_suggestion="${blue}* suggestion rename branch using command :\n\t git branch -m 'feature/pp-140/logo-integration'$reset_color"
+branch_name_success="$green branch name check succeded$reset_color"
+if [[ ! $branch_name =~ $branch_pattern ]]; then
+    echo -e "$branch_error_msg"
+    echo -e "$branch_name_syntax"
+    echo -e "$branch_name_placeholder"
+    echo -e "$branch_name_suggestion"
+    exit 1
+else
+    echo -e "$branch_name_success"
+fi
+exit 0
