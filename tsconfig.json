@@ -1,15 +1,23 @@
 {
+  "ts-node": {
+    // these options are overrides used only by ts-node
+    // same as the --compilerOptions flag and the TS_NODE_COMPILER_OPTIONS environment variable
     "compilerOptions": {
-      "target": "ES2018",
       "module": "NodeNext",
-      "outDir": "./dist",
-      "rootDir": "./src",
-      "declaration": true,
-      "strictNullChecks": true,
-      "sourceMap": true,
-      "strict":true,
-      "moduleResolution": "NodeNext"
-      // "declarationDir": "dist/types"
     },
-  }
-  
+    "include": [
+      "./npm_colab"
+    ]
+  },
+  "compilerOptions": {
+    "outDir": "./dist",
+    "strict": true,
+    "sourceMap": true,
+    "rootDir": "./src",
+  },
+  "include": [
+    "src/**/*.tsx",
+    "src/**/*.jsx",
+    "src/**/*.ts"
+  ],
+}

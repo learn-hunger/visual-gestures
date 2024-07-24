@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "es2015",
+    "target": "es2018",
+    "outDir": "./dist/es2018",
+    "moduleResolution": "Node",
+    "declaration": true
+  }
+}

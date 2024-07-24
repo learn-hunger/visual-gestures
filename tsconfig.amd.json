@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "amd",
+    "target": "es2018",
+    "outDir": "./dist/amd",
+    "rootDir": "./src",
+    "outFile": "./dist/amd/index.js",
+    "moduleResolution": "node", //for .npm_colab
+    "declaration": true
+  }
+}

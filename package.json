@@ -5,7 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -p ./tsconfig.json",
+    "build:amd": "tsc --project tsconfig.amd.json",
+    "build:esnext": "tsc --project tsconfig.esnext.json",
+    "build": "npm run build:amd && npm run build:esnext",
     "config": "git config core.hooksPath .githooks",
     "linting": "ts-node ./.npm_colab/index.ts './.npm_colab/test.ts'"
   },
