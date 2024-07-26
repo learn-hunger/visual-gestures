@@ -9,7 +9,8 @@
     "build:esnext": "tsc --project tsconfig.esnext.json",
     "build": "npm run build:amd && npm run build:esnext",
     "config": "git config core.hooksPath .githooks",
-    "linting": "ts-node ./.npm_colab/index.ts './.npm_colab/test.ts'"
+    "linting": "ts-node ./.npm_colab/index.ts './.npm_colab/test.ts'",
+    "deploy": "vercel --prod"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,8 @@
   "homepage": "https://github.com/pvscreations/npm#readme",
   "dependencies": {
     "fs": "^0.0.1-security",
-    "tsc-node": "^0.0.3"
+    "tsc-node": "^0.0.3",
+    "vercel": "^34.2.7"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
