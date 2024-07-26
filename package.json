@@ -10,7 +10,10 @@
     "build": "npm run build:amd && npm run build:esnext",
     "config": "git config core.hooksPath .githooks",
     "linting": "ts-node ./.npm_colab/index.ts './.npm_colab/test.ts'",
-    "deploy": "vercel --prod"
+    "deploy": "vercel --prod",
+    "prettier-check": "npx prettier . --check",
+    "prettier-write": "npx prettier . --write",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "repository": {
     "type": "git",
@@ -35,11 +38,15 @@
   "homepage": "https://github.com/pvscreations/npm#readme",
   "dependencies": {
     "fs": "^0.0.1-security",
+    "prettier": "^3.2.5",
     "tsc-node": "^0.0.3",
     "vercel": "^34.2.7"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "eslint": "^8.57.0"
   }
 }

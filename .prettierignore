@@ -1,7 +1,2 @@
-**/node_modules
-**/coverage
-test/fixtures
-build/
-docs/
-protos/
-__snapshots__/
+src/main.tsx
+.vercel/README.txt
