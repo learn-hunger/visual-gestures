@@ -1,12 +1,8 @@
-import { initialiseDetection } from './index.ts'
-import './style.css'
+import { initialiseDetection } from "./index.ts";
+import "./style.css";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <div>
-      <video id="webcam" autoplay/>
-    </div>
-  </div>
-`
+document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+      <video id="webcam" width="100%" height="100%" autoplay/>
+`;
 
-initialiseDetection(document.querySelector<HTMLVideoElement>('#webcam')!);
+initialiseDetection(document.querySelector<HTMLVideoElement>("#webcam")!);
