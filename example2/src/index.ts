@@ -3,7 +3,7 @@ import Stats from "stats.js";
 import { detect, loadWeights } from "./services/handLandmarks";
 import { enableWebcam } from "./utils/camera";
 import { HandLandmarkerResult } from "@mediapipe/tasks-vision";
-import { CursorObject } from "visual-gestures/src/app/shared/blueprints/vg-cursor";
+import { Main } from "visual-gestures/src/index";
 let webcamElement = document.getElementById("webcam") as HTMLVideoElement;
 /**
  * monitoring
@@ -16,6 +16,7 @@ monitor();
 const debugObject = {
   showVideo: true,
   cursorSpeed: 1,
+  showCursor: true,
 };
 const gui = new GUI({
   title: "Controls",
@@ -25,6 +26,8 @@ debug();
 
 // loadWeights();
 export function initialiseDetection(webcamRef: HTMLVideoElement) {
+  initialiseEventListeners();
+  a.showCursor = debugObject.showCursor;
   webcamElement = webcamRef;
   if (webcamElement) {
     loadWeights().then(() => {
@@ -34,6 +37,7 @@ export function initialiseDetection(webcamRef: HTMLVideoElement) {
     });
   }
 }
+
 let lastVideoTime = -1;
 function startDetection() {
   let landmarks: HandLandmarkerResult | null = null;
@@ -42,22 +46,8 @@ function startDetection() {
     statsFps.begin();
     landmarks = detect(webcamElement);
     const pointer = landmarks?.landmarks[0];
-    // console.log(landmarks?.landmarks[0]?landmarks?.landmarks[0][8]:null)
     if (pointer) {
-      // console.log(pointer[8].x/window.innerWidth)
-      const x =
-        Math.min(
-          (1 - pointer[8].x) * a.container.clientWidth,
-          a.container.clientWidth - a.cursor.clientWidth,
-        ) * debugObject.cursorSpeed;
-      const y =
-        Math.min(
-          pointer[8].y * a.container.clientHeight,
-          a.container.clientHeight - a.cursor.clientHeight,
-        ) * debugObject.cursorSpeed;
-      a.cursor.style.left = x.toString() + "px";
-      a.cursor.style.top = y.toString() + "px";
-      // console.log(pointer[8].z)
+      a.detect(pointer, performance.now());
     }
     statsFps.end();
   }
@@ -73,6 +63,10 @@ function debug() {
       ? (webcamStyle.visibility = "visible")
       : (webcamStyle.visibility = "hidden");
   });
+  //cursor
+  cursor.add(debugObject, "showCursor").onChange(() => {
+    a.showCursor = !a._showCursor;
+  });
 
   cursor.add(debugObject, "cursorSpeed").max(2).min(1).step(0.1);
   // gui.close();
@@ -84,5 +78,27 @@ function monitor() {
   document.body.append(statsFps.dom);
 }
 
-const a = new CursorObject();
 // console.log(a,"hell")
+const a = new Main();
+a.mouseEvents.onPointerMove = () => {
+  console.log("moving2");
+};
+function initialiseEventListeners() {
+  const parent = document.getElementById("mouseParent");
+  const child = document.getElementById("mouseChild");
+  parent?.addEventListener("vgPointerEnter", (event) => {
+    parent.children[0].innerHTML = "mouse Entered";
+  });
+
+  parent?.addEventListener("vgPointerLeave", (event) => {
+    parent.children[0].innerHTML = "mouse Leaved";
+  });
+
+  child?.addEventListener("vgPointerLeave", (event) => {
+    child.children[0].innerHTML = "mouse Leaved";
+  });
+
+  child?.addEventListener("vgPointerEnter", (event) => {
+    child.children[0].innerHTML = "mouse Entered";
+  });
+}
