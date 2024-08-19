@@ -68,3 +68,25 @@ export declare interface ICategory {
    */
   displayName: string;
 }
+
+
+// DataType that contains coordinates and properties(open/close) of finger
+export declare interface IFingerProps {
+
+  data: {
+  'WRIST': { CMC: INormalizedLandmark },
+  'THUMB': { CMC: INormalizedLandmark, MCP: INormalizedLandmark, IP: INormalizedLandmark, TIP: INormalizedLandmark },
+  'INDEX': { CMC: INormalizedLandmark, MCP: INormalizedLandmark, IP: INormalizedLandmark, TIP: INormalizedLandmark },
+  'MIDDLE': { CMC: INormalizedLandmark, MCP: INormalizedLandmark, IP: INormalizedLandmark, TIP: INormalizedLandmark },
+  'RING': { CMC: INormalizedLandmark, MCP: INormalizedLandmark, IP: INormalizedLandmark, TIP: INormalizedLandmark },
+  'PINKY': { CMC: INormalizedLandmark, MCP: INormalizedLandmark, IP: INormalizedLandmark, TIP: INormalizedLandmark },
+  }
+
+  stateRatio: { 
+    'THUMB': number,
+    'INDEX': number,
+    'MIDDLE': number,
+    'RING': number,
+    'PINKY': number 
+  }    
+};

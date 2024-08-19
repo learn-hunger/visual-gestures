@@ -4,6 +4,7 @@ import { VgPointerMove } from "../shared/custom-events/vg-pointer-move";
 import { EHandLandmarks } from "./vg-constants";
 import { INormalizedLandmark } from "./vg-types-handlandmarks";
 
+
 export interface ICursorProp {
   path: string;
   scale: number;
