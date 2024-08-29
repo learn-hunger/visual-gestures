@@ -13,34 +13,42 @@ export const cursorStyle = `
     width:64px;
     height:64px;
     scale:1;
-
 `;
 export enum EHandLandmarks {
   WRIST,
-  THUMB_CMC,
   THUMB_MCP,
-  THUMP_IP,
+  THUMB_PIP,
+  THUMP_DIP,
   THUMB_TIP,
-  INDEX_FINGER_MCP,
-  INDEX_FINGER_PIP,
-  INDEX_FINGER_DIP,
-  INDEX_FINGER_TIP,
-  MIDDLE_FINGER_MCP,
-  MIDDLE_FINGER_PIP,
-  MIDDLE_FINGER_DIP,
-  MIDDLE_FINGER_TIP,
-  RING_FINGER_MCP,
-  RING_FINGER_PIP,
-  RING_FINGER_DIP,
-  RING_FINGER_TIP,
-  PINKY_FINGER_MCP,
-  PINKY_FINGER_PIP,
-  PINKY_FINGER_DIP,
-  PINKY_FINGER_TIP,
+  INDEX_MCP,
+  INDEX_PIP,
+  INDEX_DIP,
+  INDEX_TIP,
+  MIDDLE_MCP,
+  MIDDLE_PIP,
+  MIDDLE_DIP,
+  MIDDLE_TIP,
+  RING_MCP,
+  RING_PIP,
+  RING_DIP,
+  RING_TIP,
+  PINKY_MCP,
+  PINKY_PIP,
+  PINKY_DIP,
+  PINKY_TIP,
 }
 
 export enum EVgMouseEvents {
   MOUSE_MOVE = "vgPointerMove",
   MOUSE_LEAVE = "vgPointerLeave",
   MOUSE_ENTER = "vgPointerEnter",
+}
+
+export enum EFingers {
+  WRIST,
+  THUMB,
+  INDEX,
+  MIDDLE,
+  RING,
+  PINKY,
 }

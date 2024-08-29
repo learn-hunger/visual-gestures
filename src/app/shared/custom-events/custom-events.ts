@@ -1,7 +1,17 @@
 import { DefaultConfig } from "../../config/defalut-config";
-import { euclideanDistance } from "../../utilities/vg-functions";
+import {
+  euclideanDistance,
+  piecewiseFingerDistance,
+  weightedEuclideanDistance,
+} from "../../utilities/vg-functions";
 import { IGestureCustomProps, IMouseMove } from "../../utilities/vg-types";
 import { AVgPointerEvents } from "./vg-events";
+import {
+  IFingerKeypoints,
+  INormalizedLandmark,
+} from "../../utilities/vg-types-handlandmarks";
+import { VgHandLandmarksDTO } from "../DTO/vg-handlandmark";
+import { EFingers } from "../../utilities/vg-constants";
 
 export class VgPointer
   extends AVgPointerEvents
@@ -16,6 +26,11 @@ export class VgPointer
   time: { timeStamp: number; deltaTime: number } | undefined;
   mouseInit!: MouseEventInit;
   props!: IGestureCustomProps;
+
+  MCPWindow: [INormalizedLandmark] = [null!];
+  upWindow: [number, number] = [NaN, NaN];
+  downWindow: [number, number] = [NaN, NaN];
+
   constructor() {
     super();
     // super(EVgMouseEvents.MOUSE_MOVE,mouseProp,customProps);
@@ -77,11 +92,116 @@ export class VgPointer
 
   trigger() {
     if (this.isPointerMove()) {
+      //mouse move ,enter,leave events
       this.setElement = document.elementFromPoint(
         this.mouseInit.clientX!,
         this.mouseInit.clientY!,
       );
       this.triggerMouseMove(this.mouseInit, this.props);
+    }
+    console.log("mouse is not moving");
+    //mouse up ,down,click events
+    // Structuring raw landmarks
+    const landmark: INormalizedLandmark[] = this.props.currentLandmarks;
+    const handProps = new VgHandLandmarksDTO(landmark);
+
+    for (let finger of Object.keys(handProps.data) as Array<
+      keyof typeof EFingers
+    >) {
+      if (finger == "WRIST") {
+        continue;
+      } else if (finger == "THUMB") {
+        handProps.state[finger] =
+          weightedEuclideanDistance(
+            handProps.data["THUMB"].TIP,
+            handProps.data["PINKY"].MCP,
+            [1, 0.25],
+          ) /
+          (weightedEuclideanDistance(
+            handProps.data["THUMB"].TIP,
+            handProps.data["INDEX"].MCP,
+            [1, 0.25],
+          ) +
+            weightedEuclideanDistance(
+              handProps.data["INDEX"].MCP,
+              handProps.data["PINKY"].MCP,
+              [1, 0.25],
+            ));
+        continue;
+      }
+
+      const MCPtoTIPDistance = weightedEuclideanDistance(
+        handProps.data[finger].MCP,
+        handProps.data[finger].TIP,
+        [0.5, 1],
+      );
+      const piecewiseDistance = piecewiseFingerDistance(
+        handProps.data,
+        finger,
+        [0.5, 1],
+      );
+
+      handProps.state[finger] = Math.pow(
+        MCPtoTIPDistance / piecewiseDistance,
+        2,
+      );
+    }
+
+    // Dynamic run-time Initialization
+    this.MCPWindow[0] = handProps.data["INDEX"].MCP;
+
+    // Hand is kept constant
+    if (
+      this.MCPWindow[0] != null &&
+      weightedEuclideanDistance(
+        this.MCPWindow[0],
+        handProps.data["INDEX"].MCP,
+        [1, 1],
+      ) < 0.08
+    ) {
+      // No Pressure: Finger is erected
+      if (
+        // isNaN(this.downWindow[0]) &&
+        isNaN(this.downWindow[1]) &&
+        isNaN(this.upWindow[0]) &&
+        isNaN(this.upWindow[1]) &&
+        handProps.state["INDEX"] > 0.985
+      ) {
+        this.downWindow[0] = (this.dX, this.dY);
+      }
+
+      // Applied Pressure: Finger is closed
+      if (
+        !isNaN(this.downWindow[0]) &&
+        isNaN(this.downWindow[1]) &&
+        handProps.state["INDEX"] < 0.85
+      ) {
+        this.downWindow[1] = (this.dX, this.dY);
+        // console.log("closed_______", this.downWindow);
+        console.log(
+          "**************ON POINTER DOWN EVENT TRIGGERED!!!!!**************",
+        );
+        this.upWindow[0] = (this.dX, this.dY);
+      }
+
+      // Pressure released: FINGER OPen
+      if (
+        !isNaN(this.downWindow[0]) &&
+        !isNaN(this.downWindow[1]) &&
+        !isNaN(this.upWindow[0]) &&
+        isNaN(this.upWindow[1]) &&
+        handProps.state["INDEX"] > 0.85
+      ) {
+        (this.upWindow[1] = this.dX), this.dY;
+        // console.log("OPEn", this.upWindow);
+        console.log(
+          "*************ON POINTER UP TRIGGERED!!!!!********************",
+        );
+        this.downWindow[0] = (this.dX, this.dY);
+        this.downWindow[1] = NaN;
+        this.upWindow[0] = NaN;
+        this.upWindow[1] = NaN;
+      }
     }
   }
 

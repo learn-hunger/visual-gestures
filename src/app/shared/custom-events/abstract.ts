@@ -18,6 +18,7 @@ export abstract class ACommonMouseProps
   distance3D: number;
   relativeDist2D: number;
   time: { timeStamp: number; deltaTime: number } | undefined;
+
   constructor(
     eventType: string,
     mouseProp: MouseEventInit,

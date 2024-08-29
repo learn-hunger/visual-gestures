@@ -12,7 +12,7 @@ export interface ICursorProp {
 
 export interface IGestureCustomProps {
   previousLandmarks?: INormalizedLandmark[];
-  currentLandmarks?: INormalizedLandmark[];
+  currentLandmarks: INormalizedLandmark[];
   deltaLandmarks?: INormalizedLandmark[];
   pointer: IPointer;
   time?: {
@@ -22,6 +22,56 @@ export interface IGestureCustomProps {
   element?: IElementsStates;
   cursorElement: HTMLElement;
 }
+
+// // DataType that contains coordinates and properties(open/close) of finger
+// export interface IFingerData {
+//   [key: string]: {
+//     CMC: INormalizedLandmark;
+//     MCP: INormalizedLandmark;
+//     IP: INormalizedLandmark;
+//     TIP: INormalizedLandmark;
+//   };
+//   // 'WRIST': { CMC: INormalizedLandmark },
+//   THUMB: {
+//     CMC: INormalizedLandmark;
+//     MCP: INormalizedLandmark;
+//     IP: INormalizedLandmark;
+//     TIP: INormalizedLandmark;
+//   };
+//   INDEX: {
+//     CMC: INormalizedLandmark;
+//     MCP: INormalizedLandmark;
+//     IP: INormalizedLandmark;
+//     TIP: INormalizedLandmark;
+//   };
+//   MIDDLE: {
+//     CMC: INormalizedLandmark;
+//     MCP: INormalizedLandmark;
+//     IP: INormalizedLandmark;
+//     TIP: INormalizedLandmark;
+//   };
+//   RING: {
+//     CMC: INormalizedLandmark;
+//     MCP: INormalizedLandmark;
+//     IP: INormalizedLandmark;
+//     TIP: INormalizedLandmark;
+//   };
+//   PINKY: {
+//     CMC: INormalizedLandmark;
+//     MCP: INormalizedLandmark;
+//     IP: INormalizedLandmark;
+//     TIP: INormalizedLandmark;
+//   };
+// }
+
+// export interface IFingerStateRatio {
+//   [key: string]: number;
+//   THUMB: number;
+//   INDEX: number;
+//   MIDDLE: number;
+//   RING: number;
+//   PINKY: number;
+// }
 
 export interface IPointer {
   keypoint: EHandLandmarks;
