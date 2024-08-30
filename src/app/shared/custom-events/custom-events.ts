@@ -6,12 +6,10 @@ import {
 } from "../../utilities/vg-functions";
 import { IGestureCustomProps, IMouseMove } from "../../utilities/vg-types";
 import { AVgPointerEvents } from "./vg-events";
-import {
-  IFingerKeypoints,
-  INormalizedLandmark,
-} from "../../utilities/vg-types-handlandmarks";
+import { INormalizedLandmark } from "../../utilities/vg-types-handlandmarks";
 import { VgHandLandmarksDTO } from "../DTO/vg-handlandmark";
 import { EFingers } from "../../utilities/vg-constants";
+import { threadId } from "worker_threads";
 
 export class VgPointer
   extends AVgPointerEvents
@@ -26,10 +24,13 @@ export class VgPointer
   time: { timeStamp: number; deltaTime: number } | undefined;
   mouseInit!: MouseEventInit;
   props!: IGestureCustomProps;
+  structuredLandmarks?:VgHandLandmarksDTO;
+  freezeFlag?: INormalizedLandmark;
 
-  MCPWindow: [INormalizedLandmark] = [null!];
-  upWindow: [number, number] = [NaN, NaN];
-  downWindow: [number, number] = [NaN, NaN];
+  motionWindow: [INormalizedLandmark, INormalizedLandmark, INormalizedLandmark] = [null!, null!, null!]; // INDEX_MCP, INDEX_MCP, INDEX_TIP
+  upWindow: [INormalizedLandmark, INormalizedLandmark] = [null!, null!];
+  downWindow: [INormalizedLandmark, INormalizedLandmark] = [null!, null!];
+
 
   constructor() {
     super();
@@ -54,6 +55,76 @@ export class VgPointer
       x * this.mouseInit.clientX!,
       y * this.mouseInit.clientY!,
     );
+
+
+
+
+    // // Applied Pressure: Finger is closed
+    // if (
+    //   this.downWindow[0] != null &&
+    //   this.downWindow[1] == null &&
+    //   this.structuredLandmarks.state["INDEX"] < 0.85
+    // ) {
+    //   this.downWindow[1] = this.structuredLandmarks.data['INDEX'].TIP;
+    //   this.motionWindow[0]= this.structuredLandmarks.data['INDEX'].MCP;
+    //   this.motionWindow[1]= this.structuredLandmarks.data['INDEX'].MCP;
+    //   console.log(
+    //     "**************ON POINTER DOWN EVENT TRIGGERED!!!!!**************",this.downWindow[0]      );
+
+
+    // }
+
+    // if( this.downWindow[0]!=null && this.downWindow[1]!=null && this.structuredLandmarks.state["INDEX"]<0.85){
+
+    //   this.downWindow[1] = this.structuredLandmarks.data['INDEX'].TIP;
+    //   //_______Drag the closed finger
+    //   if( weightedEuclideanDistance( this.motionWindow[0], this.structuredLandmarks.data['INDEX'].MCP, [1, 1]) > 0.08 ){
+            
+    //     console.log( "______________________________________Dragging the finger_down", this.downWindow[1])
+
+    //     // Move the cursor with this logic
+    //     // this.downWindow[0] + (this.structuredLandmarks.data['INDEX'].MCP - this.motionWindow[0])
+
+    //     // _________________***_____
+    //     this.motionWindow[1]= this.structuredLandmarks.data['INDEX'].MCP;
+    // }
+    // }
+
+    // Pressure released: FINGER OPen
+    // if (
+    //   this.downWindow[0] != null &&
+    //   this.downWindow[1] != null &&
+    //   this.motionWindow[0] != null &&
+    //   this.structuredLandmarks.state["INDEX"] > 0.85
+    // ) {
+    //   console.log(
+    //     "*************ON POINTER UP TRIGGERED!!!!!********************",
+    //   );
+
+
+    // }
+
+    // if (this.downWindow[0]!= null && this.downWindow[1]!=null && this.motionWindow[0] !=null && this.structuredLandmarks.state["INDEX"]>0.85 &&
+    //   weightedEuclideanDistance( this.motionWindow[0], this.structuredLandmarks.data['INDEX'].MCP, [1,1]) < 0.08
+    //  ){
+    //     console.log("___________Click**************");
+    //     this.downWindow[1]= null!;
+    //     this.motionWindow[1]= null!;
+    // }
+
+    // if(this.downWindow[0]!= null && this.downWindow[1]!= null && this.motionWindow[0]!= null && this.structuredLandmarks.state["INDEX"]> 0.85 &&
+    //   weightedEuclideanDistance( this.motionWindow[0], this.structuredLandmarks.data["INDEX"].MCP, [1,1]) > 0.08
+    // )
+    // {
+    //   console.log("__________________Drop***************");
+      
+    //   this.downWindow[0]= this.structuredLandmarks.data['INDEX'].TIP;
+    //   this.downWindow[1]= null!;
+
+    //   this.motionWindow[0]= this.structuredLandmarks.data['INDEX'].MCP;
+    //   this.motionWindow[1]= null!;
+    // }
+
     this.trigger();
   }
 
@@ -91,117 +162,21 @@ export class VgPointer
   }
 
   trigger() {
-    if (this.isPointerMove()) {
-      //mouse move ,enter,leave events
+    this.staticEventsInitialiser();
+    this.isPointerDown();
+    this.isPointerUp();
+    this.isPointerClick();
+    this.isPointerDrag();
+    this.isPointerDrop();
+    // if(this.isPointerDown() || this.isPointerUp()){
+
+    // }else 
+    if (this.isPointerDown()==false && this.isPointerMove()) {
       this.setElement = document.elementFromPoint(
         this.mouseInit.clientX!,
         this.mouseInit.clientY!,
       );
       this.triggerMouseMove(this.mouseInit, this.props);
-    }
-    console.log("mouse is not moving");
-    //mouse up ,down,click events
-    // Structuring raw landmarks
-    const landmark: INormalizedLandmark[] = this.props.currentLandmarks;
-    const handProps = new VgHandLandmarksDTO(landmark);
-
-    for (let finger of Object.keys(handProps.data) as Array<
-      keyof typeof EFingers
-    >) {
-      if (finger == "WRIST") {
-        continue;
-      } else if (finger == "THUMB") {
-        handProps.state[finger] =
-          weightedEuclideanDistance(
-            handProps.data["THUMB"].TIP,
-            handProps.data["PINKY"].MCP,
-            [1, 0.25],
-          ) /
-          (weightedEuclideanDistance(
-            handProps.data["THUMB"].TIP,
-            handProps.data["INDEX"].MCP,
-            [1, 0.25],
-          ) +
-            weightedEuclideanDistance(
-              handProps.data["INDEX"].MCP,
-              handProps.data["PINKY"].MCP,
-              [1, 0.25],
-            ));
-        continue;
-      }
-
-      const MCPtoTIPDistance = weightedEuclideanDistance(
-        handProps.data[finger].MCP,
-        handProps.data[finger].TIP,
-        [0.5, 1],
-      );
-      const piecewiseDistance = piecewiseFingerDistance(
-        handProps.data,
-        finger,
-        [0.5, 1],
-      );
-
-      handProps.state[finger] = Math.pow(
-        MCPtoTIPDistance / piecewiseDistance,
-        2,
-      );
-    }
-
-    // Dynamic run-time Initialization
-    this.MCPWindow[0] = handProps.data["INDEX"].MCP;
-
-    // Hand is kept constant
-    if (
-      this.MCPWindow[0] != null &&
-      weightedEuclideanDistance(
-        this.MCPWindow[0],
-        handProps.data["INDEX"].MCP,
-        [1, 1],
-      ) < 0.08
-    ) {
-      // No Pressure: Finger is erected
-      if (
-        // isNaN(this.downWindow[0]) &&
-        isNaN(this.downWindow[1]) &&
-        isNaN(this.upWindow[0]) &&
-        isNaN(this.upWindow[1]) &&
-        handProps.state["INDEX"] > 0.985
-      ) {
-        this.downWindow[0] = (this.dX, this.dY);
-      }
-
-      // Applied Pressure: Finger is closed
-      if (
-        !isNaN(this.downWindow[0]) &&
-        isNaN(this.downWindow[1]) &&
-        handProps.state["INDEX"] < 0.85
-      ) {
-        this.downWindow[1] = (this.dX, this.dY);
-        // console.log("closed_______", this.downWindow);
-        console.log(
-          "**************ON POINTER DOWN EVENT TRIGGERED!!!!!**************",
-        );
-        this.upWindow[0] = (this.dX, this.dY);
-      }
-
-      // Pressure released: FINGER OPen
-      if (
-        !isNaN(this.downWindow[0]) &&
-        !isNaN(this.downWindow[1]) &&
-        !isNaN(this.upWindow[0]) &&
-        isNaN(this.upWindow[1]) &&
-        handProps.state["INDEX"] > 0.85
-      ) {
-        (this.upWindow[1] = this.dX), this.dY;
-        // console.log("OPEn", this.upWindow);
-        console.log(
-          "*************ON POINTER UP TRIGGERED!!!!!********************",
-        );
-        this.downWindow[0] = (this.dX, this.dY);
-        this.downWindow[1] = NaN;
-        this.upWindow[0] = NaN;
-        this.upWindow[1] = NaN;
-      }
     }
   }
 
@@ -213,5 +188,171 @@ export class VgPointer
       return true;
     }
     return false;
+  }
+
+  private isPointerDown():boolean{
+    // Applied Pressure: Finger is closed
+    if (
+      this.structuredLandmarks &&
+      this.downWindow[0] != null &&
+      this.downWindow[1] == null &&
+      this.structuredLandmarks.state["INDEX"] < 0.85
+    ) {
+      this.downWindow[1] = this.structuredLandmarks.data['INDEX'].TIP;
+      this.motionWindow[0]= this.structuredLandmarks.data['INDEX'].MCP;
+      this.motionWindow[1]= this.structuredLandmarks.data['INDEX'].MCP;
+      console.log(
+        "**************ON POINTER DOWN EVENT TRIGGERED!!!!!**************",this.downWindow[0]      );
+        return true;
+
+    }
+
+    return false;
+  };
+
+  private isPointerUp():boolean{
+    if (
+      this.structuredLandmarks &&
+      this.downWindow[0] != null &&
+      this.downWindow[1] != null &&
+      this.motionWindow[0] != null &&
+      this.structuredLandmarks.state["INDEX"] > 0.85
+    ) {
+      console.log(
+        "*************ON POINTER UP TRIGGERED!!!!!********************",
+      );
+      return true
+
+    }
+
+    return false;
+  }
+
+  private isPointerClick():boolean{
+    if (this.structuredLandmarks && this.downWindow[0]!= null && this.downWindow[1]!=null && this.motionWindow[0] !=null && this.structuredLandmarks.state["INDEX"]>0.85 &&
+      weightedEuclideanDistance( this.motionWindow[0], this.structuredLandmarks.data['INDEX'].MCP, [1,1]) < 0.08
+     ){
+        console.log("___________Click**************");
+        this.downWindow[1]= null!;
+        this.motionWindow[1]= null!;
+        return true;
+    }
+    return false;
+
+  }
+
+  private isPointerDrop():boolean{
+    if( this.structuredLandmarks && this.downWindow[0]!= null && this.downWindow[1]!= null && this.motionWindow[0]!= null && this.structuredLandmarks.state["INDEX"]> 0.85 &&
+      weightedEuclideanDistance( this.motionWindow[0], this.structuredLandmarks.data["INDEX"].MCP, [1,1]) > 0.08
+    )
+    {
+      console.log("__________________Drop***************");
+      
+      this.downWindow[0]= this.structuredLandmarks.data['INDEX'].TIP;
+      this.downWindow[1]= null!;
+
+      this.motionWindow[0]= this.structuredLandmarks.data['INDEX'].MCP;
+      this.motionWindow[1]= null!;
+      return true;
+    }
+    return false;
+  }
+
+  private isPointerDrag():boolean{
+    if( this.structuredLandmarks && this.downWindow[0]!=null && this.downWindow[1]!=null && this.structuredLandmarks.state["INDEX"]<0.85){
+
+      this.downWindow[1] = this.structuredLandmarks.data['INDEX'].TIP;
+      //_______Drag the closed finger
+      if( weightedEuclideanDistance( this.motionWindow[0], this.structuredLandmarks.data['INDEX'].MCP, [1, 1]) > 0.08 ){
+        console.log( "______________________________________Dragging the finger_down", this.downWindow[1])
+        
+        // Move the cursor with this logic
+        // this.downWindow[0] + (this.structuredLandmarks.data['INDEX'].MCP - this.motionWindow[0])
+        
+        // _________________***_____
+        this.motionWindow[1]= this.structuredLandmarks.data['INDEX'].MCP;
+        return true;    
+    }
+    }
+    return false;
+  }
+
+  private staticEventsInitialiser(){
+    // Structuring raw landmarks
+    const landmark: INormalizedLandmark[] = this.props.currentLandmarks;
+    this.structuredLandmarks = new VgHandLandmarksDTO(landmark);
+    for (let finger of Object.keys(this.structuredLandmarks.data) as Array<
+      keyof typeof EFingers
+    >) {
+      if (finger == "WRIST") {
+        continue;
+      } else if (finger == "THUMB") {
+        this.structuredLandmarks.state[finger] =
+          weightedEuclideanDistance(
+            this.structuredLandmarks.data["THUMB"].TIP,
+            this.structuredLandmarks.data["PINKY"].MCP,
+            [1, 0.25],
+          ) /
+          (weightedEuclideanDistance(
+            this.structuredLandmarks.data["THUMB"].TIP,
+            this.structuredLandmarks.data["INDEX"].MCP,
+            [1, 0.25],
+          ) +
+            weightedEuclideanDistance(
+              this.structuredLandmarks.data["INDEX"].MCP,
+              this.structuredLandmarks.data["PINKY"].MCP,
+              [1, 0.25],
+            ));
+        continue;
+      }
+
+      const MCPtoTIPDistance = weightedEuclideanDistance(
+        this.structuredLandmarks.data[finger].MCP,
+        this.structuredLandmarks.data[finger].TIP,
+        [0.5, 1],
+      );
+      const piecewiseDistance = piecewiseFingerDistance(
+        this.structuredLandmarks.data,
+        finger,
+        [0.5, 1],
+      );
+
+      this.structuredLandmarks.state[finger] = Math.pow(
+        MCPtoTIPDistance / piecewiseDistance,
+        2,
+      );
+    }
+
+    // weightedEuclideanDistance( this.props.previousLandmarks[5], this.structuredLandmarks.data["INDEX"].MCP, [1, 1],) < 0.08
+    
+    // Dynamic run-time Initialization
+    // this.MCPWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
+    // console.log( "___________________", this.props.previousLandmarks[5]);
+
+
+    // No Pressure: Finger is erected
+    if ( // isNaN(this.downWindow[0]) &&
+      // this.downWindow[0]== null &&
+      // this.downWindow[1]== null &&
+      this.structuredLandmarks.state["INDEX"] > 0.985
+    ) {
+        // Freeze the pointer at INDEX_TIP
+        if( this.downWindow[0] == null){
+          this.freezeFlag= this.structuredLandmarks.data['INDEX'].TIP;
+          this.downWindow[0] = this.structuredLandmarks.data['INDEX'].TIP;
+        }
+
+        if(this.motionWindow[0]== null){
+          this.motionWindow[0]= this.structuredLandmarks.data['INDEX'].MCP;
+        }
+
+        // if( weightedEuclideanDistance(this.motionWindow[0], this.structuredLandmarks.data['INDEX'].MCP, [1,1])> 0.08 ){
+
+        //   this.downWindow[0] = this.structuredLandmarks.data['INDEX'].TIP;
+        //   this.motionWindow[0]= this.structuredLandmarks.data['INDEX'].MCP;
+        // }
+        
+       
+      }
   }
 }
