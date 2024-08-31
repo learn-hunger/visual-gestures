@@ -168,10 +168,10 @@ export class VgPointer
   trigger() {
     this.staticEventsInitialiser();
     this.isPointerDown();
-    // this.isPointerUp();
-    // this.isPointerClick();
-    // this.isPointerDrag();
-    // this.isPointerDrop();
+    this.isPointerUp();
+    this.isPointerClick();
+    this.isPointerDrag();
+    this.isPointerDrop();
     // if(this.isPointerDown() || this.isPointerUp()){
 
     // }else 
@@ -232,7 +232,7 @@ export class VgPointer
       // ____STATIC ALGORITHM__________  this.structuredLandmarks.state["INDEX"] > 0.85
       this.kinkWindow[0]!= null &&
       this.kinkWindow[1]!= null &&
-      (this.fingerKinkRatio! - this.kinkWindow[1]) >= 100
+      (this.fingerKinkRatio - this.kinkWindow[1]) >= 100
     ) {
       console.log(
         "*************ON POINTER UP TRIGGERED!!!!!********************",
@@ -244,32 +244,40 @@ export class VgPointer
     return false;
   }
 
-  // private isPointerClick():boolean{
-  //   if (this.structuredLandmarks && this.downWindow[0]!= null && this.downWindow[1]!=null && this.motionWindow[0] !=null && 
-  //    // STACTIC: this.structuredLandmarks.state["INDEX"]>0.85 &&
-  //    this.kinkWindow[0]!= null &&
-  //    this.kinkWindow[1]!= null &&
-  //    this.fingerKinkRatio - this.kinkWindow[1] >= 100 &&
-  //     weightedEuclideanDistance( this.motionWindow[0], this.structuredLandmarks.data['INDEX'].MCP, [1,1]) < 0.08
-  //    ){
-  //       console.log("___________Click**************");
-  //       this.kinkWindow[0]= this.fingerKinkRatio;
-  //       this.kinkWindow[1]= null;
-  //       this.downWindow[1]= null!;
-  //       this.motionWindow[1]= null!;
-  //       return true;
-  //   }
-  //   return false;
+  private isPointerClick():boolean{
+    if (this.structuredLandmarks && this.downWindow[0]!= null && this.downWindow[1]!=null && this.motionWindow[0] !=null && 
+     // STACTIC: this.structuredLandmarks.state["INDEX"]>0.85 &&
+     this.kinkWindow[0]!= null &&
+     this.kinkWindow[1]!= null &&
+     this.fingerKinkRatio - this.kinkWindow[1] >= 100 &&
+      weightedEuclideanDistance( this.motionWindow[0], this.structuredLandmarks.data['INDEX'].MCP, [1,1]) < 0.08
+     ){
+        console.log("___________Click**************");
+        this.kinkWindow[0]= this.fingerKinkRatio;
+        this.kinkWindow[1]= null;
+        this.downWindow[1]= null!;
+        this.motionWindow[1]= null!;
+        return true;
+    }
+    return false;
 
-  // }
+  }
 
   private isPointerDrop():boolean{
-    if( this.structuredLandmarks && this.downWindow[0]!= null && this.downWindow[1]!= null && this.motionWindow[0]!= null && this.structuredLandmarks.state["INDEX"]> 0.85 &&
+    if( this.structuredLandmarks && this.downWindow[0]!= null && this.downWindow[1]!= null && this.motionWindow[0]!= null && 
+       // STACTIC: this.structuredLandmarks.state["INDEX"]> 0.85 &&
+      this.kinkWindow[0]!= null &&
+      this.kinkWindow[1]!= null &&
+      this.fingerKinkRatio - this.kinkWindow[1] >= 100 &&
       weightedEuclideanDistance( this.motionWindow[0], this.structuredLandmarks.data["INDEX"].MCP, [1,1]) > 0.08
     )
     {
       console.log("__________________Drop***************");
       
+      this.kinkWindow[0]= this.fingerKinkRatio;
+      this.kinkWindow[1]= null;
+
+
       this.downWindow[0]= this.structuredLandmarks.data['INDEX'].TIP;
       this.downWindow[1]= null!;
 
@@ -281,7 +289,13 @@ export class VgPointer
   }
 
   private isPointerDrag():boolean{
-    if( this.structuredLandmarks && this.downWindow[0]!=null && this.downWindow[1]!=null && this.structuredLandmarks.state["INDEX"]<0.85){
+
+    if( this.structuredLandmarks && this.downWindow[0]!=null && this.downWindow[1]!=null && this.motionWindow[0] !=null && 
+      // STATIC this.structuredLandmarks.state["INDEX"]<0.85
+      this.kinkWindow[0]!= null && 
+      this.kinkWindow[1]!= null &&
+      this.kinkWindow[0]-this.kinkWindow[1] >=100
+    ){
 
       this.downWindow[1] = this.structuredLandmarks.data['INDEX'].TIP;
       //_______Drag the closed finger
@@ -352,7 +366,7 @@ export class VgPointer
     this.fingerHeight= weightedEuclideanDistance( this.structuredLandmarks.data["INDEX"].TIP, this.structuredLandmarks.data["INDEX"].MCP, [1,1]);
     
     this.fingerKinkRatio= 1000* this.fingerHeight/ this.palmHeight;
-    console.log("RRRRRRRRRRRRRRRRRRr", this.fingerKinkRatio);
+    console.log( this.fingerKinkRatio );
     
   
     
