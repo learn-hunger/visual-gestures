@@ -118,13 +118,16 @@ export class VgPointer
       // ____STATIC ALGORITHM__________  this.structuredLandmarks.state["INDEX"] < 0.85
       this.kinkWindow[0] != null &&
       this.kinkWindow[1] == null &&
-      this.kinkWindow[0] - this.fingerKinkRatio >= 100
+      this.kinkWindow[0] - this.fingerKinkRatio >= 200
     ) {
       this.kinkWindow[1] = this.fingerKinkRatio;
 
       this.downWindow[1] = this.structuredLandmarks.data["INDEX"].TIP;
+      
       this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
       this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
+      
+      console.log("Down", this.downWindow);
       this.triggerMouseDown(this.mouseInit, this.props);
       return true;
     }
@@ -142,8 +145,9 @@ export class VgPointer
       // ____STATIC ALGORITHM__________  this.structuredLandmarks.state["INDEX"] > 0.85
       this.kinkWindow[0] != null &&
       this.kinkWindow[1] != null &&
-      this.fingerKinkRatio - this.kinkWindow[1] >= 100
+      this.fingerKinkRatio - this.kinkWindow[1] >= 200
     ) {
+      // console.log("UP");
       this.triggerMouseUp(this.mouseInit, this.props);
       return true;
     }
@@ -161,7 +165,7 @@ export class VgPointer
       // STACTIC: this.structuredLandmarks.state["INDEX"]>0.85 &&
       this.kinkWindow[0] != null &&
       this.kinkWindow[1] != null &&
-      this.fingerKinkRatio - this.kinkWindow[1] >= 100 &&
+      this.fingerKinkRatio - this.kinkWindow[1] >= 200 &&
       weightedEuclideanDistance(
         this.motionWindow[0],
         this.structuredLandmarks.data["INDEX"].MCP,
@@ -171,8 +175,11 @@ export class VgPointer
       this.triggerMouseClick(this.mouseInit, this.props);
       this.kinkWindow[0] = this.fingerKinkRatio;
       this.kinkWindow[1] = null;
+      this.downWindow[0]= this.structuredLandmarks.data['INDEX'].TIP;
       this.downWindow[1] = null!;
+      this.motionWindow[0] = this.structuredLandmarks.data['INDEX'].MCP;
       this.motionWindow[1] = null!;
+
       return true;
     }
     return false;
@@ -188,13 +195,14 @@ export class VgPointer
       // STACTIC: this.structuredLandmarks.state["INDEX"]> 0.85 &&
       this.kinkWindow[0] != null &&
       this.kinkWindow[1] != null &&
-      this.fingerKinkRatio - this.kinkWindow[1] >= 100 &&
+      this.fingerKinkRatio - this.kinkWindow[1] >= 200 &&
       weightedEuclideanDistance(
         this.motionWindow[0],
         this.structuredLandmarks.data["INDEX"].MCP,
         [1, 1],
       ) > 0.08
     ) {
+      // console.log("Dropped");
       this.triggerMouseDrop(this.mouseInit, this.props);
 
       this.kinkWindow[0] = this.fingerKinkRatio;
@@ -219,21 +227,28 @@ export class VgPointer
       // STATIC this.structuredLandmarks.state["INDEX"]<0.85
       this.kinkWindow[0] != null &&
       this.kinkWindow[1] != null &&
-      this.kinkWindow[0] - this.kinkWindow[1] >= 100
+      this.kinkWindow[0] - this.kinkWindow[1] >= 200 &&
+      weightedEuclideanDistance(
+        this.motionWindow[0],
+        this.structuredLandmarks.data["INDEX"].MCP,
+        [1, 1],
+      ) > 0.08
     ) {
+
       this.downWindow[1] = this.structuredLandmarks.data["INDEX"].TIP;
-      //_______Drag the closed finger
-      if (
-        weightedEuclideanDistance(
-          this.motionWindow[0],
-          this.structuredLandmarks.data["INDEX"].MCP,
-          [1, 1],
-        ) > 0.08
-      ) {
-        this.triggerMouseDrag(this.mouseInit, this.props);
-        this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
-        return true;
-      }
+      // console.log("Dragging");
+      this.triggerMouseDrag(this.mouseInit, this.props);
+      this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
+
+      // After filling above windows, Logic:
+      //
+      // Attach cursor to w.r.t 'x'
+      //  
+      //  cursor_x= motionWindow[1].x + (downWindow[0].x - motionWindow[0].x)
+      //  cursor_y= motionWindow[1].y + (downWindow[0].y - motionWindow[0].y)
+      
+      return true;
+
     }
     return false;
   }
@@ -299,8 +314,16 @@ export class VgPointer
     // Very first instance of detection
     if (this.kinkWindow[0] == null && this.kinkWindow[1] == null) {
       this.kinkWindow[0] = this.fingerKinkRatio;
+      
+      this.downWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
+
+      this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
+    }
+
+    if( !this.isPointerDown() && !this.isPointerUp() && !this.isPointerClick() && !this.isPointerDrag()){
       this.downWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
       this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
     }
-  }
+
+    }
 }
