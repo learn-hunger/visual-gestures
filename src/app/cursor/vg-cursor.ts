@@ -10,7 +10,7 @@ class CursorDom {
     this.container = container;
     this.cursor = document.createElement("img");
     this.cursor.setAttribute("id", "vg-cursor-container");
-    this.cursor.src = DefaultConfig.instance.cursor.path;
+    this.cursor.src = DefaultConfig.instance.cursor.default.path;
     this.createDom();
   }
 
@@ -23,12 +23,12 @@ export class CursorObject extends CursorDom {
   public _showCursor: boolean;
   private _cursorPath: string;
   private _cursorScale: number;
-  protected sizes: IElementsSizes;
+  public sizes: IElementsSizes;
   constructor(container: HTMLElement = DefaultConfig.instance.cursorContainer) {
     super(container);
     const cursor = DefaultConfig.instance.cursor;
-    this._cursorPath = cursor.path;
-    this._cursorScale = cursor.scale;
+    this._cursorPath = cursor.default.path;
+    this._cursorScale = cursor.default.scale;
     this._showCursor = cursor.showCursor;
     this.toggleCursor();
     this.sizes = this.initialiseSizes();
@@ -39,15 +39,16 @@ export class CursorObject extends CursorDom {
     this._showCursor = check;
     this.toggleCursor();
   }
-  set cursorPath(path: string) {
-    this._cursorPath = path;
-    this.cursor.src = path;
-  }
 
-  set cursorScale(scale: number) {
-    this._cursorScale = scale;
-    this.cursor.style.scale = scale.toString();
-  }
+  // set cursorPath(path: string) {
+  //   this._cursorPath = path;
+  //   this.cursor.src = path;
+  // }
+
+  // set cursorScale(scale: number) {
+  //   this._cursorScale = scale;
+  //   this.cursor.style.scale = scale.toString();
+  // }
 
   toggleCursor() {
     // toggleCursor

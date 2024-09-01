@@ -1,9 +1,10 @@
+import { HandLandmarkerResult } from "@mediapipe/tasks-vision";
 import GUI from "lil-gui";
 import Stats from "stats.js";
+import { Main } from "visual-gestures/src/index";
+import { EVgMouseEvents } from "../../src/app/utilities/vg-constants";
 import { detect, loadWeights } from "./services/handLandmarks";
 import { enableWebcam } from "./utils/camera";
-import { HandLandmarkerResult } from "@mediapipe/tasks-vision";
-import { Main } from "visual-gestures/src/index";
 let webcamElement = document.getElementById("webcam") as HTMLVideoElement;
 /**
  * monitoring
@@ -80,26 +81,97 @@ function monitor() {
 
 // console.log(a,"hell")
 const a = new Main();
+
 a.mouseEvents.onPointerMove = () => {
-  console.log("moving2");
+  // console.log("moving2");
 };
 function initialiseEventListeners() {
   const parent = document.getElementById("mouseParent");
   const child = document.getElementById("mouseChild");
-  parent?.addEventListener("vgPointerEnter", (event) => {
-    console.log("pointer enter");
+  parent?.addEventListener(EVgMouseEvents.MOUSE_ENTER, (event) => {
+    // console.log("pointer enter");
     parent.children[0].innerHTML = "mouse Entered";
   });
 
-  parent?.addEventListener("vgPointerLeave", (event) => {
+  parent?.addEventListener(EVgMouseEvents.MOUSE_LEAVE, (event) => {
     parent.children[0].innerHTML = "mouse Leaved";
   });
 
-  child?.addEventListener("vgPointerLeave", (event) => {
+  child?.addEventListener(EVgMouseEvents.MOUSE_LEAVE, (event) => {
     child.children[0].innerHTML = "mouse Leaved";
   });
 
-  child?.addEventListener("vgPointerEnter", (event) => {
+  child?.addEventListener(EVgMouseEvents.MOUSE_ENTER, (event) => {
     child.children[0].innerHTML = "mouse Entered";
   });
+
+  //mouse down
+  parent?.addEventListener(EVgMouseEvents.MOUSE_DOWN, (event) => {
+    parent.children[0].innerHTML = "mouse Down";
+  });
+
+  child?.addEventListener(EVgMouseEvents.MOUSE_DOWN, (event) => {
+    child.children[0].innerHTML = "mouse Down";
+  });
+
+  //mouse up
+  parent?.addEventListener(EVgMouseEvents.MOUSE_UP, (event) => {
+    parent.children[0].innerHTML = "mouse up";
+  });
+
+  child?.addEventListener(EVgMouseEvents.MOUSE_UP, (event) => {
+    child.children[0].innerHTML = "mouse up";
+  });
+
+  //mouse click
+  parent?.addEventListener(EVgMouseEvents.MOUSE_CLICK, (event) => {
+    parent.children[0].innerHTML = "mouse clicked";
+  });
+
+  child?.addEventListener(EVgMouseEvents.MOUSE_CLICK, (event) => {
+    child.children[0].innerHTML = "mouse clicked";
+  });
+  //mouse drop
+  parent?.addEventListener(EVgMouseEvents.MOUSE_DROP, (event) => {
+    parent.children[0].innerHTML = "mouse drop";
+  });
+
+  child?.addEventListener(EVgMouseEvents.MOUSE_DROP, (event) => {
+    child.children[0].innerHTML = "mouse drop";
+  });
+  //mouse drag
+  parent?.addEventListener(EVgMouseEvents.MOUSE_DRAG, (event) => {
+    parent.children[0].innerHTML = "mouse drag";
+  });
+
+  child?.addEventListener(EVgMouseEvents.MOUSE_DRAG, (event) => {
+    child.children[0].innerHTML = "mouse drag";
+  });
+
+  //callbacks
+  a.mouseEvents.onPointerEnter = () => {
+    console.log("callback pointer entered");
+  };
+  a.mouseEvents.onPointerLeave = () => {
+    console.log("callback pointer leave");
+  };
+  a.mouseEvents.onPointerMove = () => {
+    console.log("callback pointer moved");
+  };
+
+  a.mouseEvents.onPointerDown = () => {
+    console.log("callback pointer down");
+  };
+  a.mouseEvents.onPointerUp = () => {
+    console.log("callback pointer up");
+  };
+  a.mouseEvents.onPointerClick = () => {
+    console.log("callback pointer Click");
+  };
+  a.mouseEvents.onPointerDrop = () => {
+    console.log("callback pointer drop");
+  };
+  a.mouseEvents.onPointerDrag = () => {
+    console.log("callback pointer drag");
+  };
 }

@@ -44,7 +44,7 @@ export abstract class ACommonMouseProps
     // this.deltaTime=0;
   }
   element?: IElementsStates | undefined;
-  cursorElement!: HTMLElement;
+  cursorElement!: HTMLImageElement;
   previousLandmarks?: INormalizedLandmark[];
   currentLandmarks?: INormalizedLandmark[];
   deltaLandmarks?: INormalizedLandmark[];

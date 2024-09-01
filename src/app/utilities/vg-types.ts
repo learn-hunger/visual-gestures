@@ -1,7 +1,12 @@
+import { VgPointerClick } from "../pointer/custom-events/vg-pointer-click";
+import { VgPointerDown } from "../pointer/custom-events/vg-pointer-down";
+import { VgPointerDrag } from "../pointer/custom-events/vg-pointer-drag";
+import { VgPointerDrop } from "../pointer/custom-events/vg-pointer-drop";
 import { VgPointerEnter } from "../pointer/custom-events/vg-pointer-enter";
 import { VgPointerLeave } from "../pointer/custom-events/vg-pointer-leave";
 import { VgPointerMove } from "../pointer/custom-events/vg-pointer-move";
-import { EHandLandmarks } from "./vg-constants";
+import { VgPointerUp } from "../pointer/custom-events/vg-pointer-up";
+import { EHandLandmarks, EVgMouseEvents } from "./vg-constants";
 import { INormalizedLandmark } from "./vg-types-handlandmarks";
 
 export interface ICursorProp {
@@ -9,6 +14,9 @@ export interface ICursorProp {
   scale: number;
   showCursor: boolean;
 }
+export type TCursors = {
+  [value in EVgMouseEvents]: ICursorProp;
+} & { showCursor: boolean; default: ICursorProp; baseURI: string };
 
 export interface IGestureCustomProps {
   previousLandmarks?: INormalizedLandmark[];
@@ -21,6 +29,7 @@ export interface IGestureCustomProps {
   };
   element?: IElementsStates;
   cursorElement: HTMLElement;
+  sizes?: IElementsSizes;
 }
 
 // // DataType that contains coordinates and properties(open/close) of finger
@@ -84,6 +93,12 @@ export interface IEvents {
   onPointerMove: (event?: VgPointerMove) => any;
   onPointerEnter: (event?: VgPointerEnter) => any;
   onPointerLeave: (event?: VgPointerLeave) => any;
+
+  onPointerDown: (event?: VgPointerDown) => any;
+  onPointerUp: (event?: VgPointerUp) => any;
+  onPointerClick: (event?: VgPointerClick) => any;
+  onPointerDrop: (event?: VgPointerDrop) => any;
+  onPointerDrag: (event?: VgPointerDrag) => any;
 }
 
 export interface IElementsSizes {
@@ -108,4 +123,5 @@ export interface IMouseMove {
 export interface IElementsStates {
   from?: Element | null;
   to?: Element | null;
+  downElement?: Element | null;
 }

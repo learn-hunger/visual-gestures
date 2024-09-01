@@ -39,9 +39,17 @@ export enum EHandLandmarks {
 }
 
 export enum EVgMouseEvents {
-  MOUSE_MOVE = "vgPointerMove",
-  MOUSE_LEAVE = "vgPointerLeave",
-  MOUSE_ENTER = "vgPointerEnter",
+  //motion events
+  MOUSE_MOVE = "vgpointermove",
+  MOUSE_LEAVE = "vgpointerleave",
+  MOUSE_ENTER = "vgpointerenter",
+  //static events
+  MOUSE_DOWN = "vgpointerdown",
+  MOUSE_UP = "vgpointerup",
+  MOUSE_CLICK = "vgpointerclick",
+  MOUSE_DROP = "vgpointerdrop",
+  //both motion and static events
+  MOUSE_DRAG = "vgpointerdrag",
 }
 
 export enum EFingers {

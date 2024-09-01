@@ -1,10 +1,10 @@
-import { EHandLandmarks } from "../utilities/vg-constants";
-import { ICursorProp } from "../utilities/vg-types";
+import { EHandLandmarks, EVgMouseEvents } from "../utilities/vg-constants";
+import { ICursorProp, TCursors } from "../utilities/vg-types";
 import { INormalizedLandmark } from "../utilities/vg-types-handlandmarks";
 
 export class DefaultConfig {
   private static defaultConfig: DefaultConfig;
-  cursor: ICursorProp;
+  cursor: TCursors;
   cursorContainer: HTMLElement;
   pointer: EHandLandmarks;
   cursorPosition: INormalizedLandmark;
@@ -12,16 +12,64 @@ export class DefaultConfig {
   flickeringThreshold: number;
 
   private constructor() {
-    this.cursor = {
-      path: "https://img.icons8.com/?size=100&id=s3JOUU9Yp36E&format=png&color=000000",
-      scale: 1,
-      showCursor: true,
-    };
+    this.cursor = this.setCursor();
     this.cursorContainer = document.body;
     this.pointer = EHandLandmarks.INDEX_TIP;
     this.cursorPosition = { x: 0.5, y: 0.5, z: 0.5 };
     this.deltaLandmark = { x: 0, y: 0, z: 0 };
     this.flickeringThreshold = 15;
+  }
+
+  private setCursor(): TCursors {
+    return {
+      showCursor: true,
+      baseURI: window.location.href,
+      default: {
+        path: "pointer_move.png",
+        scale: 1,
+        showCursor: true,
+      },
+      [EVgMouseEvents.MOUSE_MOVE]: {
+        path: "pointer_move.png",
+        scale: 1,
+        showCursor: true,
+      },
+      [EVgMouseEvents.MOUSE_LEAVE]: {
+        path: "pointer_move.png",
+        scale: 1,
+        showCursor: true,
+      },
+      [EVgMouseEvents.MOUSE_ENTER]: {
+        path: "pointer_enter.png",
+        scale: 1,
+        showCursor: true,
+      },
+      [EVgMouseEvents.MOUSE_DOWN]: {
+        path: "pointer_move.png",
+        scale: 1,
+        showCursor: true,
+      },
+      [EVgMouseEvents.MOUSE_UP]: {
+        path: "pointer_move.png",
+        scale: 1,
+        showCursor: true,
+      },
+      [EVgMouseEvents.MOUSE_CLICK]: {
+        path: "pointer_move.png",
+        scale: 1,
+        showCursor: true,
+      },
+      [EVgMouseEvents.MOUSE_DROP]: {
+        path: "pointer_move.png",
+        scale: 1,
+        showCursor: true,
+      },
+      [EVgMouseEvents.MOUSE_DRAG]: {
+        path: "pointer_drag.png",
+        scale: 1,
+        showCursor: true,
+      },
+    };
   }
 
   static get instance() {

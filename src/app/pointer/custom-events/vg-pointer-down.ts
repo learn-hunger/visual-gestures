@@ -3,18 +3,18 @@ import { EVgMouseEvents } from "../../utilities/vg-constants";
 import { IGestureCustomProps } from "../../utilities/vg-types";
 import { ACommonMouseProps } from "../abstracts/vg-pointer-props-abstract";
 
-export class VgPointerEnter extends ACommonMouseProps {
+export class VgPointerDown extends ACommonMouseProps {
   constructor(mouseProp: MouseEventInit, customProps: IGestureCustomProps) {
-    super(EVgMouseEvents.MOUSE_ENTER, mouseProp, customProps);
+    super(EVgMouseEvents.MOUSE_DOWN, mouseProp, customProps);
     // this.setCursor();
   }
+
   //TODO
   setCursor(): void {
     const { path, scale, showCursor } =
-      DefaultConfig.instance.cursor.vgpointerenter;
+      DefaultConfig.instance.cursor.vgpointerdown;
     const { baseURI } = DefaultConfig.instance.cursor;
     if (showCursor && this.cursorElement.src != baseURI + path) {
-      console.log(this.cursorElement.src, baseURI + path, "cursor enter");
       this.cursorElement.src = path;
       this.cursorElement.style.scale = scale.toString();
     }

@@ -100,6 +100,7 @@ export class Main extends AVgCommon {
       }
     } else {
       this.initialiseSizes();
+      this.props.sizes = this.sizes;
     }
   }
 }

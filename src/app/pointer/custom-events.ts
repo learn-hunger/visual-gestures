@@ -1,4 +1,5 @@
 import { DefaultConfig } from "../config/defalut-config";
+import { getElementCoordinatesFromLandmark } from "../shared/vg-get-element";
 import { EFingers } from "../utilities/vg-constants";
 import {
   euclideanDistance,
@@ -90,11 +91,11 @@ export class VgPointer
     this.isPointerDrag();
     this.isPointerDrop();
     if (this.isPointerMove()) {
+      this.triggerMouseMove(this.mouseInit, this.props);
       this.setElement = document.elementFromPoint(
         this.mouseInit.clientX!,
         this.mouseInit.clientY!,
       );
-      this.triggerMouseMove(this.mouseInit, this.props);
     }
   }
 
@@ -124,10 +125,7 @@ export class VgPointer
       this.downWindow[1] = this.structuredLandmarks.data["INDEX"].TIP;
       this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
       this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
-      console.log(
-        "**************ON POINTER DOWN EVENT TRIGGERED!!!!!**************",
-        this.kinkWindow,
-      );
+      this.triggerMouseDown(this.mouseInit, this.props);
       return true;
     }
 
@@ -146,9 +144,7 @@ export class VgPointer
       this.kinkWindow[1] != null &&
       this.fingerKinkRatio - this.kinkWindow[1] >= 100
     ) {
-      console.log(
-        "*************ON POINTER UP TRIGGERED!!!!!********************",
-      );
+      this.triggerMouseUp(this.mouseInit, this.props);
       return true;
     }
 
@@ -172,7 +168,7 @@ export class VgPointer
         [1, 1],
       ) < 0.08
     ) {
-      console.log("___________Click**************");
+      this.triggerMouseClick(this.mouseInit, this.props);
       this.kinkWindow[0] = this.fingerKinkRatio;
       this.kinkWindow[1] = null;
       this.downWindow[1] = null!;
@@ -199,7 +195,7 @@ export class VgPointer
         [1, 1],
       ) > 0.08
     ) {
-      console.log("__________________Drop***************");
+      this.triggerMouseDrop(this.mouseInit, this.props);
 
       this.kinkWindow[0] = this.fingerKinkRatio;
       this.kinkWindow[1] = null;
@@ -234,10 +230,7 @@ export class VgPointer
           [1, 1],
         ) > 0.08
       ) {
-        console.log(
-          "______________________________________Dragging the finger_down",
-          this.downWindow[1],
-        );
+        this.triggerMouseDrag(this.mouseInit, this.props);
         this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
         return true;
       }
