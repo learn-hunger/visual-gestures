@@ -1,7 +1,7 @@
 import { IEvents, IGestureCustomProps } from "../../utilities/vg-types";
-import { VgPointerEnter } from "./vg-pointer-enter";
-import { VgPointerLeave } from "./vg-pointer-leave";
-import { VgPointerMove } from "./vg-pointer-move";
+import { VgPointerEnter } from "../custom-events/vg-pointer-enter";
+import { VgPointerLeave } from "../custom-events/vg-pointer-leave";
+import { VgPointerMove } from "../custom-events/vg-pointer-move";
 
 export type TEvents = VgPointerMove | VgPointerEnter | VgPointerLeave;
 export interface IVgPointerEvents
@@ -40,3 +40,14 @@ interface IVgPointerLeave {
     props: IGestureCustomProps,
   ): void;
 }
+
+// interface IVgPointerDown {
+//   vgPointerDown: VgPointerDown;
+//   _onPointerDownCallback?: IEvents["onPointerDown"];
+//   set onPointerDown(callback: IEvents["onPointerDown"]);
+//   get onPointerDown(): IEvents["onPointerDown"];
+//   triggerMouseDown(
+//     mouseInit: MouseEventInit,
+//     props: IGestureCustomProps,
+//   ): void;
+// }

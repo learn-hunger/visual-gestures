@@ -1,9 +1,9 @@
-import { DefaultConfig } from "../../config/defalut-config";
-import { cursorStyle } from "../../utilities/vg-constants";
-import { IElementsSizes } from "../../utilities/vg-types";
-import { INormalizedLandmark } from "../../utilities/vg-types-handlandmarks";
+import { DefaultConfig } from "../config/defalut-config";
+import { cursorStyle } from "../utilities/vg-constants";
+import { IElementsSizes } from "../utilities/vg-types";
+import { INormalizedLandmark } from "../utilities/vg-types-handlandmarks";
 
-export class CursorDom {
+class CursorDom {
   container: HTMLElement;
   cursor: HTMLImageElement;
   constructor(container: HTMLElement = document.body) {
@@ -69,12 +69,4 @@ export class CursorObject extends CursorDom {
     };
     return this.sizes;
   };
-}
-
-export abstract class AVgCommon extends CursorObject {
-  abstract detect(landmark: INormalizedLandmark[], timestamp: number): void;
-
-  dispose() {
-    window.addEventListener("resize", this.initialiseSizes);
-  }
 }

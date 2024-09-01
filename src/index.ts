@@ -1,6 +1,6 @@
 import { DefaultConfig } from "./app/config/defalut-config";
-import { AVgCommon } from "./app/shared/blueprints/vg-cursor";
-import { VgPointer } from "./app/shared/custom-events/custom-events";
+import { AVgCommon } from "./app/shared/vg-cursor-pointer-abstract";
+import { VgPointer } from "./app/pointer/custom-events";
 import { EHandLandmarks } from "./app/utilities/vg-constants";
 import { IGestureCustomProps } from "./app/utilities/vg-types";
 import { INormalizedLandmark } from "./app/utilities/vg-types-handlandmarks";

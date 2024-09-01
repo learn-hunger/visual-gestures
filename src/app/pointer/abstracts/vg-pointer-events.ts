@@ -1,8 +1,8 @@
 import { IEvents, IGestureCustomProps } from "../../utilities/vg-types";
-import { IVgPointerEvents, TEvents } from "./vg-events-interface";
-import { VgPointerEnter } from "./vg-pointer-enter";
-import { VgPointerLeave } from "./vg-pointer-leave";
-import { VgPointerMove } from "./vg-pointer-move";
+import { IVgPointerEvents, TEvents } from "../interfaces/vg-events-interface";
+import { VgPointerEnter } from "../custom-events/vg-pointer-enter";
+import { VgPointerLeave } from "../custom-events/vg-pointer-leave";
+import { VgPointerMove } from "../custom-events/vg-pointer-move";
 
 export abstract class AVgPointerEvents implements IVgPointerEvents {
   vgPointerMove!: VgPointerMove;
@@ -50,6 +50,8 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
   }
   triggerMouseEnter(mouseInit: MouseEventInit, props: IGestureCustomProps) {
     this.vgPointerEnter = new VgPointerEnter(mouseInit, props);
+    console.log("hello world",      this.vgPointerEnter?.element?.to as HTMLElement,
+    )
     this.dispatch(
       this.vgPointerEnter?.element?.to as HTMLElement,
       this.vgPointerEnter,

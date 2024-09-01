@@ -87,6 +87,7 @@ function initialiseEventListeners() {
   const parent = document.getElementById("mouseParent");
   const child = document.getElementById("mouseChild");
   parent?.addEventListener("vgPointerEnter", (event) => {
+    console.log("pointer enter");
     parent.children[0].innerHTML = "mouse Entered";
   });
 

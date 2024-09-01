@@ -1,6 +1,6 @@
 import { EVgMouseEvents } from "../../utilities/vg-constants";
 import { IGestureCustomProps } from "../../utilities/vg-types";
-import { ACommonMouseProps } from "./abstract";
+import { ACommonMouseProps } from "../abstracts/vg-pointer-props-abstract";
 
 export class VgPointerMove extends ACommonMouseProps {
   constructor(mouseProp: MouseEventInit, customProps: IGestureCustomProps) {

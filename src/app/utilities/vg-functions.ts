@@ -3,7 +3,7 @@ import {
   INormalizedLandmark,
   TFingersData,
 } from "./vg-types-handlandmarks";
-import { VgHandLandmarksDTO } from "../shared/DTO/vg-handlandmark";
+import { VgHandLandmarksDTO } from "../pointer/DTO/vg-handlandmark";
 import { EFingers } from "./vg-constants";
 
 export function distance(

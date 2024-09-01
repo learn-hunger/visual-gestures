@@ -1,6 +1,6 @@
-import { VgPointerEnter } from "../shared/custom-events/vg-pointer-enter";
-import { VgPointerLeave } from "../shared/custom-events/vg-pointer-leave";
-import { VgPointerMove } from "../shared/custom-events/vg-pointer-move";
+import { VgPointerEnter } from "../pointer/custom-events/vg-pointer-enter";
+import { VgPointerLeave } from "../pointer/custom-events/vg-pointer-leave";
+import { VgPointerMove } from "../pointer/custom-events/vg-pointer-move";
 import { EHandLandmarks } from "./vg-constants";
 import { INormalizedLandmark } from "./vg-types-handlandmarks";
 
@@ -12,7 +12,7 @@ export interface ICursorProp {
 
 export interface IGestureCustomProps {
   previousLandmarks?: INormalizedLandmark[];
-  currentLandmarks: INormalizedLandmark[];
+  currentLandmarks?: INormalizedLandmark[];
   deltaLandmarks?: INormalizedLandmark[];
   pointer: IPointer;
   time?: {
