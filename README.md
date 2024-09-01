@@ -15,7 +15,7 @@
   <li> <a href= "#maintainers"> Maintainers </a> </li>
   <li> <a href= "#support"> Support </a> </li>
   <li> <a href= "#citation"> Citation </li>
-  <li> <a href= "#thankYou"> Thank You !</li>
+  <li> <a href= "thankYou"> Thank You !</li>
 </ol>
 
 <h2 id= "#installation"> Installation </h2>
@@ -26,4 +26,4 @@
 <h2 id= "#maintainers"> Maintainers </h2>
 <h2 id= "#support"> Support </h2>
 <h2 id= "#citation"> Citation </h2>
-<h2 id= "#thankYou"> Thank You ! </h2>
+<h2 id= "thankYou"> Thank You ! </h2>
