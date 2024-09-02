@@ -126,11 +126,6 @@ public static void main(String[] args) {
 }
 ```
 
->   \`\`\`java <br>
->   public static void main(String[] args) {<br>
->	    //TODO<br>
->	}<br>
->   \`\`\`<br>
 
 See more [Markdown Extras - Style Text](https://github.com/fefong/markdown_readme/blob/master/markdown-extras.md#style-text)
 
