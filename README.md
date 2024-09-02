@@ -21,16 +21,17 @@ FingerPointer.js is an open-source TypeScript package that enables users with se
 **Demo Video:**
 <a href="#"> Click here </a> to watch demo our package
 
-# Table of Contents</h2>
+## Table of Contents</h2>
 - [Installation](#installation)
 - [Getting started](#getting-started)
 - [Compatibility](#compatibility)
-- [Maintainers](#maintainers)
+- [Contribute](#contribute)
 - [Support](#support)
+- [Maintainers](#maintainers)
 - [Citation](#citation)
  
 
-# Getting Started
+## Getting Started
 
 **1. ________________Install using the code______________**
 > ```java
@@ -84,7 +85,7 @@ Drops the element
 >```
 
 
-# Compatibility
+### Compatibility
 
 **Desktop Platforms**
 |OS/Browser|Chrome|Edge|FireFox|Safari|Opera|Electron|Node.js|
@@ -99,13 +100,16 @@ Drops the element
 |iOS| ✔️| ✔️ | - | ✔️| ✔️ | 
 |Android| ✔️| ✔️ | - | ✔️| ✔️ |
 
-# Maintainers
-<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddy</a>, <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
+## Contribute
+We'd love to embrace your contribution to FingerPointer.js. Please refer to <a href="___contribution.md">CONTRIUTION.md</a>
 
-# Support
+## Support
 We want your kind support
 
-# Citation
+### Maintainers
+<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddy</a>, <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
+
+## Citation
 Please cite me 
 
 ## Thank You !
