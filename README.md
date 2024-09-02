@@ -17,7 +17,10 @@
 
 # FingerPointer.js
 FingerPointer.js is an open-source TypeScript package that enables users with seamless control over the cursor and its features such as hover, click, drag, and drop via finger motion in air.
-
+* **Hands-Free Interaction:** This feature eliminates the need for physical input devices like a mouse or touchpad, making it ideal for touchless interactions, presentations, or scenarios where hands-on control is impractical or unhygienic.
+* **Immersive and Engaging User Interaction:** The technology offers a unique and engaging user experience, often perceived as more immersive compared to conventional interfaces. This can be particularly appealing for applications in gaming, virtual reality, and creative industries where interactive and dynamic control adds value.
+* **Enhanced User Experience:** The touchless control feels futuristic and engaging, offering a novel way to interact with technology that can differentiate your product in the market.
+* **Customizable for Various Applications:** The flexibility of gesture-based control means it can be tailored for different industries, such as controlling machinery in factories, navigating interfaces in automotive displays, or interacting with public information kiosks without touching a screen.
 **Demo Video:**
 <a href="#"> Click here </a> to watch demo our package
 
