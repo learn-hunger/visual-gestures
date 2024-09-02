@@ -18,7 +18,7 @@
 # About
 FingerPointer.js is an open-source TypeScript package that enables users with seamless control over the cursor and its features such as hover, click, drag, and drop via finger motion in air.
 
-**Demo Video**
+**Demo Video:**
 <a href="#"> Click here </a> to watch demo our package
 
 # Table of Contents</h2>
