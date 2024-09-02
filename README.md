@@ -1,12 +1,15 @@
 ![plot](./src/assets/Banner.png)
-<h2> About </h2>
+
+# About
+FingerPointer.js is an open-source TypeScript library that seamlessly provides users the control over cursor and it's functionalities such as hover, click, drag, and drop using finger movements in air
+
 <p> About the aim</p>
 
 <h3> Demo Video </h3>
 <p> play the video here</p>
 
-<h2>Table of Contents</h2>
-<hr>
+# Table of Contents</h2>
+
 <ol>
   <li> <a href= "#installation"> Installation </a> </li>
   <li> <a href= "#methodsAvailable"> Methods Available </a> </li>
@@ -18,7 +21,7 @@
   <li> <a href= "#citation"> Citation </li>
   <li> <a href= "thankYou"> Thank You !</li>
 </ol>
-
+# Getting Started
 <h2 id= "#installation"> Installation </h2>
 <h2 id= "#methodsAvailable"> Methods Available </h2>
 <h2 id= "#examplesAndUsage"> Examples and Usage </h2>
