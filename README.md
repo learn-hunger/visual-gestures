@@ -3,13 +3,10 @@
 # About
 FingerPointer.js is an open-source TypeScript library that seamlessly provides users the control over cursor and it's functionalities such as hover, click, drag, and drop using finger movements in air
 
-<p> About the aim</p>
-
-<h3> Demo Video </h3>
+## Demo Video
 <p> play the video here</p>
 
 # Table of Contents</h2>
-
 
 
 ### Methods Avaialable
@@ -24,12 +21,7 @@ FingerPointer.js is an open-source TypeScript library that seamlessly provides u
 ###Installation
 
 
-Getting started with Markdown
-=============================
-
-
-- [Getting started with Markdown](#getting-started-with-markdown)
-- [Titles](#titles)
+- [Installation](#installation)
 - [Paragraph](#paragraph)
 - [List](#list)
 	- [List CheckBox](#list-checkbox)
@@ -56,29 +48,11 @@ Getting started with Markdown
 
 ----------------------------------
 
-# Titles 
+# Installation
+________________Install using the code______________
+npm install finger-pointer
 
-### Title 1
-### Title 2
-
-	Title 1
-	========================
-	Title 2 
-	------------------------
-
-# Title 1
-## Title 2
-### Title 3
-#### Title 4
-##### Title 5
-###### Title 6
-
-    # Title 1
-    ## Title 2
-    ### Title 3    
-    #### Title 4
-    ##### Title 5
-    ###### Title 6    
+ 
 
 # Paragraph
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum, nibh eu commodo posuere, ligula ante dictum neque, vitae pharetra mauris mi a velit. Phasellus eleifend egestas diam, id tincidunt arcu dictum quis. Pellentesque eu dui tempus, tempus massa sed, eleifend tortor. Donec in sem in erat iaculis tincidunt. Fusce condimentum hendrerit turpis nec vehicula. Aliquam finibus nisi vel eros lobortis dictum. Etiam congue tortor libero, quis faucibus ligula gravida a. Suspendisse non pulvinar nisl. Sed malesuada, felis vitae consequat gravida, dui ligula suscipit ligula, nec elementum nulla sem vel dolor. Vivamus augue elit, venenatis non lorem in, volutpat placerat turpis. Nullam et libero at eros vulputate auctor. Duis sed pharetra lacus. Sed egestas ligula vitae libero aliquet, ac imperdiet est ullamcorper. Sed dapibus sem tempus eros dignissim, ac suscipit lectus dapibus. Proin sagittis diam vel urna volutpat, vel ullamcorper urna lobortis. Suspendisse potenti.
