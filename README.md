@@ -8,25 +8,14 @@ FingerPointer.js is an open-source TypeScript library that seamlessly provides u
 
 # Table of Contents</h2>
 
-
-### Methods Avaialable
-### Supported Platforms
-### Maintainers
-### Support
-### Citation
-<br>dddd
-<br>dddd
-<br>dddd
-<br>dddd
-###Installation
-
-
+# Getting Started
 - [Installation](#installation)
-- [Paragraph](#paragraph)
-- [List](#list)
-	- [List CheckBox](#list-checkbox)
-- [Link](#link)
-	- [Anchor links](#anchor-links)
+- [Methods Available](#methods-available)
+- [Supported Platforms](#supported-platforms)
+- [Maintainers](#link)
+- [Support](#link)
+- [Citation](#link)
+- 
 - [Blockquote](#blockquote)
 - [Image | GIF](#image--gif)
 - [Style Text](#style-text)
@@ -54,7 +43,7 @@ npm install finger-pointer
 
  
 
-# Paragraph
+# Methods Available
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum, nibh eu commodo posuere, ligula ante dictum neque, vitae pharetra mauris mi a velit. Phasellus eleifend egestas diam, id tincidunt arcu dictum quis. Pellentesque eu dui tempus, tempus massa sed, eleifend tortor. Donec in sem in erat iaculis tincidunt. Fusce condimentum hendrerit turpis nec vehicula. Aliquam finibus nisi vel eros lobortis dictum. Etiam congue tortor libero, quis faucibus ligula gravida a. Suspendisse non pulvinar nisl. Sed malesuada, felis vitae consequat gravida, dui ligula suscipit ligula, nec elementum nulla sem vel dolor. Vivamus augue elit, venenatis non lorem in, volutpat placerat turpis. Nullam et libero at eros vulputate auctor. Duis sed pharetra lacus. Sed egestas ligula vitae libero aliquet, ac imperdiet est ullamcorper. Sed dapibus sem tempus eros dignissim, ac suscipit lectus dapibus. Proin sagittis diam vel urna volutpat, vel ullamcorper urna lobortis. Suspendisse potenti.
 
 Nulla varius risus sapien, nec fringilla massa facilisis sed. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc vel ornare erat, eget rhoncus lectus. Suspendisse interdum scelerisque molestie. Aliquam convallis consectetur lorem ut consectetur. Nullam massa libero, cursus et porta ac, consequat eget nibh. Sed faucibus nisl augue, non viverra justo sagittis venenatis.
@@ -63,7 +52,7 @@ Nulla varius risus sapien, nec fringilla massa facilisis sed. Pellentesque habit
     
     Phasellus eleifend egestas diam, id tincidunt arcu dictum quis.
 
-# List 
+# Supported Platforms 
 * Item 1;
 	* Item 1.1;
 * Item 2;
@@ -81,6 +70,15 @@ Nulla varius risus sapien, nec fringilla massa facilisis sed. Pellentesque habit
 >	    * Item 3
 >		   * Item 3.1;
 >			  * Item 3.1.1;
+
+# Maintainers
+## Nagendra Dharmireddy, Boddu Sri Pavan
+
+# Support
+## We want your kind support
+
+# Citation
+### Please cite me
 
 ## List CheckBox
 
