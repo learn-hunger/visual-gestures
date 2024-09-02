@@ -9,7 +9,7 @@ FingerPointer.js is an open-source TypeScript library that seamlessly provides u
 <p> play the video here</p>
 
 # Table of Contents</h2>
-[Installation ] (#installation)
+[Installation ] (#-installation)
 
 
 
