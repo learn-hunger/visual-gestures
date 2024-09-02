@@ -23,7 +23,7 @@ FingerPointer.js is an open-source TypeScript package that enables users with se
 
 # Table of Contents</h2>
 - [Installation](#installation)
-- [Methods Available](#methods-available)
+- [Getting started](#getting-started)
 - [Supported Platforms](#supported-platforms)
 - [Maintainers](#link)
 - [Support](#link)
@@ -42,17 +42,59 @@ ________________Install using the code______________
 
  
 
-# Methods Available
+# Getting Started
 
-________________Install using the code______________
+**1. ________________Install using the code______________**
+> ```java
+> npm install finger-pointer
+> ```
+**2. Usage**
+> ```java
+> pointer= new VGPointer();
+> pointer.isPointerClick(); // To check whether the pointer is clicked
+> ```
+
+**3. Available Methods**
 ```java
-1. isPointerMove()
-2. isPointerUp()
-3. isPointerDown()
-4. isPointerClick()
-isPointerDrag()
-isPointerDrop()
+isPointerMove() // to move cursor
+isPointerDown() // _________
+isPointerUp()   // _________
+isPointerClick() //____________
+isPointerDrag() //_______________
+isPointerDrop() //____________
  ```
+
+**3.1. isPointerMove()**
+Moves the cursor
+>   ```java
+> isPointerMove()
+> ```
+**2. isPointerDown()**
+Down the cursor
+>   ```java
+> isPointerDown()
+> ```
+**3. isPointerUp()**
+Up the cursor
+>   ```java
+> isPointerUp()
+> ```
+**4. isPointerClick()**
+Click the element
+>   ```java
+> isPointerClick()
+> ```
+**5. isPointerDrag()**
+Drag the element
+>   ```java
+> isPointerDrag()
+> ```
+**6.isPointerDrop()**
+Drops the element
+>```java
+>isPointerDrop()
+>```
+
 
 # Compatibility
 
@@ -70,7 +112,7 @@ isPointerDrop()
 |Android| ✔️| ✔️ | - | ✔️| ✔️ |
 
 # Maintainers
-**Nagendra Dharmireddy, Boddu Sri Pavan**
+<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddy</a>, <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
 
 # Support
 We want your kind support
