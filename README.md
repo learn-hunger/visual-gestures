@@ -24,10 +24,10 @@ FingerPointer.js is an open-source TypeScript package that enables users with se
 # Table of Contents</h2>
 - [Installation](#installation)
 - [Getting started](#getting-started)
-- [Supported Platforms](#supported-platforms)
-- [Maintainers](#link)
-- [Support](#link)
-- [Citation](#link)
+- [Compatibility](#compatibility)
+- [Maintainers](#maintainers)
+- [Support](#support)
+- [Citation](#citation)
  
 
 # Getting Started
