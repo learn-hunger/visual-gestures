@@ -1,3 +1,4 @@
+![plot](./src/assets/Banner.png)
 <h2> About </h2>
 <p> About the aim</p>
 
