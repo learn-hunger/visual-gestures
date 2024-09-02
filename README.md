@@ -15,7 +15,7 @@
 ![Markdown](https://img.shields.io/github/issues-pr-closed/{username}/{repo-name}.svg)
 ![Markdown](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
 
-# About
+# FingerPointer.js
 FingerPointer.js is an open-source TypeScript package that enables users with seamless control over the cursor and its features such as hover, click, drag, and drop via finger motion in air.
 
 **Demo Video:**
@@ -85,7 +85,7 @@ Drops the element
 >```
 
 
-### Compatibility
+## Compatibility
 
 **Desktop Platforms**
 |OS/Browser|Chrome|Edge|FireFox|Safari|Opera|Electron|Node.js|
@@ -106,7 +106,7 @@ We'd love to embrace your contribution to FingerPointer.js. Please refer to <a h
 ## Support
 We want your kind support
 
-### Maintainers
+## Maintainers
 <a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddy</a>, <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
 
 ## Citation
