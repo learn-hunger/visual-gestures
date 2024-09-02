@@ -20,7 +20,11 @@ FingerPointer.js is an open-source TypeScript library that seamlessly provides u
 
 # Installation
 ________________Install using the code______________
-npm install finger-pointer
+>   \`\`\`java <br>
+>   			npm install finger-pointer
+>	    //TODO<br>
+>	<br>
+>   \`\`\`<br>
 
  
 
@@ -42,15 +46,7 @@ Nulla varius risus sapien, nec fringilla massa facilisis sed. Pellentesque habit
 * Item 3
 	* Item 3.1;
 		* Item 3.1.1;
-    
->      * Item 1;
->	      * Item 1.1;
->	    * Item 2;
->	     * Item 2.1;
->	     * Item 2.2;
->	    * Item 3
->		   * Item 3.1;
->			  * Item 3.1.1;
+
 
 # Maintainers
 ## Nagendra Dharmireddy, Boddu Sri Pavan
