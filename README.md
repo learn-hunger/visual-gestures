@@ -86,14 +86,14 @@ Drops the element
 
 # Compatibility
 
-## Desktop Platforms
+**Desktop Platforms**
 |OS/Browser|Chrome|Edge|FireFox|Safari|Opera|Electron|Node.js|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |Windows 10| ✔️| ✔️ | - | ✔️| ✔️ | - | ✔️|
 |macOS| ✔️| ✔️ | - | ✔️| ✔️ | - | ✔️|
 |Ubuntu LTS 18.04| ✔️| ✔️ | - | ✔️| ✔️ | - | ✔️|
 
-## Mobile platforms
+**Mobile platforms**
 |OS/Browser|Chrome|Edge|FireFox|Safari|Opera
 |:---:|:---:|:---:|:---:|:---:|:---:|
 |iOS| ✔️| ✔️ | - | ✔️| ✔️ | 
