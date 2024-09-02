@@ -25,7 +25,7 @@ Offers a unique and engaging user experience, often perceived as more immersive 
 **Enhanced User Experience:** <br>
 Touchless control offers a futuristic and engaging way to interact with technology, providing a novel and immersive user experience. <br><br>
 **Customizable for Various Applications:** <br>
-Tailored for different industries such as controlling machinery in factories, navigating interfaces in automotive displays, interacting with public information kiosks without touching a screen. <br>
+Tailored for different industries such as controlling machinery in factories, navigating interfaces in automotive displays, interacting with public information kiosks without touching a screen.
 <br><br>
 **Demo Video:**
 <a href="#"> Click here </a> to watch demo our package
