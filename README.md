@@ -10,23 +10,18 @@
 ![Markdown](https://img.shields.io/github/watchers/{learn-hunger}/{visual-gesture-events}.svg)
 ![Markdown](https://img.shields.io/github/followers/{learn-hunger}.svg?style=social&label=Follow&maxAge=2592000)
 ![Markdown](https://img.shields.io/github/issues/{learn-hunger}/{visual-gesture-events}.svg)
-![Markdown]()
-![Markdown]()
-![Markdown]()
-![Markdown]()
-![Markdown]()
-![Markdown]()
-
+![Markdown](https://img.shields.io/github/issues-closed/{username}/{repo-name}.svg)
+![Markdown](https://img.shields.io/github/issues-pr/{username}/{repo-name}.svg)
+![Markdown](https://img.shields.io/github/issues-pr-closed/{username}/{repo-name}.svg)
+![Markdown](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
 
 # About
-FingerPointer.js is an open-source TypeScript library that seamlessly provides users the control over cursor and it's functionalities such as hover, click, drag, and drop using finger movements in air
+FingerPointer.js is an open-source TypeScript package that enables users with seamless control over the cursor and its features such as hover, click, drag, and drop via finger motion in air.
 
 ## Demo Video
-<p> play the video here</p>
+<a href="#"> Click here </a> to watch demo our package
 
 # Table of Contents</h2>
-
-# Getting Started
 - [Installation](#installation)
 - [Methods Available](#methods-available)
 - [Supported Platforms](#supported-platforms)
@@ -35,6 +30,7 @@ FingerPointer.js is an open-source TypeScript library that seamlessly provides u
 - [Citation](#link)
 
 ----------------------------------
+# Getting Started
 
 # Installation
 ________________Install using the code______________
