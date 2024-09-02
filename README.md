@@ -17,11 +17,15 @@
 
 # FingerPointer.js
 FingerPointer.js is an open-source TypeScript package that enables users with seamless control over the cursor and its features such as hover, click, drag, and drop via finger motion in air.
-<br>
-* **Hands-Free Interaction:** Eliminates the need for physical input devices like a mouse or touchpad, making it ideal for touchless interactions, presentations, or scenarios
-* **Immersive and Engaging User Interaction:** Offers a unique and engaging user experience, often perceived as more immersive compared to conventional interfaces, particularly appealing for applications in gaming, virtual reality, and creative industries.
-* **Enhanced User Experience:** Touchless control offers a futuristic and engaging way to interact with technology, providing a novel and immersive user experience.
-* **Customizable for Various Applications:** Tailored for different industries such as controlling machinery in factories, navigating interfaces in automotive displays, interacting with public information kiosks without touching a screen.
+<br><br>
+**Hands-Free Interaction:** <br>
+Eliminates the need for physical input devices like a mouse or touchpad, making it ideal for touchless interactions, presentations, or scenarios <br>
+**Immersive and Engaging User Interaction:** <br>
+Offers a unique and engaging user experience, often perceived as more immersive compared to conventional interfaces, particularly appealing for applications in gaming, virtual reality, and creative industries. <br>
+**Enhanced User Experience:** <br>
+Touchless control offers a futuristic and engaging way to interact with technology, providing a novel and immersive user experience. <br>
+**Customizable for Various Applications:** <br>
+Tailored for different industries such as controlling machinery in factories, navigating interfaces in automotive displays, interacting with public information kiosks without touching a screen. <br>
 <br><br>
 **Demo Video:**
 <a href="#"> Click here </a> to watch demo our package
