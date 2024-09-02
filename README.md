@@ -1,6 +1,22 @@
 ![plot](./src/assets/Banner.png)
 [![GitHub forks](https://img.shields.io/github/forks/fefong/markdown_readme)](https://github.com/fefong/markdown_readme/network)
+![Markdown](https://img.shields.io/badge/build-passing-brightgreen)
 ![Markdown](https://img.shields.io/badge/markdown-project-red)
+![Markdown](https://img.shields.io/github/license/{username}/{repo-name}.svg)
+![Markdown](https://img.shields.io/github/realese/{username}/{repo-name}.svg)
+![Markdown](https://img.shields.io/github/downloads/{username}/{repo-name}/total.svg)
+![Markdown](https://img.shields.io/github/forks/{username}/{repo-name}.svg)
+![Markdown](https://img.shields.io/github/stars/{username}/{repo-name}.svg)
+![Markdown](https://img.shields.io/github/watchers/{username}/{repo-name}.svg)
+![Markdown](https://img.shields.io/github/followers/{username}.svg?style=social&label=Follow&maxAge=2592000)
+![Markdown](https://img.shields.io/github/issues/{username}/{repo-name}.svg)
+![Markdown]()
+![Markdown]()
+![Markdown]()
+![Markdown]()
+![Markdown]()
+![Markdown]()
+
 
 # About
 FingerPointer.js is an open-source TypeScript library that seamlessly provides users the control over cursor and it's functionalities such as hover, click, drag, and drop using finger movements in air
