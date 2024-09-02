@@ -16,14 +16,12 @@
 ![Markdown](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
 
 # FingerPointer.js
-FingerPointer.js is an open-source TypeScript package that enables users with seamless control over the cursor and its features such as hover, click, drag, and drop via finger motion in air.
+FingerPointer.js is an open-source TypeScript package that empowers users to effortlessly control the cursor, including actions such as hover, click, drag, and drop, through precise finger movements in the air.
 <br><br>
 **Hands-Free Interaction:** <br>
-Eliminates the need for physical input devices like a mouse or touchpad, making it ideal for touchless interactions, presentations, or scenarios <br><br>
+Eliminates the need for physical input devices like a mouse or touchpad, making it ideal for touchless interactions, and presentations <br><br>
 **Immersive and Engaging User Interaction:** <br>
 Offers a unique and engaging user experience, often perceived as more immersive compared to conventional interfaces, particularly appealing for applications in gaming, virtual reality, and creative industries. <br><br>
-**Enhanced User Experience:** <br>
-Touchless control offers a futuristic and engaging way to interact with technology, providing a novel and immersive user experience. <br><br>
 **Customizable for Various Applications:** <br>
 Tailored for different industries such as controlling machinery in factories, navigating interfaces in automotive displays, interacting with public information kiosks without touching a screen.
 <br><br>
@@ -31,8 +29,7 @@ Tailored for different industries such as controlling machinery in factories, na
 <a href="#"> Click here </a> to watch demo our package
 
 ## Table of Contents</h2>
-- [Installation](#installation)
-- [Getting started](#getting-started)
+- [Getting Started](#getting-started)
 - [Compatibility](#compatibility)
 - [Contribute](#contribute)
 - [Support](#support)
@@ -67,27 +64,27 @@ Moves the cursor
 >   ```java
 > isPointerMove()
 > ```
-**2. isPointerDown()**
+**3.2. isPointerDown()**
 Down the cursor
 >   ```java
 > isPointerDown()
 > ```
-**3. isPointerUp()**
+**3.3 isPointerUp()**
 Up the cursor
 >   ```java
 > isPointerUp()
 > ```
-**4. isPointerClick()**
+**3.4. isPointerClick()**
 Click the element
 >   ```java
 > isPointerClick()
 > ```
-**5. isPointerDrag()**
+**3.5. isPointerDrag()**
 Drag the element
 >   ```java
 > isPointerDrag()
 > ```
-**6.isPointerDrop()**
+**3.6.isPointerDrop()**
 Drops the element
 >```java
 >isPointerDrop()
@@ -119,6 +116,6 @@ We want your kind support
 <a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddy</a>, <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
 
 ## Citation
-Please cite me 
+Please cite us 
 
 ## Thank You !
