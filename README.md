@@ -1,4 +1,6 @@
 ![plot](./src/assets/Banner.png)
+[![GitHub forks](https://img.shields.io/github/forks/fefong/markdown_readme)](https://github.com/fefong/markdown_readme/network)
+![Markdown](https://img.shields.io/badge/markdown-project-red)
 
 # About
 FingerPointer.js is an open-source TypeScript library that seamlessly provides users the control over cursor and it's functionalities such as hover, click, drag, and drop using finger movements in air
@@ -29,33 +31,37 @@ ________________Install using the code______________
  
 
 # Methods Available
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum, nibh eu commodo posuere, ligula ante dictum neque, vitae pharetra mauris mi a velit. Phasellus eleifend egestas diam, id tincidunt arcu dictum quis. Pellentesque eu dui tempus, tempus massa sed, eleifend tortor. Donec in sem in erat iaculis tincidunt. Fusce condimentum hendrerit turpis nec vehicula. Aliquam finibus nisi vel eros lobortis dictum. Etiam congue tortor libero, quis faucibus ligula gravida a. Suspendisse non pulvinar nisl. Sed malesuada, felis vitae consequat gravida, dui ligula suscipit ligula, nec elementum nulla sem vel dolor. Vivamus augue elit, venenatis non lorem in, volutpat placerat turpis. Nullam et libero at eros vulputate auctor. Duis sed pharetra lacus. Sed egestas ligula vitae libero aliquet, ac imperdiet est ullamcorper. Sed dapibus sem tempus eros dignissim, ac suscipit lectus dapibus. Proin sagittis diam vel urna volutpat, vel ullamcorper urna lobortis. Suspendisse potenti.
 
-Nulla varius risus sapien, nec fringilla massa facilisis sed. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc vel ornare erat, eget rhoncus lectus. Suspendisse interdum scelerisque molestie. Aliquam convallis consectetur lorem ut consectetur. Nullam massa libero, cursus et porta ac, consequat eget nibh. Sed faucibus nisl augue, non viverra justo sagittis venenatis.
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum, nibh eu commodo posuere, ligula ante dictum neque, vitae pharetra mauris mi a velit. 
-    
-    Phasellus eleifend egestas diam, id tincidunt arcu dictum quis.
+________________Install using the code______________
+```java
+isPointerMove()
+isPointerUp()
+isPointerDown()
+isPointerClick()
+isPointerDrag()
+isPointerDrop()
+ ```
 
 # Supported Platforms 
-* Item 1;
-	* Item 1.1;
-* Item 2;
-	* Item 2.1;
-	* Item 2.2;
-* Item 3
-	* Item 3.1;
-		* Item 3.1.1;
+* Web Browsers;
+	* Google Chrome;
+ 	* Firefox;
+  	* Safari;
+  	* Edge;
+  	* Opera;  
+* Mobile languages;
+	* Android;
+	* Kotlin;
 
 
 # Maintainers
-## Nagendra Dharmireddy, Boddu Sri Pavan
+**Nagendra Dharmireddy, Boddu Sri Pavan**
 
 # Support
-## We want your kind support
+We want your kind support
 
 # Citation
-### Please cite me
+Please cite me 
 
 ## List CheckBox
 
@@ -68,51 +74,6 @@ Nulla varius risus sapien, nec fringilla massa facilisis sed. Pellentesque habit
 >     - [x] Item C
 
 
-# Link
-[Google](https://www.google.com) - _Google | Youtube | Gmail | Maps | PlayStore | GoogleDrive_
-
-[Youtube](https://www.youtube.com) - _Enjoy videos and music you love, upload original content, and share it with friends, family, and the world on YouTube._
-
-[GitHub](https://github.com/fefong/markdown_readme#getting-started-with-markdown) - _Project_
-
-		[Google](https://www.google.com) - _Google | Youtube | Gmail | Maps | PlayStore | GoogleDrive_
-
-## Anchor links
-
-[Markdown - Summary](#Getting-started-with-Markdown)
-
-[Markdown - Markdown Editor](#Markdown-Editor)
-
-		[Markdown - Link](#Link)
-
-# Blockquote
-> Lebenslangerschicksalsschatz: Lifelong Treasure of Destiny
-
-    > Lebenslangerschicksalsschatz: Lifelong Treasure of Destiny 
-
-# Image | GIF
-![myImage](https://media.giphy.com/media/XRB1uf2F9bGOA/giphy.gif)
-    
-    ![myImage](https://media.giphy.com/media/XRB1uf2F9bGOA/giphy.gif)
-    
-See more [Markdown Extras - Image Align](https://github.com/fefong/markdown_readme/blob/master/markdown-extras.md#image-align)    
-
-# Style Text
-### Italic
-
-*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum, nibh eu commodo posuere, ligula ante dictum neque, vitae pharetra mauris mi a velit.*
-
-     *Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum, nibh eu commodo posuere, ligula ante dictum neque, vitae pharetra mauris mi a velit.*
-
-### Bold
-**Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum, nibh eu commodo posuere, ligula ante dictum neque, vitae pharetra mauris mi a velit.**
-
-    **Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum, nibh eu commodo posuere, ligula ante dictum neque, vitae pharetra mauris mi a velit.**
-    
-### Strikethrough
-~~strikethrough text~~
-
-    ~~strikethrough text~~
     
 # Code
 
@@ -219,8 +180,6 @@ _   underscore
 
 See more: [https://shields.io/](https://shields.io/)
 
-[![GitHub forks](https://img.shields.io/github/forks/fefong/markdown_readme)](https://github.com/fefong/markdown_readme/network)
-![Markdown](https://img.shields.io/badge/markdown-project-red)
 
 # Markdown Editor
 
