@@ -1,32 +1,21 @@
 ![plot](./src/assets/Banner.png)
-[![GitHub forks](https://img.shields.io/github/forks/fefong/markdown_readme)](https://github.com/fefong/markdown_readme/network)
+![Markdown](https://img.shields.io/npm/v/finger-pointer)
+![Markdown](https://img.shields.io/github/v/release/learn-hunger/visual-gesture-events)
+![Markdown](https://img.shields.io/github/downloads/learn-hunger/visual-gesture-events/latest/total)
 ![Markdown](https://img.shields.io/badge/build-passing-brightgreen)
-![Markdown](https://img.shields.io/badge/markdown-project-red)
-![Markdown](https://img.shields.io/github/license/{learn-hunger}/{visual-gesture-events}.svg)
-![Markdown](https://img.shields.io/github/realese/{learn-hunger}/{visual-gesture-events}.svg)
-![Markdown](https://img.shields.io/github/downloads/{learn-hunger}/{visual-gesture-events}/total.svg)
-![Markdown](https://img.shields.io/github/forks/{learn-hunger}/{visual-gesture-events}.svg)
-![Markdown](https://img.shields.io/github/stars/{learn-hunger}/{visual-gesture-events}.svg)
-![Markdown](https://img.shields.io/github/watchers/{learn-hunger}/{visual-gesture-events}.svg)
-![Markdown](https://img.shields.io/github/followers/{learn-hunger}.svg?style=social&label=Follow&maxAge=2592000)
-![Markdown](https://img.shields.io/github/issues/{learn-hunger}/{visual-gesture-events}.svg)
-![Markdown](https://img.shields.io/github/issues-closed/{username}/{repo-name}.svg)
-![Markdown](https://img.shields.io/github/issues-pr/{username}/{repo-name}.svg)
-![Markdown](https://img.shields.io/github/issues-pr-closed/{username}/{repo-name}.svg)
-![Markdown](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
+![Markdown](https://img.shields.io/badge/License-MIT-blue.svg)
 
 # FingerPointer.js
 FingerPointer.js is an open-source TypeScript package that empowers users to effortlessly control the cursor, including actions such as hover, click, drag, and drop, through precise finger movements in the air.
 <br><br>
-**Hands-Free Interaction:** <br>
+**Hands-Free Interaction** <br>
 Eliminates the need for physical input devices like a mouse or touchpad, making it ideal for touchless interactions, and presentations <br><br>
-**Immersive and Engaging User Interaction:** <br>
+**Immersive and Engaging User Interaction** <br>
 Offers a unique and engaging user experience, often perceived as more immersive compared to conventional interfaces, particularly appealing for applications in gaming, virtual reality, and creative industries. <br><br>
-**Customizable for Various Applications:** <br>
+**Customizable for Various Applications** <br>
 Tailored for different industries such as controlling machinery in factories, navigating interfaces in automotive displays, interacting with public information kiosks without touching a screen.
 <br><br>
-**Demo Video:**
-<a href="#"> Click here </a> to watch demo our package
+<a href="#"> Click here </a> to watch demo of how it works!
 
 ## Table of Contents</h2>
 - [Getting Started](#getting-started)
@@ -116,6 +105,14 @@ We want your kind support
 <a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddy</a>, <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
 
 ## Citation
-Please cite us 
+>@software{ <br/>
+>  package = {NagaSri2024finger-pointer}, <br/> 
+>  authors = {Nagendra Dharmireddy, Boddu Sri Pavan}, <br/>
+>  title = {{finger-pointer}}, <br/>
+>  year = {2024}, <br/>
+>  version = {0.0.1}, <br/>
+>  url = {https://github.com/yourusername/packagename}, <br/>
+>  howpublished = {\url{https://www.npmjs.com/package/packagename}} <br/>
+>}
 
 ## Thank You !

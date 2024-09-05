@@ -1,4 +1,5 @@
 import { initialiseDetection } from "./index.ts";
+import { AnalyticsTagManager } from "./services/types/vg-analytics.ts";
 import "./style.css";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
@@ -10,5 +11,6 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
             </div>
       </div>
 `;
-
+//intialise analytics manager
+AnalyticsTagManager;
 initialiseDetection(document.querySelector<HTMLVideoElement>("#webcam")!);

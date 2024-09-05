@@ -5,6 +5,8 @@ import { Main } from "visual-gestures/src/index";
 import { EVgMouseEvents } from "../../src/app/utilities/vg-constants";
 import { detect, loadWeights } from "./services/handLandmarks";
 import { enableWebcam } from "./utils/camera";
+import { AnalyticsTagManager } from "./services/types/vg-analytics";
+import { EAnalyticsData, EAnalyticsEvents, gameVar } from "./utils/constants";
 let webcamElement = document.getElementById("webcam") as HTMLVideoElement;
 /**
  * monitoring
@@ -31,26 +33,73 @@ export function initialiseDetection(webcamRef: HTMLVideoElement) {
   a.showCursor = debugObject.showCursor;
   webcamElement = webcamRef;
   if (webcamElement) {
-    loadWeights().then(() => {
-      enableWebcam(webcamElement).then(() => {
-        webcamRef.addEventListener("loadeddata", startDetection);
-      });
+    AnalyticsTagManager.sendEvents({
+      event: EAnalyticsEvents[EAnalyticsEvents.LOAD_WEIGHTS_BEGIN],
     });
+    loadWeights()
+      .then(() => {
+        AnalyticsTagManager.sendEvents({
+          event: EAnalyticsEvents[EAnalyticsEvents.LOAD_WEIGHTS_END],
+        });
+        AnalyticsTagManager.sendEvents({
+          event: EAnalyticsEvents[EAnalyticsEvents.CAMERA_ACCESS_BEGIN],
+        });
+        enableWebcam(webcamElement)
+          .then(() => {
+            AnalyticsTagManager.sendEvents({
+              event: EAnalyticsEvents[EAnalyticsEvents.CAMERA_ACCESS_END],
+            });
+            webcamRef.addEventListener("loadeddata", startDetection);
+          })
+          .catch((error) => {
+            //webcam error
+            AnalyticsTagManager.sendEvents({
+              event: EAnalyticsEvents[EAnalyticsEvents.CAMERA_ACCESS_END],
+              error: error.stack,
+            });
+          });
+      })
+      .catch((error) => {
+        //load weights error
+        AnalyticsTagManager.sendEvents({
+          event: EAnalyticsEvents[EAnalyticsEvents.LOAD_WEIGHTS_ERROR],
+          error: error.stack,
+        });
+      });
   }
 }
-
 let lastVideoTime = -1;
 function startDetection() {
   let landmarks: HandLandmarkerResult | null = null;
   if (lastVideoTime != webcamElement.currentTime) {
-    lastVideoTime = webcamElement.currentTime;
     statsFps.begin();
     landmarks = detect(webcamElement);
     const pointer = landmarks?.landmarks[0];
     if (pointer) {
-      a.detect(pointer, performance.now());
+      try {
+        a.detect(pointer, performance.now());
+        //----------analytics logic being--------------------->
+        if (gameVar.firstClassification == false) {
+          AnalyticsTagManager.sendEvents({
+            event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_BEGIN],
+          });
+          gameVar.firstClassification = true;
+        }
+        //----------analytics logic end------------->
+      } catch (error: any) {
+        AnalyticsTagManager.sendEvents({
+          event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_ERROR],
+          error: error.stack,
+        });
+      }
+    } else {
+      //landmarks not detected
+      AnalyticsTagManager.sendData({
+        [EAnalyticsData[EAnalyticsData.LANDMARKS_NOT_DETECTED]]: "",
+      });
     }
     statsFps.end();
+    lastVideoTime = webcamElement.currentTime;
   }
   window.requestAnimationFrame(startDetection);
 }
@@ -174,4 +223,8 @@ function initialiseEventListeners() {
   a.mouseEvents.onPointerDrag = () => {
     console.log("callback pointer drag");
   };
+
+  window.addEventListener("beforeunload", () => {
+    // removeEventListeners();
+  });
 }
