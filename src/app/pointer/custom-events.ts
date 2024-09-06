@@ -91,6 +91,7 @@ export class VgPointer
     this.isPointerDrag();
     this.isPointerDrop();
 
+    // Initital state no event == PointerMove event
     if(this.stateID==0)
     {
       this.downWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
@@ -109,6 +110,8 @@ export class VgPointer
       this.triggerMouseMove(this.mouseInit, this.props);
       this.setElement = document.elementFromPoint(x, y);
     }
+
+    // Pointer down state
     else if(this.stateID==1){
       // console.log("NNNNNNNNNNNNNNNNNNNNNNNN", this.downWindow);
       
@@ -125,6 +128,7 @@ export class VgPointer
       this.setElement = document.elementFromPoint(x, y);
     }
 
+    // Pointer drag state
     else if(this.stateID==2){
       console.log("RRRRRRRRRRRRRRRRRRRRRRRRRRRR", this.motionWindow);
 
@@ -151,6 +155,7 @@ export class VgPointer
       this.triggerMouseMove(this.mouseInit, this.props);
     }
   
+    // Pointer drop state
     else if(this.stateID== 3){
       console.log("DROP");
       const { x, y } = getElementCoordinatesFromLandmark(
@@ -166,6 +171,29 @@ export class VgPointer
       
       // Acces the corresponding element where the real-time element is dropped
       this.setElement = document.elementFromPoint(x, y);   
+    }
+
+    // Pointer click state (executes only once) and then goes to aove move state
+    else if(this.stateID== 4){
+
+      this.stateID= 0;
+
+      console.log("DDDDDDDDDDDDDDDD", this.stateID, this.downWindow);
+      const { x, y } = getElementCoordinatesFromLandmark(
+        this.downWindow[0],
+        this.props.sizes!,
+      );
+      this.mouseInit.clientX = x;
+      this.mouseInit.clientY = y;
+  
+      // console.log();
+  
+      this.triggerMouseMove(this.mouseInit, this.props);
+      this.setElement = document.elementFromPoint(x, y);
+
+      this.downWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
+      this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
+
     }
 
     // if ( this.isPointerMove()) {
@@ -268,7 +296,7 @@ export class VgPointer
       this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
       this.motionWindow[1] = null!;
 
-      this.stateID= 0;
+      this.stateID= 4;
       
       return true;
     }
