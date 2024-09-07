@@ -6,6 +6,7 @@ import { VgPointerEnter } from "../pointer/custom-events/vg-pointer-enter";
 import { VgPointerLeave } from "../pointer/custom-events/vg-pointer-leave";
 import { VgPointerMove } from "../pointer/custom-events/vg-pointer-move";
 import { VgPointerUp } from "../pointer/custom-events/vg-pointer-up";
+import { VgHandLandmarksDTO } from "../pointer/DTO/vg-handlandmark";
 import { EHandLandmarks, EVgMouseEvents } from "./vg-constants";
 import { INormalizedLandmark } from "./vg-types-handlandmarks";
 
@@ -22,6 +23,8 @@ export interface IGestureCustomProps {
   previousLandmarks?: INormalizedLandmark[];
   currentLandmarks?: INormalizedLandmark[];
   deltaLandmarks?: INormalizedLandmark[];
+  structuredLandmarks?: VgHandLandmarksDTO;
+  previousStructuredLandmarks?: VgHandLandmarksDTO;
   pointer: IPointer;
   time?: {
     timeStamp: number;
@@ -30,6 +33,7 @@ export interface IGestureCustomProps {
   element?: IElementsStates;
   cursorElement: HTMLElement;
   sizes?: IElementsSizes;
+  cursorSpeed: number;
 }
 
 // // DataType that contains coordinates and properties(open/close) of finger
@@ -111,14 +115,14 @@ interface ISizesProps {
   clientHeight: number;
 }
 
-export interface IMouseMove {
-  dX: number;
-  dY: number;
-  dZ?: number;
-  distance2D: number;
-  distance3D: number;
-  relativeDist2D: number;
-}
+// export interface IMouseMove {
+//   dX: number;
+//   dY: number;
+//   dZ?: number;
+//   distance2D: number;
+//   distance3D: number;
+//   relativeDist2D: number;
+// }
 
 export interface IElementsStates {
   from?: Element | null;

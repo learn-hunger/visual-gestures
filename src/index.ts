@@ -4,6 +4,7 @@ import { VgPointer } from "./app/pointer/custom-events";
 import { EHandLandmarks } from "./app/utilities/vg-constants";
 import { IGestureCustomProps } from "./app/utilities/vg-types";
 import { INormalizedLandmark } from "./app/utilities/vg-types-handlandmarks";
+import { VgHandLandmarksDTO } from "./app/pointer/DTO/vg-handlandmark";
 export class Main extends AVgCommon {
   public props: IGestureCustomProps;
   public mouseEvents: VgPointer;
@@ -19,6 +20,7 @@ export class Main extends AVgCommon {
         currentLandmark: DefaultConfig.instance.cursorPosition,
       },
       cursorElement: this.cursor,
+      cursorSpeed: 1,
     };
   }
 
@@ -26,7 +28,8 @@ export class Main extends AVgCommon {
     if (landmarks.length > 0) {
       this.props.previousLandmarks = this.props.currentLandmarks;
       this.props.currentLandmarks = landmarks;
-
+      this.props.previousStructuredLandmarks = this.props.structuredLandmarks;
+      this.props.structuredLandmarks = new VgHandLandmarksDTO(landmarks);
       this.props.pointer.previousLandmark = this.props.pointer.currentLandmark;
       this.props.pointer.currentLandmark =
         landmarks[this.props.pointer.keypoint];
@@ -60,7 +63,7 @@ export class Main extends AVgCommon {
   }
 
   private get mouseInit(): MouseEventInit {
-    const {
+    let {
       x: pointerX,
       y: pointerY,
       z: pointerZ,
@@ -68,8 +71,28 @@ export class Main extends AVgCommon {
     const { clientWidth: cursorX, clientHeight: cursorY } = this.sizes.cursor;
     const { clientWidth: containerX, clientHeight: containerY } =
       this.sizes.container;
-    const clientX = Math.min((1 - pointerX) * containerX, containerX - cursorX);
-    const clientY = Math.min(pointerY * containerY, containerY - cursorY);
+    //normalise x ,y to 0-1
+    //here x is 1 to 0 from left to right wrt screen
+    const speed = this.props.cursorSpeed;
+    // const temp=pointerX
+    pointerX = pointerX * speed > 1 ? 1 : pointerX * speed;
+    pointerX = pointerX * speed < 0 ? 0 : pointerX * speed;
+    pointerY = pointerY * speed < 0 ? 0 : pointerY * speed;
+    pointerY = pointerY * speed > 1 ? 1 : pointerY * speed;
+    // console.log(pointerY,"sizes")
+    //TODO Z axis
+
+    //screen wise normalisation to fit into view port lower boundaries
+
+    //right operator here is to make the cursor inside the viewport of upper boundaries
+    const clientX = Math.min(
+      Math.max((1 - pointerX) * containerX, 0),
+      containerX - cursorX,
+    );
+    const clientY = Math.min(
+      Math.max(pointerY * containerY, 0),
+      containerY - cursorY,
+    );
     const m: MouseEventInit = {
       clientX: clientX,
       clientY: clientY,
@@ -88,12 +111,17 @@ export class Main extends AVgCommon {
     this.props.time.deltaTime = timeStamp - this.props.time.timeStamp;
     this.props.time.timeStamp = timeStamp;
   }
-  detect(landmark: INormalizedLandmark[], timeStamp: number): void {
+  detect(
+    landmark: INormalizedLandmark[],
+    timeStamp: number,
+    cursorSpeed: number = 1,
+  ): void {
     this.setLandmarks = landmark;
     const isCallibrated = this.props.time;
     this.setTimer = timeStamp;
     if (isCallibrated) {
       try {
+        this.props.cursorSpeed = cursorSpeed;
         this.mouseEvents.updateProps(this.mouseInit, this.props);
       } catch (err) {
         console.log(err);

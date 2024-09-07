@@ -7,12 +7,12 @@ import { detect, loadWeights } from "./services/handLandmarks";
 import { enableWebcam } from "./utils/camera";
 import { AnalyticsTagManager } from "./services/types/vg-analytics";
 import { EAnalyticsData, EAnalyticsEvents, gameVar } from "./utils/constants";
+import { eventsListeners } from "./events";
 let webcamElement = document.getElementById("webcam") as HTMLVideoElement;
 /**
  * monitoring
  */
 const statsFps = new Stats();
-monitor();
 /**
  * debug
  */
@@ -20,17 +20,19 @@ const debugObject = {
   showVideo: true,
   cursorSpeed: 1,
   showCursor: true,
+  showDebug: true,
+  showGraph: true,
 };
 const gui = new GUI({
   title: "Controls",
   // closeFolders:true
 });
-debug();
-
+const vg = new Main();
 // loadWeights();
 export function initialiseDetection(webcamRef: HTMLVideoElement) {
+  initialiseDebugControls();
   initialiseEventListeners();
-  a.showCursor = debugObject.showCursor;
+  vg.showCursor = false; //to not show cursor at loader
   webcamElement = webcamRef;
   if (webcamElement) {
     AnalyticsTagManager.sendEvents({
@@ -49,7 +51,7 @@ export function initialiseDetection(webcamRef: HTMLVideoElement) {
             AnalyticsTagManager.sendEvents({
               event: EAnalyticsEvents[EAnalyticsEvents.CAMERA_ACCESS_END],
             });
-            webcamRef.addEventListener("loadeddata", startDetection);
+            webcamRef.addEventListener("loadeddata", enterTheExperience);
           })
           .catch((error) => {
             //webcam error
@@ -77,7 +79,7 @@ function startDetection() {
     const pointer = landmarks?.landmarks[0];
     if (pointer) {
       try {
-        a.detect(pointer, performance.now());
+        vg.detect(pointer, performance.now(), debugObject.cursorSpeed);
         //----------analytics logic being--------------------->
         if (gameVar.firstClassification == false) {
           AnalyticsTagManager.sendEvents({
@@ -104,6 +106,35 @@ function startDetection() {
   window.requestAnimationFrame(startDetection);
 }
 
+function enterTheExperience() {
+  const loadedText = document.getElementById("loaded-txt");
+  const loaderText = document.getElementById("loader-txt");
+  loaderText!.style.display = "none";
+  loadedText!.style.display = "block";
+  const onClickExperience = () => {
+    startDetection();
+    vg.showCursor = debugObject.showCursor;
+    const loaderContainer = document.getElementById("loader-container");
+    loaderContainer!.style.display = "none";
+    loadedText!.onclick = null;
+  };
+  const onEnterExperience = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      onClickExperience();
+      document.removeEventListener("keydown", onEnterExperience);
+    }
+  };
+
+  //check weather it is for debug , if so just show the dashboard screen
+  const url = window.location.hash;
+  if (url == "#debug") {
+    onClickExperience();
+  } else {
+    loadedText!.onclick = onClickExperience;
+    document.addEventListener("keydown", onEnterExperience);
+  }
+}
+
 function debug() {
   const cam = gui.addFolder("camera Controls");
   const cursor = gui.addFolder("cursor Controls");
@@ -115,7 +146,7 @@ function debug() {
   });
   //cursor
   cursor.add(debugObject, "showCursor").onChange(() => {
-    a.showCursor = !a._showCursor;
+    vg.showCursor = !vg._showCursor;
   });
 
   cursor.add(debugObject, "cursorSpeed").max(2).min(1).step(0.1);
@@ -128,13 +159,42 @@ function monitor() {
   document.body.append(statsFps.dom);
 }
 
-// console.log(a,"hell")
-const a = new Main();
-
-a.mouseEvents.onPointerMove = () => {
-  // console.log("moving2");
-};
 function initialiseEventListeners() {
+  eventsListeners();
+
+  //callbacks
+  vg.mouseEvents.onPointerEnter = () => {
+    console.log("callback pointer entered");
+  };
+  vg.mouseEvents.onPointerLeave = () => {
+    console.log("callback pointer leave");
+  };
+  vg.mouseEvents.onPointerMove = (event) => {
+    // if()
+    // event.time?.timeStamp
+    // const chart=new Chart(canvasGraph,{type:'line'});
+    // chart.data
+    // console.log("callback pointer moved");
+  };
+
+  vg.mouseEvents.onPointerDown = (event) => {
+    console.log("callback pointer down");
+  };
+  vg.mouseEvents.onPointerUp = () => {
+    console.log("callback pointer up");
+  };
+  vg.mouseEvents.onPointerClick = () => {
+    console.log("callback pointer Click");
+  };
+  vg.mouseEvents.onPointerDrop = () => {
+    console.log("callback pointer drop");
+  };
+  vg.mouseEvents.onPointerDrag = () => {
+    console.log("callback pointer drag");
+  };
+}
+
+function testSpace() {
   const parent = document.getElementById("mouseParent");
   const child = document.getElementById("mouseChild");
   parent?.addEventListener(EVgMouseEvents.MOUSE_ENTER, (event) => {
@@ -196,35 +256,31 @@ function initialiseEventListeners() {
   child?.addEventListener(EVgMouseEvents.MOUSE_DRAG, (event) => {
     child.children[0].innerHTML = "mouse drag";
   });
-
-  //callbacks
-  a.mouseEvents.onPointerEnter = () => {
-    console.log("callback pointer entered");
-  };
-  a.mouseEvents.onPointerLeave = () => {
-    console.log("callback pointer leave");
-  };
-  a.mouseEvents.onPointerMove = () => {
-    console.log("callback pointer moved");
-  };
-
-  a.mouseEvents.onPointerDown = () => {
-    console.log("callback pointer down");
-  };
-  a.mouseEvents.onPointerUp = () => {
-    console.log("callback pointer up");
-  };
-  a.mouseEvents.onPointerClick = () => {
-    console.log("callback pointer Click");
-  };
-  a.mouseEvents.onPointerDrop = () => {
-    console.log("callback pointer drop");
-  };
-  a.mouseEvents.onPointerDrag = () => {
-    console.log("callback pointer drag");
-  };
-
-  window.addEventListener("beforeunload", () => {
-    // removeEventListeners();
-  });
 }
+function initialiseDebugControls() {
+  const url = window.location.hash;
+  if (url == "#debug") {
+    console.log("inside debug");
+    monitor();
+    debug();
+  } else {
+    // const webcamElement=document.getElementById("webcam");
+    // webcamElement!.style.display="none";
+    gui.hide();
+  }
+}
+
+function destory() {
+  const removeEventListeners = () => {
+    window.removeEventListener("loadeddata", enterTheExperience);
+    vg.dispose();
+    vg.mouseEvents.dispose();
+  };
+
+  // Object.values(document.getElementsByClassName("contents") as HTMLCollectionOf<HTMLElement>).forEach((folder)=>{
+  //   folder.removeEventListener()
+  // })
+  window.addEventListener("beforeunload", removeEventListeners);
+  window.addEventListener("unload", removeEventListeners);
+}
+destory();

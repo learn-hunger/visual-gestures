@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   display: flex;
@@ -37,9 +40,13 @@ body {
 
 video {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   object-fit: cover;
   transform: rotateY(180deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
   /* transform: scaleX(-1);*/
 }
 
@@ -51,7 +58,7 @@ html,
   position: absolute;
   width: 100vw;
   height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 #mouseParent {
@@ -74,4 +81,148 @@ html,
   top: 50%;
   left: 25%;
   transform: translateY(-50%);
+}
+
+#container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  border: 2px solid red;
+  flex-flow: wrap;
+}
+
+.root {
+  width: 40% !important;
+  max-width: 250px;
+  /* border-radius: 10px; */
+  border: 2px solid red;
+  right: 0 !important;
+}
+
+/* General styles for laptops, tablets, etc. */
+#container {
+  display: flex;
+  height: 100vh; /* Ensure the container height is 100% of the viewport */
+}
+
+#folders,
+#dustbin {
+  padding: 10px;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  /* background-color: black; */
+}
+
+#folders {
+  flex: 4; /* 75% width */
+  /* justify-content: start; */
+  align-items: flex-start;
+  border: 2px solid red;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-content: start;
+}
+
+#dustbin {
+  flex: 2; /* 25% width */
+  border: 2px solid red;
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  border: 2px solid red;
+  /* justify-items:end; */
+}
+
+.bin {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 0;
+  /* border: 2px solid green; */
+}
+
+#dustbin-container {
+  border: 2px solid red;
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+.contents {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 600px) {
+  #container {
+    flex-direction: column; /* Stack divs vertically */
+  }
+
+  #folders,
+  #dustbin {
+    width: 100%;
+    height: 50vh; /* Both take 50% of the viewport height */
+  }
+
+  #dustbin-container {
+    /* width:150px;
+    height: 150px; */
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    /* align-items: flex-start*/
+  }
+  .contents {
+    /* width:50px;
+    height: 50px; */
+  }
+}
+
+/* loader */
+#loader-container {
+  background-color: white;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+#loader-txt-container {
+  border: 2px solid red;
+  bottom: 10%;
+  width: 100%;
+  flex: 1;
+  /* position: absolute; */
+}
+
+#loader-txt,
+#loaded-txt {
+  border: 2px solid red;
+  color: black;
+  display: inline-block;
+  padding: 5px;
+  margin: auto;
+  height: 34px;
+  border-radius: 5px;
+}
+
+#loaded-txt {
+  cursor: pointer;
+  background-color: rgb(111, 154, 235);
+  color: white;
+  display: none;
+}
+#loader-img {
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#loader-img-container {
+  flex: 3;
+  position: relative;
 }

@@ -19,6 +19,18 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
     element?.dispatchEvent(event);
   }
 
+  dispose(): void {
+    this._onPointerEnterCallback = undefined;
+    this._onPointerLeaveCallback = undefined;
+    this._onPointerMoveCallback = undefined;
+
+    this._onPointerDownCallback = undefined;
+    this._onPointerUpCallback = undefined;
+    this._onPointerClickCallback = undefined;
+
+    this._onPointerDragCallback = undefined;
+    this._onPointerDropCallback = undefined;
+  }
   /**
    * When mouse is moved
    *

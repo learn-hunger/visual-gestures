@@ -158,22 +158,17 @@ export class AnalyticsTagManager {
    * destory the events
    */
   private static destory() {
-    window.addEventListener("beforeunload", () => {
+    const removeEventListeners = () => {
       window.removeEventListener(
         "unhandledrejection",
         this.unhandledAsyncRejections,
       );
       window.removeEventListener("error", this.unhandledSyncRejections);
-    });
+    };
+    window.addEventListener("beforeunload", removeEventListeners);
 
     // Optionally, use unload for more aggressive cleanup
-    window.addEventListener("unload", () => {
-      window.removeEventListener(
-        "unhandledrejection",
-        this.unhandledAsyncRejections,
-      );
-      window.removeEventListener("error", this.unhandledSyncRejections);
-    });
+    window.addEventListener("unload", removeEventListeners);
   }
 }
 

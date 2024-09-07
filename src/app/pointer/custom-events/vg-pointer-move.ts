@@ -10,7 +10,7 @@ export class VgPointerMove
 {
   constructor(mouseProp: MouseEventInit, customProps: IGestureCustomProps) {
     super(EVgMouseEvents.MOUSE_MOVE, mouseProp, customProps);
-    this.setCursor();
+    // this.setCursor();
     this.moveCursor();
   }
 

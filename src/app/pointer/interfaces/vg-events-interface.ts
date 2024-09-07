@@ -27,6 +27,7 @@ export interface IVgPointerEvents
     IVgPointerDrag,
     IVgPointerDrop {
   dispatch(element: HTMLElement, event: TEvents): void;
+  dispose(): void;
 }
 
 interface IVgPointerMove {

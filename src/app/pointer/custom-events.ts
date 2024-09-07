@@ -6,22 +6,19 @@ import {
   piecewiseFingerDistance,
   weightedEuclideanDistance,
 } from "../utilities/vg-functions";
-import { IGestureCustomProps, IMouseMove } from "../utilities/vg-types";
+import { IGestureCustomProps } from "../utilities/vg-types";
 import { INormalizedLandmark } from "../utilities/vg-types-handlandmarks";
 import { VgHandLandmarksDTO } from "./DTO/vg-handlandmark";
 import { AVgPointerEvents } from "./abstracts/vg-pointer-events";
 
-export class VgPointer
-  extends AVgPointerEvents
-  implements IMouseMove, AVgPointerEvents
-{
+export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
   dX!: number;
   dY!: number;
   dZ?: number | undefined;
   distance2D!: number;
   distance3D!: number;
   relativeDist2D!: number;
-  time: { timeStamp: number; deltaTime: number } | undefined;
+  // time: { timeStamp: number; deltaTime: number } | undefined;
   mouseInit!: MouseEventInit;
   props!: IGestureCustomProps;
   structuredLandmarks!: VgHandLandmarksDTO;
@@ -31,10 +28,7 @@ export class VgPointer
   stateID?: number;
 
   kinkWindow: [number | null, number | null] = [null, null];
-  motionWindow: [
-    INormalizedLandmark,
-    INormalizedLandmark,
-  ] = [null!, null!]; // INDEX_MCP, INDEX_MCP
+  motionWindow: [INormalizedLandmark, INormalizedLandmark] = [null!, null!]; // INDEX_MCP, INDEX_MCP
   downWindow: [INormalizedLandmark, INormalizedLandmark] = [null!, null!];
 
   constructor() {
@@ -84,116 +78,147 @@ export class VgPointer
   }
 
   trigger() {
+    this.down();
+    this.triggerMouseMove(this.mouseInit, this.props);
+
+    this.setElement = document.elementFromPoint(
+      this.mouseInit.clientX!,
+      this.mouseInit.clientY!,
+    );
+    // }
+  }
+  public state!: number;
+  public state2!: number;
+  private down() {
+    const prevIndexTip = this.props.previousStructuredLandmarks?.data.INDEX.TIP;
+    const curIndexTip = this.props.structuredLandmarks?.data.INDEX.TIP;
+    const curIndexMcp = this.props.structuredLandmarks?.data.INDEX.MCP;
+    const dT = this.props.time?.deltaTime;
+    if (dT && prevIndexTip && curIndexMcp && curIndexTip) {
+      const dist = weightedEuclideanDistance(prevIndexTip, curIndexTip);
+      const distManhettan = prevIndexTip.y - curIndexTip.y;
+
+      if (!this.state) {
+        this.state = dist;
+        this.state2 = distManhettan;
+        // console.log("check down")
+      }
+      if (distManhettan > 0) {
+        console.log(distManhettan, "check down distman");
+        this.state2 = distManhettan;
+      } else {
+        // console.log(distManhettan,"check down distman")
+      }
+      if (dist < this.state) {
+        console.log(true, dist, this.state, "check down");
+        this.state = dist;
+      }
+      // console.log("check down",dist);
+    }
+  }
+  private testSpace() {
     this.staticEventsInitialiser();
     this.isPointerDown();
-    // this.isPointerUp(); ___________ Pseudo Event
+    // console.log(this.isPointerDown(),"check pointer down")
+    this.isPointerUp(); // ___________ Pseudo Event
     this.isPointerClick();
     this.isPointerDrag();
     this.isPointerDrop();
 
-    // Initital state no event == PointerMove event
-    if(this.stateID==0)
-    {
+    // // Initital state no event == PointerMove event
+    if (this.stateID == 0) {
       this.downWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
       this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
 
-      console.log("DDDDDDDDDDDDDDDD", this.stateID, this.downWindow);
-      const { x, y } = getElementCoordinatesFromLandmark(
-        this.downWindow[0],
-        this.props.sizes!,
-      );
-      this.mouseInit.clientX = x;
-      this.mouseInit.clientY = y;
-  
-      // console.log();
-  
-      this.triggerMouseMove(this.mouseInit, this.props);
-      this.setElement = document.elementFromPoint(x, y);
+      // console.log("DDDDDDDDDDDDDDDD", this.stateID, this.downWindow);
+      // const { x, y } = getElementCoordinatesFromLandmark(
+      //   this.downWindow[0],
+      //   this.props.sizes!,
+      // );
+      // this.mouseInit.clientX = x;
+      // this.mouseInit.clientY = y;
+
+      // // console.log();
+
+      // this.triggerMouseMove(this.mouseInit, this.props);
+      // this.setElement = document.elementFromPoint(x, y);
     }
 
     // Pointer down state
-    else if(this.stateID==1){
+    else if (this.stateID == 1) {
       // console.log("NNNNNNNNNNNNNNNNNNNNNNNN", this.downWindow);
-      
-      const { x, y } = getElementCoordinatesFromLandmark(
-        this.downWindow[0],
-        this.props.sizes!,
-      );
-      this.mouseInit.clientX = x;
-      this.mouseInit.clientY = y;
-  
+      // console.log("check down here")
+      // const { x, y } = getElementCoordinatesFromLandmark(
+      //   this.downWindow[0],
+      //   this.props.sizes!,
+      // );
+      // console.log(document.elementsFromPoint(x,y),"elements")
+      // this.mouseInit.clientX = x;
+      // this.mouseInit.clientY = y;
       // console.log("MMMMMMMMMMMMMM", this.motionWindow );
-  
-      this.triggerMouseMove(this.mouseInit, this.props);
-      this.setElement = document.elementFromPoint(x, y);
+      // this.triggerMouseMove(this.mouseInit, this.props);
+      // this.setElement = document.elementFromPoint(x, y);
     }
 
-    // Pointer drag state
-    else if(this.stateID==2){
-      console.log("RRRRRRRRRRRRRRRRRRRRRRRRRRRR", this.motionWindow);
-
-      const { x:x1,y:y1 } = getElementCoordinatesFromLandmark(
-        this.motionWindow[1],
-        this.props.sizes!,
-      );
-
-      const { x:x2, x:y2 } = getElementCoordinatesFromLandmark(
-        this.downWindow[0],
-        this.props.sizes!,
-      );
-
-      const { x:x3, x:y3 } = getElementCoordinatesFromLandmark(
-        this.motionWindow[0],
-        this.props.sizes!,
-      );
-
-      this.mouseInit.clientX = x1+ (x2-x3);
-      this.mouseInit.clientY = y1+ (y2-y3);
-
+    // // Pointer drag state
+    else if (this.stateID == 2) {
+      // console.log("RRRRRRRRRRRRRRRRRRRRRRRRRRRR", this.motionWindow);
+      // const { x:x1,y:y1 } = getElementCoordinatesFromLandmark(
+      //   this.motionWindow[1],
+      //   this.props.sizes!,
+      // );
+      // const { x:x2, x:y2 } = getElementCoordinatesFromLandmark(
+      //   this.downWindow[0],
+      //   this.props.sizes!,
+      // );
+      // const { x:x3, x:y3 } = getElementCoordinatesFromLandmark(
+      //   this.motionWindow[0],
+      //   this.props.sizes!,
+      // );
+      // this.mouseInit.clientX = x1+ (x2-x3);
+      // this.mouseInit.clientY = y1+ (y2-y3);
       // console.log("_____________________",y1, (y3-y2), this.mouseInit.clientY);
       // console.log("____________________")
-      this.triggerMouseMove(this.mouseInit, this.props);
+      // this.triggerMouseMove(this.mouseInit, this.props);
     }
-  
-    // Pointer drop state
-    else if(this.stateID== 3){
+
+    // // Pointer drop state
+    else if (this.stateID == 3) {
       console.log("DROP");
-      const { x, y } = getElementCoordinatesFromLandmark(
-        this.downWindow[0],
-        this.props.sizes!,
-      );
-      this.mouseInit.clientX = x;
-      this.mouseInit.clientY = y;
-  
-      this.triggerMouseMove(this.mouseInit, this.props);
+      // const { x, y } = getElementCoordinatesFromLandmark(
+      //   this.downWindow[0],
+      //   this.props.sizes!,
+      // );
+      // this.mouseInit.clientX = x;
+      // this.mouseInit.clientY = y;
 
-      this.stateID= 0;
-      
+      // this.triggerMouseMove(this.mouseInit, this.props);
+
+      this.stateID = 0;
+
       // Acces the corresponding element where the real-time element is dropped
-      this.setElement = document.elementFromPoint(x, y);   
+      // this.setElement = document.elementFromPoint(x, y);
     }
 
-    // Pointer click state (executes only once) and then goes to aove move state
-    else if(this.stateID== 4){
+    // // Pointer click state (executes only once) and then goes to aove move state
+    else if (this.stateID == 4) {
+      this.stateID = 0;
 
-      this.stateID= 0;
+      // console.log("DDDDDDDDDDDDDDDD", this.stateID, this.downWindow);
+      // const { x, y } = getElementCoordinatesFromLandmark(
+      //   this.downWindow[0],
+      //   this.props.sizes!,
+      // );
+      // this.mouseInit.clientX = x;
+      // this.mouseInit.clientY = y;
 
-      console.log("DDDDDDDDDDDDDDDD", this.stateID, this.downWindow);
-      const { x, y } = getElementCoordinatesFromLandmark(
-        this.downWindow[0],
-        this.props.sizes!,
-      );
-      this.mouseInit.clientX = x;
-      this.mouseInit.clientY = y;
-  
       // console.log();
-  
-      this.triggerMouseMove(this.mouseInit, this.props);
-      this.setElement = document.elementFromPoint(x, y);
+
+      // this.triggerMouseMove(this.mouseInit, this.props);
+      // this.setElement = document.elementFromPoint(x, y);
 
       this.downWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
       this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
-
     }
 
     // if ( this.isPointerMove()) {
@@ -203,10 +228,6 @@ export class VgPointer
     //   );
     //   this.mouseInit.clientX = x;
     //   this.mouseInit.clientY = y;
-    //   this.triggerMouseMove(this.mouseInit, this.props);
-      
-    //   this.setElement = document.elementFromPoint(x, y);
-    // }
   }
 
   private isPointerMove(): boolean {
@@ -234,8 +255,13 @@ export class VgPointer
       this.downWindow[1] = this.structuredLandmarks.data["INDEX"].TIP;
       // this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
       this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
-
-      this.stateID= 1;
+      // console.log("check down")
+      const { x, y } = getElementCoordinatesFromLandmark(
+        this.downWindow[0],
+        this.props.sizes!,
+      );
+      console.log(document.elementsFromPoint(x, y), "check down ");
+      this.stateID = 1;
 
       // this.triggerMouseDown(this.mouseInit, this.props);
 
@@ -257,11 +283,10 @@ export class VgPointer
       this.kinkWindow[1] != null &&
       this.fingerKinkRatio - this.kinkWindow[1] >= 150
     ) {
-      console.log("UP");
+      console.log("check UP");
       // this.triggerMouseUp(this.mouseInit, this.props);
-      
-      this.stateID= 2;
 
+      this.stateID = 2;
 
       return true;
     }
@@ -286,8 +311,7 @@ export class VgPointer
         [1, 1],
       ) < 0.08
     ) {
-
-      console.log("__________Click");
+      console.log("check Click");
       // this.triggerMouseClick(this.mouseInit, this.props);
       this.kinkWindow[0] = this.fingerKinkRatio;
       this.kinkWindow[1] = null;
@@ -296,17 +320,14 @@ export class VgPointer
       this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
       this.motionWindow[1] = null!;
 
-      this.stateID= 4;
-      
+      this.stateID = 4;
+
       return true;
     }
     return false;
   }
 
   private isPointerDrag(): boolean {
-
-    
-
     if (
       this.structuredLandmarks &&
       this.fingerKinkRatio &&
@@ -323,19 +344,22 @@ export class VgPointer
         [1, 1],
       ) > 0.08
     ) {
-      console.log("Inside drag funciton",  weightedEuclideanDistance(
-        this.motionWindow[0],
-        this.structuredLandmarks.data["INDEX"].MCP,
-        [1, 1],
-      ));
+      console.log(
+        "Inside drag funciton",
+        weightedEuclideanDistance(
+          this.motionWindow[0],
+          this.structuredLandmarks.data["INDEX"].MCP,
+          [1, 1],
+        ),
+      );
 
       // this.downWindow[1] = this.structuredLandmarks.data["INDEX"].TIP;
       console.log("Dragging");
       // this.triggerMouseDrag(this.mouseInit, this.props);
       this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
-      
-      this.stateID= 2;
-    
+
+      this.stateID = 2;
+
       return true;
     }
     return false;
@@ -370,18 +394,17 @@ export class VgPointer
       this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
       this.motionWindow[1] = null!;
 
-      this.stateID= 3;
+      this.stateID = 3;
 
       return true;
     }
     return false;
   }
 
-
   private staticEventsInitialiser() {
     // Structuring raw landmarks
     const landmark: INormalizedLandmark[] = this.props.currentLandmarks!;
-    this.structuredLandmarks = new VgHandLandmarksDTO(landmark);
+    this.structuredLandmarks = this.props.structuredLandmarks!;
     for (let finger of Object.keys(this.structuredLandmarks.data) as Array<
       keyof typeof EFingers
     >) {
@@ -441,8 +464,7 @@ export class VgPointer
     // console.log("_____________", this.fingerKinkRatio);
     // Very first instance of detection
     if (this.kinkWindow[0] == null && this.kinkWindow[1] == null) {
-      
-      this.stateID= 0;
+      this.stateID = 0;
 
       this.kinkWindow[0] = this.fingerKinkRatio;
 
@@ -450,9 +472,9 @@ export class VgPointer
 
       this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
 
-      console.log("_____________________VERY FIRST INITIALIZATION");
+      // console.log("_____________________VERY FIRST INITIALIZATION");
     }
 
-    console.log("state: ", this.stateID);
+    // console.log("state: ", this.stateID);
   }
 }
