@@ -3,11 +3,12 @@ import { EVgMouseEvents } from "../../src/app/utilities/vg-constants";
 export function eventsListeners() {
   let draggingElement: HTMLElement | null = null;
   let disposeEvents: (() => void)[] = [];
+  const modalPreview = document.getElementById("preview-content");
   Object.values(
     document.getElementsByClassName(
       "contents",
     ) as HTMLCollectionOf<HTMLElement>,
-  ).forEach((folder) => {
+  ).forEach((folder, index) => {
     //event callbacks
     const folderPointerEnter = () => {
       folder.style.scale = "1.2";
@@ -18,6 +19,18 @@ export function eventsListeners() {
     const dragStart = (event: Event) => {
       draggingElement = event.target as HTMLElement;
     };
+    const folderClick = () => {
+      modalPreview!.innerHTML = "you clicked folder " + index;
+      showModal();
+    };
+    const pdfClick = () => {
+      modalPreview!.innerHTML = "you clicked pdf " + Math.floor(index / 2);
+      showModal();
+    };
+    const showModal = () => {
+      closeModal();
+      modal!.style.display = "block";
+    };
 
     folder.addEventListener("dragstart", dragStart);
     folder.addEventListener("mouseenter", folderPointerEnter);
@@ -25,6 +38,15 @@ export function eventsListeners() {
     //vg events
     folder.addEventListener(EVgMouseEvents.MOUSE_ENTER, folderPointerEnter);
     folder.addEventListener(EVgMouseEvents.MOUSE_LEAVE, folderPointerLeave);
+    const containsFolder = folder.className.includes("folder");
+    if (containsFolder) {
+      folder.addEventListener("click", folderClick);
+      folder.addEventListener(EVgMouseEvents.MOUSE_CLICK, folderClick);
+    } else {
+      //pdf
+      folder.addEventListener("click", pdfClick);
+      folder.addEventListener(EVgMouseEvents.MOUSE_CLICK, pdfClick);
+    }
     //todo dispose events
     const removeEventListeners = () => {
       folder.removeEventListener("dragstart", dragStart);
@@ -39,6 +61,14 @@ export function eventsListeners() {
         EVgMouseEvents.MOUSE_LEAVE,
         folderPointerLeave,
       );
+      if (containsFolder) {
+        folder.removeEventListener("click", folderClick);
+        folder.removeEventListener(EVgMouseEvents.MOUSE_CLICK, folderClick);
+      } else {
+        //pdf
+        folder.removeEventListener("click", pdfClick);
+        folder.removeEventListener(EVgMouseEvents.MOUSE_CLICK, pdfClick);
+      }
     };
     disposeEvents.push(removeEventListeners);
   });
@@ -81,6 +111,15 @@ export function eventsListeners() {
   bin[1]!.addEventListener(EVgMouseEvents.MOUSE_ENTER, binPointerEnter);
   bin[0]!.addEventListener(EVgMouseEvents.MOUSE_LEAVE, binPointerLeave);
 
+  //modal
+  const modal = document.getElementById("modal");
+  const closeButton = document.getElementById("close");
+  const closeModal = () => {
+    modal!.style.display = "none";
+  };
+  closeButton?.addEventListener("click", closeModal);
+  closeButton?.addEventListener(EVgMouseEvents.MOUSE_CLICK, closeModal);
+
   const removeEventListeners = () => {
     binContainer!.removeEventListener("mouseenter", binPointerEnter);
     binContainer!.removeEventListener("mouseleave", binPointerLeave);
@@ -90,10 +129,14 @@ export function eventsListeners() {
     //vg dispose
     bin[1]!.removeEventListener(EVgMouseEvents.MOUSE_ENTER, binPointerEnter);
     bin[0]!.removeEventListener(EVgMouseEvents.MOUSE_LEAVE, binPointerLeave);
+
+    closeButton?.removeEventListener("click", closeModal);
+    closeButton?.removeEventListener(EVgMouseEvents.MOUSE_CLICK, closeModal);
     disposeEvents.forEach((eachFolderEvents) => {
       eachFolderEvents();
     });
   };
+
   window.addEventListener("beforeunload", removeEventListeners);
   window.addEventListener("unload", removeEventListeners);
 }

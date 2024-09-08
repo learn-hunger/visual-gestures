@@ -122,7 +122,8 @@ export class AnalyticsTagManager {
    * @param event
    */
   private static unhandledAsyncRejections(event: PromiseRejectionEvent) {
-    this.sendEvents({
+    //ensure using class name rather than this
+    AnalyticsTagManager.sendEvents({
       event:
         EAnalyticsCommonErrors[
           EAnalyticsCommonErrors.UNHANDLED_ASYNCHRONOUS_ERRORS
@@ -143,7 +144,8 @@ export class AnalyticsTagManager {
     colno,
     error,
   }: ErrorEvent) {
-    this.sendEvents({
+    //ensure using class name rather than this
+    AnalyticsTagManager.sendEvents({
       event:
         EAnalyticsCommonErrors[
           EAnalyticsCommonErrors.UNHANDLED_SYNCHRONOUS_ERRORS

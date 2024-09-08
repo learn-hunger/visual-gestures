@@ -11,17 +11,15 @@ import { INormalizedLandmark } from "../utilities/vg-types-handlandmarks";
 import { VgHandLandmarksDTO } from "./DTO/vg-handlandmark";
 import { AVgPointerEvents } from "./abstracts/vg-pointer-events";
 
-export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
-  dX!: number;
-  dY!: number;
-  dZ?: number | undefined;
+export class VgPointer extends AVgPointerEvents {
   distance2D!: number;
   distance3D!: number;
   relativeDist2D!: number;
-  // time: { timeStamp: number; deltaTime: number } | undefined;
   mouseInit!: MouseEventInit;
   props!: IGestureCustomProps;
   structuredLandmarks!: VgHandLandmarksDTO;
+  mouseDown: boolean = false;
+  upElement!: HTMLElement;
   palmHeight?: number;
   fingerHeight?: number;
   fingerKinkRatio?: number;
@@ -40,9 +38,6 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
     this.props = customProps;
     const { x, y, z } =
       this.props.pointer.deltaLandmark ?? DefaultConfig.instance.deltaLandmark;
-    this.dX = x;
-    this.dY = y;
-    this.dZ = z;
     this.distance2D = euclideanDistance(x, y);
     this.distance3D = euclideanDistance(x, y, z);
     this.relativeDist2D = euclideanDistance(
@@ -57,7 +52,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
       this.props.element = {
         from: element,
       };
-      this.triggerMouseLeave(this.mouseInit, this.props);
+      this.triggerMouseLeave(this.mouseInit, this.getProps);
       return;
     }
     if (element == this.props.cursorElement) {
@@ -68,58 +63,62 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
     }
     if (
       element != this.props.cursorElement &&
-      this.props.element.to != element
+      this.props.element.to != element &&
+      element
     ) {
       this.props.element.from = this.props.element.to;
       this.props.element.to = element;
-      this.triggerMouseEnter(this.mouseInit, this.props);
-      this.triggerMouseLeave(this.mouseInit, this.props);
+      this.triggerMouseEnter(this.mouseInit, this.getProps);
+      this.triggerMouseLeave(this.mouseInit, this.getProps);
     }
   }
 
   trigger() {
-    this.down();
-    this.triggerMouseMove(this.mouseInit, this.props);
+    this.isPointerDown();
+    getElementCoordinatesFromLandmark;
+    if (this.mouseDown == false) {
+      this.triggerMouseMove(this.mouseInit, this.getProps);
 
-    this.setElement = document.elementFromPoint(
-      this.mouseInit.clientX!,
-      this.mouseInit.clientY!,
-    );
+      this.setElement = document.elementFromPoint(
+        this.mouseInit.clientX!,
+        this.mouseInit.clientY!,
+      );
+    }
     // }
   }
   public state!: number;
   public state2!: number;
-  private down() {
-    const prevIndexTip = this.props.previousStructuredLandmarks?.data.INDEX.TIP;
-    const curIndexTip = this.props.structuredLandmarks?.data.INDEX.TIP;
-    const curIndexMcp = this.props.structuredLandmarks?.data.INDEX.MCP;
-    const dT = this.props.time?.deltaTime;
-    if (dT && prevIndexTip && curIndexMcp && curIndexTip) {
-      const dist = weightedEuclideanDistance(prevIndexTip, curIndexTip);
-      const distManhettan = prevIndexTip.y - curIndexTip.y;
-
-      if (!this.state) {
-        this.state = dist;
-        this.state2 = distManhettan;
-        // console.log("check down")
+  private isPointerDown() {
+    const landmark = this.props.structuredLandmarks?.data.INDEX;
+    const mcp = landmark?.MCP.y;
+    const tip = landmark?.TIP.y;
+    const toElement = this.props.element;
+    if (mcp && tip && this.props.time && toElement && toElement.to) {
+      const deltaTime = this.props.time.deltaTime;
+      const manDist = (mcp - tip) / deltaTime;
+      const elementState = toElement.to as HTMLElement;
+      if (manDist < 0.002) {
+        console.log(this.upElement, "mouseDown");
+        this.mouseDown = true;
+      } else if (manDist > 0.002) {
+        console.log(this.upElement, "mouseUp");
+        if (elementState == this.upElement && this.mouseDown == true) {
+          console.log("click", elementState);
+          this.props.element!.clickElement = this.upElement;
+          this.triggerMouseClick(this.mouseInit, this.getProps);
+        } else if (this.mouseDown == true) {
+          //mouse drag
+          console.log("click fail", elementState, this.upElement);
+        }
+        this.upElement = toElement.to as HTMLElement;
+        this.mouseDown = false;
       }
-      if (distManhettan > 0) {
-        console.log(distManhettan, "check down distman");
-        this.state2 = distManhettan;
-      } else {
-        // console.log(distManhettan,"check down distman")
-      }
-      if (dist < this.state) {
-        console.log(true, dist, this.state, "check down");
-        this.state = dist;
-      }
-      // console.log("check down",dist);
     }
   }
   private testSpace() {
     this.staticEventsInitialiser();
-    this.isPointerDown();
-    // console.log(this.isPointerDown(),"check pointer down")
+    this.isDown();
+    // console.log(this.isDown(),"check pointer down")
     this.isPointerUp(); // ___________ Pseudo Event
     this.isPointerClick();
     this.isPointerDrag();
@@ -140,7 +139,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
 
       // // console.log();
 
-      // this.triggerMouseMove(this.mouseInit, this.props);
+      // this.triggerMouseMove(this.mouseInit, this.getProps);
       // this.setElement = document.elementFromPoint(x, y);
     }
 
@@ -156,7 +155,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
       // this.mouseInit.clientX = x;
       // this.mouseInit.clientY = y;
       // console.log("MMMMMMMMMMMMMM", this.motionWindow );
-      // this.triggerMouseMove(this.mouseInit, this.props);
+      // this.triggerMouseMove(this.mouseInit, this.getProps);
       // this.setElement = document.elementFromPoint(x, y);
     }
 
@@ -179,7 +178,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
       // this.mouseInit.clientY = y1+ (y2-y3);
       // console.log("_____________________",y1, (y3-y2), this.mouseInit.clientY);
       // console.log("____________________")
-      // this.triggerMouseMove(this.mouseInit, this.props);
+      // this.triggerMouseMove(this.mouseInit, this.getProps);
     }
 
     // // Pointer drop state
@@ -192,7 +191,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
       // this.mouseInit.clientX = x;
       // this.mouseInit.clientY = y;
 
-      // this.triggerMouseMove(this.mouseInit, this.props);
+      // this.triggerMouseMove(this.mouseInit, this.getProps);
 
       this.stateID = 0;
 
@@ -214,7 +213,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
 
       // console.log();
 
-      // this.triggerMouseMove(this.mouseInit, this.props);
+      // this.triggerMouseMove(this.mouseInit, this.getProps);
       // this.setElement = document.elementFromPoint(x, y);
 
       this.downWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
@@ -240,7 +239,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
     return false;
   }
 
-  private isPointerDown(): boolean {
+  private isDown(): boolean {
     if (
       this.structuredLandmarks &&
       this.fingerKinkRatio &&
@@ -263,7 +262,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
       console.log(document.elementsFromPoint(x, y), "check down ");
       this.stateID = 1;
 
-      // this.triggerMouseDown(this.mouseInit, this.props);
+      // this.triggerMouseDown(this.mouseInit, this.getProps);
 
       return true;
     }
@@ -284,7 +283,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
       this.fingerKinkRatio - this.kinkWindow[1] >= 150
     ) {
       console.log("check UP");
-      // this.triggerMouseUp(this.mouseInit, this.props);
+      // this.triggerMouseUp(this.mouseInit, this.getProps);
 
       this.stateID = 2;
 
@@ -312,7 +311,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
       ) < 0.08
     ) {
       console.log("check Click");
-      // this.triggerMouseClick(this.mouseInit, this.props);
+      // this.triggerMouseClick(this.mouseInit, this.getProps);
       this.kinkWindow[0] = this.fingerKinkRatio;
       this.kinkWindow[1] = null;
       // DONOT CHANGE - LEAVE AS IT IS TO STORE WHERE WE STARTED PERFORMING CLICKING this.downWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
@@ -355,7 +354,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
 
       // this.downWindow[1] = this.structuredLandmarks.data["INDEX"].TIP;
       console.log("Dragging");
-      // this.triggerMouseDrag(this.mouseInit, this.props);
+      // this.triggerMouseDrag(this.mouseInit, this.getProps);
       this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
 
       this.stateID = 2;
@@ -383,7 +382,7 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
       ) > 0.08
     ) {
       console.log("Dropped");
-      // this.triggerMouseDrop(this.mouseInit, this.props);
+      // this.triggerMouseDrop(this.mouseInit, this.getProps);
 
       this.kinkWindow[0] = this.fingerKinkRatio;
       this.kinkWindow[1] = null;
@@ -476,5 +475,13 @@ export class VgPointer extends AVgPointerEvents implements AVgPointerEvents {
     }
 
     // console.log("state: ", this.stateID);
+  }
+  private get getProps(): IGestureCustomProps {
+    this.props.calc = {
+      distance2D: this.distance2D,
+      distance3D: this.distance3D,
+      relativeDist2D: this.relativeDist2D,
+    };
+    return this.props;
   }
 }

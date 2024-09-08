@@ -1,6 +1,7 @@
 import { HandLandmarkerResult } from "@mediapipe/tasks-vision";
 import GUI from "lil-gui";
 import Stats from "stats.js";
+import { Chart } from "chart.js";
 import { Main } from "visual-gestures/src/index";
 import { EVgMouseEvents } from "../../src/app/utilities/vg-constants";
 import { detect, loadWeights } from "./services/handLandmarks";
@@ -8,7 +9,9 @@ import { enableWebcam } from "./utils/camera";
 import { AnalyticsTagManager } from "./services/types/vg-analytics";
 import { EAnalyticsData, EAnalyticsEvents, gameVar } from "./utils/constants";
 import { eventsListeners } from "./events";
-let webcamElement = document.getElementById("webcam") as HTMLVideoElement;
+import { DebugGraph } from "./graph";
+let webcamElement: HTMLVideoElement;
+let debugGraphRef: HTMLCanvasElement;
 /**
  * monitoring
  */
@@ -16,12 +19,14 @@ const statsFps = new Stats();
 /**
  * debug
  */
-const debugObject = {
+export const debugObject = {
   showVideo: true,
   cursorSpeed: 1,
   showCursor: true,
   showDebug: true,
   showGraph: true,
+  showMonitor: true,
+  resetGraph: DebugGraph.resetChart,
 };
 const gui = new GUI({
   title: "Controls",
@@ -30,10 +35,11 @@ const gui = new GUI({
 const vg = new Main();
 // loadWeights();
 export function initialiseDetection(webcamRef: HTMLVideoElement) {
-  initialiseDebugControls();
-  initialiseEventListeners();
+  debugGraphRef = document.getElementById("debugGraphRef") as HTMLCanvasElement;
   vg.showCursor = false; //to not show cursor at loader
   webcamElement = webcamRef;
+  initialiseDebugControls();
+  initialiseEventListeners();
   if (webcamElement) {
     AnalyticsTagManager.sendEvents({
       event: EAnalyticsEvents[EAnalyticsEvents.LOAD_WEIGHTS_BEGIN],
@@ -77,29 +83,29 @@ function startDetection() {
     statsFps.begin();
     landmarks = detect(webcamElement);
     const pointer = landmarks?.landmarks[0];
-    if (pointer) {
-      try {
-        vg.detect(pointer, performance.now(), debugObject.cursorSpeed);
-        //----------analytics logic being--------------------->
-        if (gameVar.firstClassification == false) {
-          AnalyticsTagManager.sendEvents({
-            event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_BEGIN],
-          });
-          gameVar.firstClassification = true;
-        }
-        //----------analytics logic end------------->
-      } catch (error: any) {
+    // if (pointer) {
+    try {
+      vg.detect(pointer, performance.now(), debugObject.cursorSpeed);
+      //----------analytics logic being--------------------->
+      if (gameVar.firstClassification == false) {
         AnalyticsTagManager.sendEvents({
-          event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_ERROR],
-          error: error.stack,
+          event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_BEGIN],
         });
+        gameVar.firstClassification = true;
       }
-    } else {
-      //landmarks not detected
-      AnalyticsTagManager.sendData({
-        [EAnalyticsData[EAnalyticsData.LANDMARKS_NOT_DETECTED]]: "",
+      //----------analytics logic end------------->
+    } catch (error: any) {
+      AnalyticsTagManager.sendEvents({
+        event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_ERROR],
+        error: error.stack,
       });
     }
+    // } else {
+    //   //landmarks not detected
+    //   AnalyticsTagManager.sendData({
+    //     [EAnalyticsData[EAnalyticsData.LANDMARKS_NOT_DETECTED]]: "",
+    //   });
+    // }
     statsFps.end();
     lastVideoTime = webcamElement.currentTime;
   }
@@ -136,8 +142,13 @@ function enterTheExperience() {
 }
 
 function debug() {
+  gui.add(debugObject, "showMonitor").onChange((toggle: boolean) => {
+    monitor!.style.display = toggle ? "block" : "none";
+  });
   const cam = gui.addFolder("camera Controls");
   const cursor = gui.addFolder("cursor Controls");
+  const debugGraph = gui.addFolder("debug graph");
+  const monitor = document.getElementById("monitor");
   cam.add(debugObject, "showVideo").onChange(() => {
     const webcamStyle = webcamElement.style;
     debugObject.showVideo
@@ -150,6 +161,11 @@ function debug() {
   });
 
   cursor.add(debugObject, "cursorSpeed").max(2).min(1).step(0.1);
+  //debug graph
+  debugGraph.add(debugObject, "showGraph").onChange((toggle: boolean) => {
+    debugGraphRef.style.display = toggle ? "block" : "none";
+  });
+  debugGraph.add(debugObject, "resetGraph");
   // gui.close();
 }
 
@@ -169,12 +185,44 @@ function initialiseEventListeners() {
   vg.mouseEvents.onPointerLeave = () => {
     console.log("callback pointer leave");
   };
+  let dt: number = 0;
+  let dydt: number = 0;
+  let eleState: any;
+  let mouseDown = false;
   vg.mouseEvents.onPointerMove = (event) => {
-    // if()
-    // event.time?.timeStamp
-    // const chart=new Chart(canvasGraph,{type:'line'});
-    // chart.data
-    // console.log("callback pointer moved");
+    // console.log(event?.time?.timeStamp,event?.distance2D,event,"timer");
+    if (event.time?.timeStamp && event.structuredLandmarks) {
+      const landmark = event.structuredLandmarks?.data.INDEX;
+      const mcp = landmark?.MCP.y;
+      const tip = landmark?.TIP.y;
+      let z = event.structuredLandmarks.data.INDEX.TIP.z * 10 ** 6;
+      z = Math.max(0.1, z);
+      // console.log(mcp-tip)
+      if (mcp && tip && event.sizes) {
+        const deltaTime = event.time.deltaTime;
+        const manDist = (mcp - tip) / deltaTime;
+        const ele = event.element?.to;
+        const sd = manDist - dydt;
+        dydt = manDist;
+        dt = deltaTime;
+        // console.log(manDist,"distance");
+        if (manDist < 0.001) {
+          // console.log(ele,"mouseDown")
+          mouseDown = true;
+        } else if (manDist > 0.002) {
+          // console.log(ele,"mouseUp");
+          if (eleState == ele && mouseDown == true) {
+            // console.log("click",ele)
+          } else if (mouseDown == true) {
+            // console.log("click fail",eleState,ele,eleState==event.element?.from)
+          }
+          eleState = ele;
+          mouseDown = false;
+        }
+        DebugGraph.updateChart(event?.time?.timeStamp, manDist);
+        // DebugGraph.updateData(1,sd,'red');
+      }
+    }
   };
 
   vg.mouseEvents.onPointerDown = (event) => {
@@ -184,7 +232,7 @@ function initialiseEventListeners() {
     console.log("callback pointer up");
   };
   vg.mouseEvents.onPointerClick = () => {
-    console.log("callback pointer Click");
+    // console.log("callback pointer Click");
   };
   vg.mouseEvents.onPointerDrop = () => {
     console.log("callback pointer drop");
@@ -260,12 +308,13 @@ function testSpace() {
 function initialiseDebugControls() {
   const url = window.location.hash;
   if (url == "#debug") {
-    console.log("inside debug");
     monitor();
     debug();
+    DebugGraph.initialiseGraph();
   } else {
     // const webcamElement=document.getElementById("webcam");
     // webcamElement!.style.display="none";
+    // debugGraphRef.style.display='none';
     gui.hide();
   }
 }

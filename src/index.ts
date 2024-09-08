@@ -112,23 +112,25 @@ export class Main extends AVgCommon {
     this.props.time.timeStamp = timeStamp;
   }
   detect(
-    landmark: INormalizedLandmark[],
+    landmark: INormalizedLandmark[] | undefined,
     timeStamp: number,
     cursorSpeed: number = 1,
   ): void {
-    this.setLandmarks = landmark;
-    const isCallibrated = this.props.time;
     this.setTimer = timeStamp;
-    if (isCallibrated) {
-      try {
-        this.props.cursorSpeed = cursorSpeed;
-        this.mouseEvents.updateProps(this.mouseInit, this.props);
-      } catch (err) {
-        console.log(err);
+    if (landmark) {
+      this.setLandmarks = landmark;
+      const isCallibrated = this.props.sizes;
+      if (isCallibrated) {
+        try {
+          this.props.cursorSpeed = cursorSpeed;
+          this.mouseEvents.updateProps(this.mouseInit, this.props);
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        this.initialiseSizes();
+        this.props.sizes = this.sizes;
       }
-    } else {
-      this.initialiseSizes();
-      this.props.sizes = this.sizes;
     }
   }
 }

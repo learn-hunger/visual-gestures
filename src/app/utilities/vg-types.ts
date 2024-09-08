@@ -34,6 +34,7 @@ export interface IGestureCustomProps {
   cursorElement: HTMLElement;
   sizes?: IElementsSizes;
   cursorSpeed: number;
+  calc?: ICalculations;
 }
 
 // // DataType that contains coordinates and properties(open/close) of finger
@@ -94,15 +95,15 @@ export interface IPointer {
 }
 
 export interface IEvents {
-  onPointerMove: (event?: VgPointerMove) => any;
-  onPointerEnter: (event?: VgPointerEnter) => any;
-  onPointerLeave: (event?: VgPointerLeave) => any;
+  onPointerMove: (event: VgPointerMove) => any;
+  onPointerEnter: (event: VgPointerEnter) => any;
+  onPointerLeave: (event: VgPointerLeave) => any;
 
-  onPointerDown: (event?: VgPointerDown) => any;
-  onPointerUp: (event?: VgPointerUp) => any;
-  onPointerClick: (event?: VgPointerClick) => any;
-  onPointerDrop: (event?: VgPointerDrop) => any;
-  onPointerDrag: (event?: VgPointerDrag) => any;
+  onPointerDown: (event: VgPointerDown) => any;
+  onPointerUp: (event: VgPointerUp) => any;
+  onPointerClick: (event: VgPointerClick) => any;
+  onPointerDrop: (event: VgPointerDrop) => any;
+  onPointerDrag: (event: VgPointerDrag) => any;
 }
 
 export interface IElementsSizes {
@@ -115,17 +116,15 @@ interface ISizesProps {
   clientHeight: number;
 }
 
-// export interface IMouseMove {
-//   dX: number;
-//   dY: number;
-//   dZ?: number;
-//   distance2D: number;
-//   distance3D: number;
-//   relativeDist2D: number;
-// }
+export interface ICalculations {
+  distance2D: number;
+  distance3D: number;
+  relativeDist2D: number;
+}
 
 export interface IElementsStates {
   from?: Element | null;
-  to?: Element | null;
+  to?: Element;
   downElement?: Element | null;
+  clickElement?: Element;
 }

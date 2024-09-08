@@ -15,6 +15,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
 <div id="container">
     <video id="webcam" width="100%" height="100%" autoplay></video>
+    <canvas id="debugGraphRef"></canvas>
     <div id="folders" >
         <img class="contents folders" src="experience/folder.png" alt="" draggable="true">
         <img class="contents folders" src="experience/folder.png" alt="" draggable="true">
@@ -31,6 +32,12 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     </div>
 </div>
 
+<div id="modal">
+    <div id="close">X close</div>
+    <div id="preview">
+        <p id="preview-content" alt="">hello world</p>
+    </div>
+</div>
       <div id="mouseParent" style="display:none">
            <p> outside </p>
             <div id="mouseChild">

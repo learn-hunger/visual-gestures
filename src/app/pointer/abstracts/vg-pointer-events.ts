@@ -52,7 +52,7 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
       this.vgPointerMove?.element?.from as HTMLElement,
       this.vgPointerMove,
     );
-    this.onPointerMove && this.onPointerMove();
+    this.onPointerMove && this.onPointerMove(this.vgPointerMove);
   }
 
   //-------------------------End of Mouse Move------------//
@@ -77,7 +77,7 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
       this.vgPointerEnter?.element?.to as HTMLElement,
       this.vgPointerEnter,
     );
-    this.onPointerEnter && this.onPointerEnter();
+    this.onPointerEnter && this.onPointerEnter(this.vgPointerEnter);
   }
 
   //--------------------End of mouse enter -------------------//
@@ -102,7 +102,7 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
       this.vgPointerLeave?.element?.from as HTMLElement,
       this.vgPointerLeave,
     );
-    this.onPointerLeave && this.onPointerLeave();
+    this.onPointerLeave && this.onPointerLeave(this.vgPointerLeave);
   }
 
   //------------------End of mouse Leave ---------//
@@ -129,7 +129,7 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
       this.vgPointerDown?.element?.from as HTMLElement,
       this.vgPointerDown,
     );
-    this.onPointerDown && this.onPointerDown();
+    this.onPointerDown && this.onPointerDown(this.vgPointerDown);
   }
   //--------------end of mouse Down----------
 
@@ -153,7 +153,7 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
       this.vgPointerUp?.element?.from as HTMLElement,
       this.vgPointerUp,
     );
-    this.onPointerUp && this.onPointerUp();
+    this.onPointerUp && this.onPointerUp(this.vgPointerUp);
   }
   //--------------end of mouse Up----------
 
@@ -174,10 +174,10 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
   triggerMouseClick(mouseInit: MouseEventInit, props: IGestureCustomProps) {
     this.vgPointerClick = new VgPointerClick(mouseInit, props);
     this.dispatch(
-      this.vgPointerClick?.element?.from as HTMLElement,
+      this.vgPointerClick?.element?.clickElement as HTMLElement,
       this.vgPointerClick,
     );
-    this.onPointerClick && this.onPointerClick();
+    this.onPointerClick && this.onPointerClick(this.vgPointerClick);
   }
   //--------------end of mouse Click----------
 
@@ -201,7 +201,7 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
       this.vgPointerDrop?.element?.from as HTMLElement,
       this.vgPointerDrop,
     );
-    this.onPointerDrop && this.onPointerDrop();
+    this.onPointerDrop && this.onPointerDrop(this.vgPointerDrop);
   }
   //--------------end of mouse Drop----------
 
@@ -225,7 +225,7 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
       this.vgPointerDrag?.element?.from as HTMLElement,
       this.vgPointerDrag,
     );
-    this.onPointerDrag && this.onPointerDrag();
+    this.onPointerDrag && this.onPointerDrag(this.vgPointerDrag);
   }
   //--------------end of mouse Drag----------
 }
