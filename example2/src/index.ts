@@ -2,7 +2,7 @@ import { HandLandmarkerResult } from "@mediapipe/tasks-vision";
 import GUI from "lil-gui";
 import Stats from "stats.js";
 import { Chart } from "chart.js";
-import { Main } from "visual-gestures/src/index";
+import { Main } from "@learn-hunger/visual-gestures/src/index";
 import { EVgMouseEvents } from "../../src/app/utilities/vg-constants";
 import { detect, loadWeights } from "./services/handLandmarks";
 import { enableWebcam } from "./utils/camera";
@@ -312,9 +312,9 @@ function initialiseDebugControls() {
     debug();
     DebugGraph.initialiseGraph();
   } else {
-    // const webcamElement=document.getElementById("webcam");
-    // webcamElement!.style.display="none";
-    // debugGraphRef.style.display='none';
+    const webcamElement = document.getElementById("webcam");
+    webcamElement!.style.display = "none";
+    debugGraphRef.style.display = "none";
     gui.hide();
   }
 }

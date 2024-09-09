@@ -1,5 +1,5 @@
 {
-  "name": "visual-gestures",
+  "name": "@learn-hunger/visual-gestures",
   "version": "0.0.4",
   "description": "A package for visulisation ,especially for landmarks",
   "main": "src/index.ts",
@@ -15,7 +15,7 @@
     "prettier-write": "npx prettier . --write",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "example": "npx http-server",
-    "clone": "npm link && cd example2 && npm link visual-gestures",
+    "clone": "npm link && cd example2 && npm link @learn-hunger/visual-gestures",
     "b": "npm run build:esnext && npm run clone",
     "list-links": "npm ls -g --depth=0"
   },

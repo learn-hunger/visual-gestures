@@ -9,7 +9,7 @@ green='\033[0;32m ✔ '
 reset_color='\033[0m'
 reset_color='\033[0m'
 
-branch_pattern="^(feature|bugfix|hotfix|release|maintenance|experiment|doc|refactor|integration|personal)/.*|^(main|master|develop|stage|prod)$"
+branch_pattern="^(feature|bugfix|hotfix|release|maintenance|experiment|doc|refactor|integration|personal)/.*|^(main|master|develop|stage|prod|website)$"
 branch_name="$(git branch --show-current)"
 branch_error_msg="${red}* invalid branch name$reset_color"
 branch_name_syntax="${blue}* syntax : <prefix></><description>\n* only supports branch name with prefix pattern: \n ${branch_pattern}$reset_color"

@@ -75,7 +75,6 @@ export class VgPointer extends AVgPointerEvents {
 
   trigger() {
     this.isPointerDown();
-    getElementCoordinatesFromLandmark;
     if (this.mouseDown == false) {
       this.triggerMouseMove(this.mouseInit, this.getProps);
 
@@ -86,6 +85,7 @@ export class VgPointer extends AVgPointerEvents {
     }
     // }
   }
+
   public state!: number;
   public state2!: number;
   private isPointerDown() {
@@ -115,6 +115,7 @@ export class VgPointer extends AVgPointerEvents {
       }
     }
   }
+
   private testSpace() {
     this.staticEventsInitialiser();
     this.isDown();
