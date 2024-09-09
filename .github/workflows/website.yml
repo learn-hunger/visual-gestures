@@ -20,8 +20,7 @@ jobs:
           node-version: 20
       - name: "build"
         run: |
-          npm install
-          npm run build
+          npm run deploy
       - name: "deploy"
         uses: amondnet/vercel-action@v25.2.0 #deploy
         with:
@@ -30,6 +29,6 @@ jobs:
           # vercel-args: '--prod' #Optional
           vercel-org-id: ${{ secrets.ORG_ID}} #Required
           vercel-project-id: ${{ secrets.PROJECT_ID}} #Required
-          working-directory: ./dist
+          working-directory: ./example2/dist
           alias-domains: | #Optional
             visual-gestures.vercel.app
