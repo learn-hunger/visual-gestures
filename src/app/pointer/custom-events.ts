@@ -74,15 +74,15 @@ export class VgPointer extends AVgPointerEvents {
   }
 
   trigger() {
-    this.isPointerDown();
-    if (this.mouseDown == false) {
-      this.triggerMouseMove(this.mouseInit, this.getProps);
+    // this.isPointerDown();
+    // if (this.mouseDown == false) {
+    this.triggerMouseMove(this.mouseInit, this.getProps);
 
-      this.setElement = document.elementFromPoint(
-        this.mouseInit.clientX!,
-        this.mouseInit.clientY!,
-      );
-    }
+    this.setElement = document.elementFromPoint(
+      this.mouseInit.clientX!,
+      this.mouseInit.clientY!,
+    );
+    // }
     // }
   }
 

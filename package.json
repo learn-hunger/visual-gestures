@@ -1,13 +1,15 @@
 {
-  "name": "@learn-hunger/visual-gestures",
+  "name": "visual-gestures-test",
   "version": "0.0.4",
   "description": "A package for visulisation ,especially for landmarks",
-  "main": "src/index.ts",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:amd": "tsc --project tsconfig.amd.json",
-    "build:esnext": "tsc --project tsconfig.esnext.json",
-    "build": "npm run build:amd && npm run build:esnext",
+    "build": "tsc --project tsconfig.esnext.json",
+    "build:both": "npm run build:amd && npm run build:esnext",
     "config": "git config core.hooksPath .githooks",
     "linting": "ts-node ./.npm_colab/index.ts './.npm_colab/test.ts'",
     "prettier-check": "npx prettier . --check",
@@ -17,7 +19,7 @@
     "clone": "npm link && cd example2 && npm link @learn-hunger/visual-gestures",
     "b": "npm run build:esnext && npm run clone",
     "list-links": "npm ls -g --depth=0",
-    "deploy": "cd example2 && npm i && cd ../ && npm i && npm run clone && cd example2 && npm run build"
+    "check-build": "cd example2 && npm i && cd ../ && npm i && npm run clone && cd example2 && npm run build"
   },
   "repository": {
     "type": "git",

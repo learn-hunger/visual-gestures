@@ -1,6 +1,6 @@
-name: "CI/CD NPM"
+name: "VISUAL GESTURES CI/CD"
 
-on: 
+on:
   pull_request:
     branches: [main]
   push:
@@ -9,76 +9,117 @@ permissions:
   contents: write
   pull-requests: write
 jobs:
-    publish:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "checkout"
+        uses: actions/checkout@v2
+      - name: "node"
+        uses: actions/setup-node@v3.8.1
+        with:
+          node-version: 20
+      - name: "build"
+        run: |
+          npm install
+          npm run check-build
+  get_version:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "configuring git"
+        run: |
+          git config --global user.email "${{github.actor}}@users.noreply.github.com"
+          git config --global user.name "${{github.actor}}"
+      - name: "get-tagging"
+        id: tagging
+        run: |
+          # Fetch all tags from the origin
+          git fetch --tags
+
+          # Get the list of all tags, sorted by version (most recent last)
+          all_tags=$(git tag --sort=-v:refname)
+
+          # Check if there are any tags available
+          if [ -z "$all_tags" ]; then
+              echo "No tags found. Starting with version v0.0.0."
+              latest_tag="v0.0.0"
+          else
+              # Take the last tag from the sorted list as the latest one
+              latest_tag=$(echo "$all_tags" | head -n 1)
+              echo "Latest tag found: $latest_tag"
+          fi
+
+          # Extract major, minor, and patch versions
+          IFS='.' read -r major minor patch <<< "${latest_tag#v}"
+
+          # Increment the version
+          if [ $patch -lt 9 ]; then
+              patch=$((patch + 1))
+          elif [ $minor -lt 9 ]; then
+              minor=$((minor + 1))
+              patch=0  # Reset patch to 0 when incrementing minor
+          else
+              major=$((major + 1))
+              minor=0  # Reset minor to 0 when incrementing major
+              patch=0  # Reset patch to 0 when incrementing major
+          fi
+
+          # Create the new tag
+          new_version="$major.$minor.$patch"
+          new_tag="$new_version"
+          echo "New tag: $new_tag"
+
+          # Set output for GitHub Actions (if used)
+          echo "::set-output name=tag::$new_tag"
+
+          # Optionally, create the new tag in git
+          # git tag $new_tag
+          # git push origin $new_tag
+  release_github:
+    needs: [get_version, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Release to github"
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ steps.tagging.outputs.tag }}"
+          body_path: CHANGELOG.MD
+        # files: |
+        #   ${{env.release_path}}index.js
+  publish_npm:
+    needs: [get_version, build]
+    runs-on: ubuntu-latest
+    env:
+      main_source_path: "./"
+      release_path: "dist/"
+      sample: "2"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: node
+        uses: actions/setup-node@v3.8.1
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+      - name: "publish"
+        run: |
+          npm version ${{ needs.get_version.outputs.tag }} --no-git-tag-version
+          npm publish --access public
         env:
-          main_source_path: "./"
-          release_path: "dist/"
-          sample: "2"
-        steps:
-            - name: checkout
-              uses: actions/checkout@v3
-            - name: node
-              uses: actions/setup-node@v3.8.1
-              with:
-                  node-version: 20
-                  registry-url: https://registry.npmjs.org
-            - name : "configuring git"
-              run: |
-                git config --global user.email "${{github.actor}}@users.noreply.github.com"
-                git config --global user.name "${{github.actor}}"
-            - name : "install_dependencies"
-              run: npm install
-              working-directory: ${{env.main_source_path}}
-            - name : "check build"
-              run: npm pack --dry-run
-              working-directory: ${{env.main_source_path}}
-            - name : "versioning"
-              id: versioning
-              run: |
-                # based on repo
-                # repository="${{github.repository}}"                
-                # IFS='/' read -ra parts <<< "${repository}"
-                # existing_version=$(npm view "${parts[1]}" version) 
-                package_name=$(node -e "console.log(require('./package.json').name)")
-                existing_version=$(npm view "${package_name}" version) 
-                echo "::set-output name=version::${existing_version}"
-                npm version "$existing_version" --no-git-tag-version
-                npm version patch --no-git-tag-version
-              working-directory: ${{env.main_source_path}}
-            - name : "build"
-              run: npm run build
-              working-directory: ${{env.main_source_path}}
-            - name : "publish" 
-              run: npm publish --access public
-              working-directory: ${{env.main_source_path}}
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_PVSCREATIONS}}
-    release:
-      needs: [publish]
-      runs-on: ubuntu-latest
-      env:
-        main_source_path: "./"
-        release_path: "dist/"
-      steps:
-          - name: checkout
-            uses: actions/checkout@v3
-          - name: node
-            uses: actions/setup-node@v3.8.1
-            with:
-                node-version: 20
-          - name: "getVersion"
-            id: versioning
-            run: |
-              package_name=$(node -e "console.log(require('./package.json').name)")
-              latest_version=$(npm view "${package_name}" version) 
-              echo "::set-output name=version::${latest_version}"
-            working-directory: ${{env.main_source_path}}
-          - name: "Release"
-            uses: softprops/action-gh-release@v2
-            with:
-              tag_name: ${{ steps.versioning.outputs.version }}
-              files: |
-                ${{env.release_path}}index.js                
-            env:
-                GITHUB_TOKEN: ${{ secrets.PAT }}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+  deploy_vercel:
+    needs: [get_version, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "deploy"
+        uses: amondnet/vercel-action@v25.2.0 #deploy
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+          # github-token: ${{ secrets.PAT }} #Optional
+          # vercel-args: '--prod' #Optional
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} #Required
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required
+          working-directory: ./dist
+          alias-domains: | #Optional
+            visual-gestures-test.vercel.app
