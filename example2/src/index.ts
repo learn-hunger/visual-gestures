@@ -2,7 +2,7 @@ import { HandLandmarkerResult } from "@mediapipe/tasks-vision";
 import GUI from "lil-gui";
 import Stats from "stats.js";
 import { Chart } from "chart.js";
-import { Main } from "@learn-hunger/visual-gestures/src/index";
+import { Main } from "visual-gestures-test/src/index";
 import { EVgMouseEvents } from "../../src/app/utilities/vg-constants";
 import { detect, loadWeights } from "./services/handLandmarks";
 import { enableWebcam } from "./utils/camera";
