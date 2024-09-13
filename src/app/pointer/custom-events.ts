@@ -20,11 +20,17 @@ export class VgPointer extends AVgPointerEvents {
   structuredLandmarks!: VgHandLandmarksDTO;
   mouseDown: boolean = false;
   upElement!: HTMLElement;
+
   palmHeight?: number;
   fingerHeight?: number;
+  wristDepth?: number;  // Future Scope
+
   fingerKinkRatio?: number;
   stateID?: number;
+  decaWindowPointer?: number;
 
+  decaWindow: [number | null, number | null, number | null, number | null, number | null] = [null, null, null, null, null];
+  tipWindow: [INormalizedLandmark | null, INormalizedLandmark | null, INormalizedLandmark | null, INormalizedLandmark | null, INormalizedLandmark | null] = [null, null, null, null, null];
   kinkWindow: [number | null, number | null] = [null, null];
   motionWindow: [INormalizedLandmark, INormalizedLandmark] = [null!, null!]; // INDEX_MCP, INDEX_MCP
   downWindow: [INormalizedLandmark, INormalizedLandmark] = [null!, null!];
@@ -74,161 +80,97 @@ export class VgPointer extends AVgPointerEvents {
   }
 
   trigger() {
-    this.isPointerDown();
-    if (this.mouseDown == false) {
-      this.triggerMouseMove(this.mouseInit, this.getProps);
+    // this.isPointerDown();
+    // if (this.mouseDown == false) {
+    //   this.triggerMouseMove(this.mouseInit, this.getProps);
 
-      this.setElement = document.elementFromPoint(
-        this.mouseInit.clientX!,
-        this.mouseInit.clientY!,
-      );
-    }
+    //   this.setElement = document.elementFromPoint(
+    //     this.mouseInit.clientX!,
+    //     this.mouseInit.clientY!,
+    //   );
     // }
+    
+    this.testSpace();
   }
 
-  public state!: number;
-  public state2!: number;
-  private isPointerDown() {
-    const landmark = this.props.structuredLandmarks?.data.INDEX;
-    const mcp = landmark?.MCP.y;
-    const tip = landmark?.TIP.y;
-    const toElement = this.props.element;
-    if (mcp && tip && this.props.time && toElement && toElement.to) {
-      const deltaTime = this.props.time.deltaTime;
-      const manDist = (mcp - tip) / deltaTime;
-      const elementState = toElement.to as HTMLElement;
-      if (manDist < 0.002) {
-        console.log(this.upElement, "mouseDown");
-        this.mouseDown = true;
-      } else if (manDist > 0.002) {
-        console.log(this.upElement, "mouseUp");
-        if (elementState == this.upElement && this.mouseDown == true) {
-          console.log("click", elementState);
-          this.props.element!.clickElement = this.upElement;
-          this.triggerMouseClick(this.mouseInit, this.getProps);
-        } else if (this.mouseDown == true) {
-          //mouse drag
-          console.log("click fail", elementState, this.upElement);
-        }
-        this.upElement = toElement.to as HTMLElement;
-        this.mouseDown = false;
-      }
-    }
-  }
+  // public state!: number;
+  // public state2!: number;
+  // private isPointerDown() {
+  //   const landmark = this.props.structuredLandmarks?.data.INDEX;
+  //   const mcp = landmark?.MCP.y;
+  //   const tip = landmark?.TIP.y;
+  //   const toElement = this.props.element;
+  //   if (mcp && tip && this.props.time && toElement && toElement.to) {
+  //     const deltaTime = this.props.time.deltaTime;
+  //     const manDist = (mcp - tip) / deltaTime;
+  //     const elementState = toElement.to as HTMLElement;
+  //     if (manDist < 0.002) {
+  //       console.log(this.upElement, "mouseDown");
+  //       this.mouseDown = true;
+  //     } else if (manDist > 0.002) {
+  //       console.log(this.upElement, "mouseUp");
+  //       if (elementState == this.upElement && this.mouseDown == true) {
+  //         console.log("click", elementState);
+  //         this.props.element!.clickElement = this.upElement;
+  //         this.triggerMouseClick(this.mouseInit, this.getProps);
+  //       } else if (this.mouseDown == true) {
+  //         //mouse drag
+  //         console.log("click fail", elementState, this.upElement);
+  //       }
+  //       this.upElement = toElement.to as HTMLElement;
+  //       this.mouseDown = false;
+  //     }
+  //   }
+  // }
 
   private testSpace() {
+
     this.staticEventsInitialiser();
-    this.isDown();
-    // console.log(this.isDown(),"check pointer down")
-    this.isPointerUp(); // ___________ Pseudo Event
-    this.isPointerClick();
-    this.isPointerDrag();
-    this.isPointerDrop();
+    this.pseudoDown();
+    // this.pseudoUp();
+    
 
-    // // Initital state no event == PointerMove event
-    if (this.stateID == 0) {
-      this.downWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
-      this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
+    if(this.stateID==1){
 
-      // console.log("DDDDDDDDDDDDDDDD", this.stateID, this.downWindow);
-      // const { x, y } = getElementCoordinatesFromLandmark(
-      //   this.downWindow[0],
-      //   this.props.sizes!,
-      // );
-      // this.mouseInit.clientX = x;
-      // this.mouseInit.clientY = y;
+      // Track the current position of hand to determine click vs. drop
+      this.motionWindow[1]= this.structuredLandmarks.data["INDEX"].MCP;
 
-      // // console.log();
-
-      // this.triggerMouseMove(this.mouseInit, this.getProps);
-      // this.setElement = document.elementFromPoint(x, y);
-    }
-
-    // Pointer down state
-    else if (this.stateID == 1) {
-      // console.log("NNNNNNNNNNNNNNNNNNNNNNNN", this.downWindow);
-      // console.log("check down here")
-      // const { x, y } = getElementCoordinatesFromLandmark(
-      //   this.downWindow[0],
-      //   this.props.sizes!,
-      // );
+      console.log("________________Down - DOwn - DOwn");
+      // Freezing the cursor
+      const { x, y } = getElementCoordinatesFromLandmark(
+        this.tipWindow[0],
+        this.props.sizes!,
+      );
       // console.log(document.elementsFromPoint(x,y),"elements")
-      // this.mouseInit.clientX = x;
-      // this.mouseInit.clientY = y;
-      // console.log("MMMMMMMMMMMMMM", this.motionWindow );
-      // this.triggerMouseMove(this.mouseInit, this.getProps);
-      // this.setElement = document.elementFromPoint(x, y);
+      this.mouseInit.clientX = x;
+      this.mouseInit.clientY = y;
+
+      this.triggerMouseDown(this.mouseInit, this.getProps);
+      this.setElement = document.elementFromPoint(
+        this.mouseInit.clientX!,
+        this.mouseInit.clientY!
+      );
+
+      console.log( "DOWNNNNNNNNNNNNNNN", this.setElement);
     }
 
-    // // Pointer drag state
-    else if (this.stateID == 2) {
-      // console.log("RRRRRRRRRRRRRRRRRRRRRRRRRRRR", this.motionWindow);
-      // const { x:x1,y:y1 } = getElementCoordinatesFromLandmark(
-      //   this.motionWindow[1],
-      //   this.props.sizes!,
-      // );
-      // const { x:x2, x:y2 } = getElementCoordinatesFromLandmark(
-      //   this.downWindow[0],
-      //   this.props.sizes!,
-      // );
-      // const { x:x3, x:y3 } = getElementCoordinatesFromLandmark(
-      //   this.motionWindow[0],
-      //   this.props.sizes!,
-      // );
-      // this.mouseInit.clientX = x1+ (x2-x3);
-      // this.mouseInit.clientY = y1+ (y2-y3);
-      // console.log("_____________________",y1, (y3-y2), this.mouseInit.clientY);
-      // console.log("____________________")
-      // this.triggerMouseMove(this.mouseInit, this.getProps);
+    this.pseudoClick();
+
+
+    if(this.stateID==0){
+
+      this.motionWindow[0]= this.structuredLandmarks.data["INDEX"].MCP;
+      this.motionWindow[1]= null;
+
+      this.triggerMouseMove(this.mouseInit, this.getProps);
+      this.setElement = document.elementFromPoint(
+        this.mouseInit.clientX!,
+        this.mouseInit.clientY!
+      );
     }
-
-    // // Pointer drop state
-    else if (this.stateID == 3) {
-      console.log("DROP");
-      // const { x, y } = getElementCoordinatesFromLandmark(
-      //   this.downWindow[0],
-      //   this.props.sizes!,
-      // );
-      // this.mouseInit.clientX = x;
-      // this.mouseInit.clientY = y;
-
-      // this.triggerMouseMove(this.mouseInit, this.getProps);
-
-      this.stateID = 0;
-
-      // Acces the corresponding element where the real-time element is dropped
-      // this.setElement = document.elementFromPoint(x, y);
-    }
-
-    // // Pointer click state (executes only once) and then goes to aove move state
-    else if (this.stateID == 4) {
-      this.stateID = 0;
-
-      // console.log("DDDDDDDDDDDDDDDD", this.stateID, this.downWindow);
-      // const { x, y } = getElementCoordinatesFromLandmark(
-      //   this.downWindow[0],
-      //   this.props.sizes!,
-      // );
-      // this.mouseInit.clientX = x;
-      // this.mouseInit.clientY = y;
-
-      // console.log();
-
-      // this.triggerMouseMove(this.mouseInit, this.getProps);
-      // this.setElement = document.elementFromPoint(x, y);
-
-      this.downWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
-      this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
-    }
-
-    // if ( this.isPointerMove()) {
-    //   const { x, y } = getElementCoordinatesFromLandmark(
-    //     this.downWindow[0],
-    //     this.props.sizes!,
-    //   );
-    //   this.mouseInit.clientX = x;
-    //   this.mouseInit.clientY = y;
-  }
+    
+}
+    
 
   private isPointerMove(): boolean {
     if (
@@ -237,6 +179,139 @@ export class VgPointer extends AVgPointerEvents {
     ) {
       return true;
     }
+    return false;
+  }
+
+  private pseudoDown(): boolean {
+    if (
+      this.structuredLandmarks &&
+         this.fingerKinkRatio &&
+        // ____________ Not Required: this.downWindow[0] != null  &&
+        // ____________ Not Required: this.downWindow[1] == null &&
+       // this.motionWindow[0] != null &&
+        // _____________Not Required: this.motionWindow[1] == null //&&
+  
+        // weightedEuclideanDistance(
+        //   this.motionWindow[0],
+        //   this.structuredLandmarks.data["INDEX"].MCP,
+        //   [1, 1],
+        // ) < 0.08 && 
+
+        this.stateID==0
+    ){
+    
+      if( this.decaWindowPointer < 4){
+
+          this.decaWindow[ this.decaWindowPointer + 1] = this.fingerKinkRatio;
+          this.tipWindow[ this.decaWindowPointer+ 1]= this.structuredLandmarks.data['INDEX'].TIP;
+
+          this.decaWindowPointer= this.decaWindowPointer+1;
+
+          // console.log("__________________+++++", this.decaWindow, this.decaWindowPointer);
+
+          if(this.decaWindow[0]-this.decaWindow[this.decaWindowPointer] >= 200){
+
+            this.motionWindow[0]= this.structuredLandmarks.data["INDEX"].MCP;
+            this.stateID= 1;
+            return true;
+          }
+        }
+      else if(this.decaWindowPointer==4){
+
+        this.decaWindow[0]= this.decaWindow[1];
+        this.decaWindow[1]= this.decaWindow[2];
+        this.decaWindow[2]= this.decaWindow[3];
+        this.decaWindow[3]= this.decaWindow[4];
+        this.decaWindow[4]= this.fingerKinkRatio;
+
+
+        this.tipWindow[0]= this.tipWindow[1];
+        this.tipWindow[1]= this.tipWindow[2];
+        this.tipWindow[2]= this.tipWindow[3];
+        this.tipWindow[3]= this.tipWindow[4];
+        this.tipWindow[4]= this.structuredLandmarks.data['INDEX'].TIP;
+
+        if(this.decaWindow[0]-this.decaWindow[4] >= 200){
+          this.motionWindow[0]= this.structuredLandmarks.data["INDEX"].MCP;
+          this.stateID= 1;
+          return true;
+        }
+      }
+    return false; 
+  }
+}
+
+  private pseudoUp(): boolean{
+
+
+  if( this.stateID==1){
+
+      this.decaWindow[0]= this.decaWindow[1];
+      this.decaWindow[1]= this.decaWindow[2];
+      this.decaWindow[2]= this.decaWindow[3];
+      this.decaWindow[3]= this.decaWindow[4];
+      this.decaWindow[4]= this.fingerKinkRatio;
+
+      if(this.decaWindow[ this.decaWindowPointer]-this.decaWindow[0] >= 200){
+
+        console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+        return true;
+
+      } 
+      
+    }
+    return false;
+  }
+
+  private pseudoClick(): boolean{
+
+    if(
+      this.stateID== 1 &&
+      this.pseudoUp() &&
+      weightedEuclideanDistance(
+        this.motionWindow[0],
+        this.motionWindow[1],
+        [1, 1],
+      ) < 0.08
+    ){
+
+      const { x, y } = getElementCoordinatesFromLandmark(
+          this.tipWindow[0],
+          this.props.sizes!,
+      );
+
+
+    
+
+      console.log(document.elementsFromPoint(x,y),"elements")
+      
+      this.mouseInit.clientX = x;
+      this.mouseInit.clientY = y;
+
+      this.triggerMouseUp(this.mouseInit, this.getProps);
+
+      this.triggerMouseClick(this.mouseInit, this.getProps);
+
+      // this.setElement = document.elementFromPoint(x, y);
+      console.log("CLicked", this.setElement );
+
+      this.decaWindow[0]= this.decaWindow[1];
+      this.decaWindow[1]= this.decaWindow[2];
+      this.decaWindow[2]= this.decaWindow[3];
+      this.decaWindow[3]= this.decaWindow[4];
+      this.decaWindow[4]= this.fingerKinkRatio;
+
+
+      this.tipWindow[0]= this.tipWindow[1];
+      this.tipWindow[1]= this.tipWindow[2];
+      this.tipWindow[2]= this.tipWindow[3];
+      this.tipWindow[3]= this.tipWindow[4];
+      this.tipWindow[4]= this.structuredLandmarks.data['INDEX'].TIP;
+
+      this.stateID= 0;
+
+      return true;
+      }
     return false;
   }
 
@@ -461,7 +536,9 @@ export class VgPointer extends AVgPointerEvents {
 
     this.fingerKinkRatio = (1000 * this.fingerHeight) / this.palmHeight;
 
-    // console.log("_____________", this.fingerKinkRatio);
+    // console.log("_____________", );
+
+
     // Very first instance of detection
     if (this.kinkWindow[0] == null && this.kinkWindow[1] == null) {
       this.stateID = 0;
@@ -475,7 +552,18 @@ export class VgPointer extends AVgPointerEvents {
       // console.log("_____________________VERY FIRST INITIALIZATION");
     }
 
-    // console.log("state: ", this.stateID);
+    if( this.decaWindowPointer== undefined){
+      this.decaWindowPointer= 0;
+      this.decaWindow[ this.decaWindowPointer ]= this.fingerKinkRatio;
+      this.tipWindow[ this.decaWindowPointer ]= this.structuredLandmarks.data["INDEX"].TIP;
+    }
+
+    // if (this.decaWindow[0]== null && this.decaWindow[1]== null && this.decaWindow[2]== null && this.decaWindow[3]== null && this.decaWindow[4]== null){
+
+      
+
+    // }
+  
   }
   private get getProps(): IGestureCustomProps {
     this.props.calc = {
