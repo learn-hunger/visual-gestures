@@ -23,16 +23,31 @@ export class VgPointer extends AVgPointerEvents {
 
   palmHeight?: number;
   fingerHeight?: number;
-  wristDepth?: number;  // Future Scope
+  wristDepth?: number; // Future Scope
 
-  fingerKinkRatio?: number;
+  fingerKinkRatio!: number;
   stateID?: number;
-  decaWindowPointer?: number;
+  decaWindowPointer!: number;
 
-  decaWindow: [number | null, number | null, number | null, number | null, number | null] = [null, null, null, null, null];
-  tipWindow: [INormalizedLandmark | null, INormalizedLandmark | null, INormalizedLandmark | null, INormalizedLandmark | null, INormalizedLandmark | null] = [null, null, null, null, null];
+  decaWindow: [
+    number | null,
+    number | null,
+    number | null,
+    number | null,
+    number | null,
+  ] = [null, null, null, null, null];
+  tipWindow: [
+    INormalizedLandmark | null,
+    INormalizedLandmark | null,
+    INormalizedLandmark | null,
+    INormalizedLandmark | null,
+    INormalizedLandmark | null,
+  ] = [null, null, null, null, null];
   kinkWindow: [number | null, number | null] = [null, null];
-  motionWindow: [INormalizedLandmark, INormalizedLandmark] = [null!, null!]; // INDEX_MCP, INDEX_MCP
+  motionWindow: [INormalizedLandmark | null, INormalizedLandmark | null] = [
+    null!,
+    null!,
+  ]; // INDEX_MCP, INDEX_MCP
   downWindow: [INormalizedLandmark, INormalizedLandmark] = [null!, null!];
 
   constructor() {
@@ -89,7 +104,7 @@ export class VgPointer extends AVgPointerEvents {
     //     this.mouseInit.clientY!,
     //   );
     // }
-    
+
     this.testSpace();
   }
 
@@ -124,23 +139,20 @@ export class VgPointer extends AVgPointerEvents {
   // }
 
   private testSpace() {
-
     this.staticEventsInitialiser();
     this.pseudoDown();
     // this.pseudoUp();
-    
 
-    if(this.stateID==1){
-
+    if (this.stateID == 1) {
       // Track the current position of hand to determine click vs. drop
-      this.motionWindow[1]= this.structuredLandmarks.data["INDEX"].MCP;
+      this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
 
-      console.log("________________Down - DOwn - DOwn");
       // Freezing the cursor
       const { x, y } = getElementCoordinatesFromLandmark(
-        this.tipWindow[0],
+        this.tipWindow[0]!,
         this.props.sizes!,
       );
+      console.log("________________Down - DOwn - DOwn", this.getElement(x, y));
       // console.log(document.elementsFromPoint(x,y),"elements")
       this.mouseInit.clientX = x;
       this.mouseInit.clientY = y;
@@ -148,29 +160,25 @@ export class VgPointer extends AVgPointerEvents {
       this.triggerMouseDown(this.mouseInit, this.getProps);
       this.setElement = document.elementFromPoint(
         this.mouseInit.clientX!,
-        this.mouseInit.clientY!
+        this.mouseInit.clientY!,
       );
 
-      console.log( "DOWNNNNNNNNNNNNNNN", this.setElement);
+      console.log("DOWNNNNNNNNNNNNNNN", this.setElement);
     }
 
     this.pseudoClick();
 
-
-    if(this.stateID==0){
-
-      this.motionWindow[0]= this.structuredLandmarks.data["INDEX"].MCP;
-      this.motionWindow[1]= null;
+    if (this.stateID == 0) {
+      this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
+      this.motionWindow[1] = null;
 
       this.triggerMouseMove(this.mouseInit, this.getProps);
       this.setElement = document.elementFromPoint(
         this.mouseInit.clientX!,
-        this.mouseInit.clientY!
+        this.mouseInit.clientY!,
       );
     }
-    
-}
-    
+  }
 
   private isPointerMove(): boolean {
     if (
@@ -185,133 +193,128 @@ export class VgPointer extends AVgPointerEvents {
   private pseudoDown(): boolean {
     if (
       this.structuredLandmarks &&
-         this.fingerKinkRatio &&
-        // ____________ Not Required: this.downWindow[0] != null  &&
-        // ____________ Not Required: this.downWindow[1] == null &&
-       // this.motionWindow[0] != null &&
-        // _____________Not Required: this.motionWindow[1] == null //&&
-  
-        // weightedEuclideanDistance(
-        //   this.motionWindow[0],
-        //   this.structuredLandmarks.data["INDEX"].MCP,
-        //   [1, 1],
-        // ) < 0.08 && 
+      this.fingerKinkRatio &&
+      // ____________ Not Required: this.downWindow[0] != null  &&
+      // ____________ Not Required: this.downWindow[1] == null &&
+      // this.motionWindow[0] != null &&
+      // _____________Not Required: this.motionWindow[1] == null //&&
 
-        this.stateID==0
-    ){
-    
-      if( this.decaWindowPointer < 4){
+      // weightedEuclideanDistance(
+      //   this.motionWindow[0],
+      //   this.structuredLandmarks.data["INDEX"].MCP,
+      //   [1, 1],
+      // ) < 0.08 &&
 
-          this.decaWindow[ this.decaWindowPointer + 1] = this.fingerKinkRatio;
-          this.tipWindow[ this.decaWindowPointer+ 1]= this.structuredLandmarks.data['INDEX'].TIP;
+      this.stateID == 0
+    ) {
+      if (this.decaWindowPointer < 4) {
+        this.decaWindow[this.decaWindowPointer + 1] = this.fingerKinkRatio;
+        this.tipWindow[this.decaWindowPointer + 1] =
+          this.structuredLandmarks.data["INDEX"].TIP;
 
-          this.decaWindowPointer= this.decaWindowPointer+1;
+        this.decaWindowPointer = this.decaWindowPointer + 1;
 
-          // console.log("__________________+++++", this.decaWindow, this.decaWindowPointer);
+        // console.log("__________________+++++", this.decaWindow, this.decaWindowPointer);
 
-          if(this.decaWindow[0]-this.decaWindow[this.decaWindowPointer] >= 200){
-
-            this.motionWindow[0]= this.structuredLandmarks.data["INDEX"].MCP;
-            this.stateID= 1;
-            return true;
-          }
+        if (
+          this.decaWindow[0] != null &&
+          this.decaWindow[0] - this.decaWindow[this.decaWindowPointer]! >= 200
+        ) {
+          this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
+          this.stateID = 1;
+          return true;
         }
-      else if(this.decaWindowPointer==4){
+      } else if (this.decaWindowPointer == 4) {
+        this.decaWindow[0] = this.decaWindow[1];
+        this.decaWindow[1] = this.decaWindow[2];
+        this.decaWindow[2] = this.decaWindow[3];
+        this.decaWindow[3] = this.decaWindow[4];
+        this.decaWindow[4] = this.fingerKinkRatio;
 
-        this.decaWindow[0]= this.decaWindow[1];
-        this.decaWindow[1]= this.decaWindow[2];
-        this.decaWindow[2]= this.decaWindow[3];
-        this.decaWindow[3]= this.decaWindow[4];
-        this.decaWindow[4]= this.fingerKinkRatio;
+        this.tipWindow[0] = this.tipWindow[1];
+        this.tipWindow[1] = this.tipWindow[2];
+        this.tipWindow[2] = this.tipWindow[3];
+        this.tipWindow[3] = this.tipWindow[4];
+        this.tipWindow[4] = this.structuredLandmarks.data["INDEX"].TIP;
 
-
-        this.tipWindow[0]= this.tipWindow[1];
-        this.tipWindow[1]= this.tipWindow[2];
-        this.tipWindow[2]= this.tipWindow[3];
-        this.tipWindow[3]= this.tipWindow[4];
-        this.tipWindow[4]= this.structuredLandmarks.data['INDEX'].TIP;
-
-        if(this.decaWindow[0]-this.decaWindow[4] >= 200){
-          this.motionWindow[0]= this.structuredLandmarks.data["INDEX"].MCP;
-          this.stateID= 1;
+        if (this.decaWindow[0]! - this.decaWindow[4] >= 200) {
+          this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP;
+          this.stateID = 1;
           return true;
         }
       }
-    return false; 
-  }
-}
-
-  private pseudoUp(): boolean{
-
-
-  if( this.stateID==1){
-
-      this.decaWindow[0]= this.decaWindow[1];
-      this.decaWindow[1]= this.decaWindow[2];
-      this.decaWindow[2]= this.decaWindow[3];
-      this.decaWindow[3]= this.decaWindow[4];
-      this.decaWindow[4]= this.fingerKinkRatio;
-
-      if(this.decaWindow[ this.decaWindowPointer]-this.decaWindow[0] >= 200){
-
-        console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
-        return true;
-
-      } 
-      
+      return false;
     }
     return false;
   }
 
-  private pseudoClick(): boolean{
+  private pseudoUp(): boolean {
+    if (this.stateID == 1) {
+      this.decaWindow[0] = this.decaWindow[1];
+      this.decaWindow[1] = this.decaWindow[2];
+      this.decaWindow[2] = this.decaWindow[3];
+      this.decaWindow[3] = this.decaWindow[4];
+      this.decaWindow[4] != this.fingerKinkRatio;
 
-    if(
-      this.stateID== 1 &&
+      if (
+        this.decaWindow[this.decaWindowPointer]! - this.decaWindow[0]! >=
+        200
+      ) {
+        console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private pseudoClick(): boolean {
+    if (
+      this.stateID == 1 &&
       this.pseudoUp() &&
       weightedEuclideanDistance(
-        this.motionWindow[0],
-        this.motionWindow[1],
+        this.motionWindow[0]!,
+        this.motionWindow[1]!,
         [1, 1],
       ) < 0.08
-    ){
-
+    ) {
       const { x, y } = getElementCoordinatesFromLandmark(
-          this.tipWindow[0],
-          this.props.sizes!,
+        this.tipWindow[0]!,
+        this.props.sizes!,
       );
 
+      //get the element
+      if (!this.props.element) {
+        this.props.element = {};
+      }
+      this.props.element.clickElement = this.getElement(x, y);
+      // console.log(document.elementsFromPoint(x,y),"elements")
 
-    
-
-      console.log(document.elementsFromPoint(x,y),"elements")
-      
-      this.mouseInit.clientX = x;
-      this.mouseInit.clientY = y;
+      // this.mouseInit.clientX = x;
+      // this.mouseInit.clientY = y;
 
       this.triggerMouseUp(this.mouseInit, this.getProps);
 
       this.triggerMouseClick(this.mouseInit, this.getProps);
 
       // this.setElement = document.elementFromPoint(x, y);
-      console.log("CLicked", this.setElement );
+      console.log("CLicked", this.props.element.clickElement);
 
-      this.decaWindow[0]= this.decaWindow[1];
-      this.decaWindow[1]= this.decaWindow[2];
-      this.decaWindow[2]= this.decaWindow[3];
-      this.decaWindow[3]= this.decaWindow[4];
-      this.decaWindow[4]= this.fingerKinkRatio;
+      this.decaWindow[0] = this.decaWindow[1];
+      this.decaWindow[1] = this.decaWindow[2];
+      this.decaWindow[2] = this.decaWindow[3];
+      this.decaWindow[3] = this.decaWindow[4];
+      this.decaWindow[4] = this.fingerKinkRatio;
 
+      this.tipWindow[0] = this.tipWindow[1];
+      this.tipWindow[1] = this.tipWindow[2];
+      this.tipWindow[2] = this.tipWindow[3];
+      this.tipWindow[3] = this.tipWindow[4];
+      this.tipWindow[4] = this.structuredLandmarks.data["INDEX"].TIP;
 
-      this.tipWindow[0]= this.tipWindow[1];
-      this.tipWindow[1]= this.tipWindow[2];
-      this.tipWindow[2]= this.tipWindow[3];
-      this.tipWindow[3]= this.tipWindow[4];
-      this.tipWindow[4]= this.structuredLandmarks.data['INDEX'].TIP;
-
-      this.stateID= 0;
+      this.stateID = 0;
 
       return true;
-      }
+    }
     return false;
   }
 
@@ -538,7 +541,6 @@ export class VgPointer extends AVgPointerEvents {
 
     // console.log("_____________", );
 
-
     // Very first instance of detection
     if (this.kinkWindow[0] == null && this.kinkWindow[1] == null) {
       this.stateID = 0;
@@ -552,18 +554,16 @@ export class VgPointer extends AVgPointerEvents {
       // console.log("_____________________VERY FIRST INITIALIZATION");
     }
 
-    if( this.decaWindowPointer== undefined){
-      this.decaWindowPointer= 0;
-      this.decaWindow[ this.decaWindowPointer ]= this.fingerKinkRatio;
-      this.tipWindow[ this.decaWindowPointer ]= this.structuredLandmarks.data["INDEX"].TIP;
+    if (this.decaWindowPointer == undefined) {
+      this.decaWindowPointer = 0;
+      this.decaWindow[this.decaWindowPointer] = this.fingerKinkRatio;
+      this.tipWindow[this.decaWindowPointer] =
+        this.structuredLandmarks.data["INDEX"].TIP;
     }
 
     // if (this.decaWindow[0]== null && this.decaWindow[1]== null && this.decaWindow[2]== null && this.decaWindow[3]== null && this.decaWindow[4]== null){
 
-      
-
     // }
-  
   }
   private get getProps(): IGestureCustomProps {
     this.props.calc = {
@@ -572,5 +572,14 @@ export class VgPointer extends AVgPointerEvents {
       relativeDist2D: this.relativeDist2D,
     };
     return this.props;
+  }
+
+  private getElement(x: number, y: number): Element {
+    const element = document.elementsFromPoint(x, y);
+    if (element[0] != this.props.cursorElement) {
+      return element[0];
+    } else {
+      return element[1];
+    }
   }
 }
