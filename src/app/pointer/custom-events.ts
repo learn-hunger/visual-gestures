@@ -24,7 +24,7 @@ export class VgPointer extends AVgPointerEvents {
   palmHeight?: number;
   fingerHeight?: number;
 
-  fingerKinkRatio?: number;
+  fingerKinkRatio!: number;
   stateID?: number;
   decaWindowPointer?: number; // Variable that is used to track the current index of deca, and tip windows
 
@@ -86,7 +86,7 @@ export class VgPointer extends AVgPointerEvents {
     //     this.mouseInit.clientY!,
     //   );
     // }
-    
+
     this.testSpace();
   }
 
@@ -388,8 +388,8 @@ export class VgPointer extends AVgPointerEvents {
       (
         this.stateID== 2 &&
       weightedEuclideanDistance(
-        this.motionWindow[0],
-        this.motionWindow[1],
+        this.motionWindow[0]!,
+        this.motionWindow[1]!,
         [1, 1],
       ) < 0.08
       ) 
@@ -442,7 +442,7 @@ export class VgPointer extends AVgPointerEvents {
       this.stateID= 0;  // Update the stateID to '0' denoting 'move' as the current operation and 'click' operation is completed
 
       return true;
-      }
+    }
     return false;
   }
 
@@ -605,5 +605,14 @@ export class VgPointer extends AVgPointerEvents {
       relativeDist2D: this.relativeDist2D,
     };
     return this.props;
+  }
+
+  private getElement(x: number, y: number): Element {
+    const element = document.elementsFromPoint(x, y);
+    if (element[0] != this.props.cursorElement) {
+      return element[0];
+    } else {
+      return element[1];
+    }
   }
 }
