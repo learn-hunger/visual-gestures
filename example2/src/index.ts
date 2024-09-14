@@ -10,8 +10,15 @@ import { AnalyticsTagManager } from "./services/types/vg-analytics";
 import { EAnalyticsData, EAnalyticsEvents, gameVar } from "./utils/constants";
 import { eventsListeners } from "./events";
 import { DebugGraph } from "./graph";
+import { INormalizedLandmark } from "../../src/app/utilities/vg-types-handlandmarks";
+import { ETensorflow } from "@learn-hunger/visualise-data-kit/src/utils/constants/canvas/constants";
+import { Canvas } from "@learn-hunger/visualise-data-kit/src/blueprints/canvas/canvas";
+import { invertLandmarks } from "@learn-hunger/visualise-data-kit/src/utils/functions";
 let webcamElement: HTMLVideoElement;
 let debugGraphRef: HTMLCanvasElement;
+let visualCanvasRef: HTMLCanvasElement;
+let visualCanvas: Canvas;
+
 /**
  * monitoring
  */
@@ -26,6 +33,12 @@ export const debugObject = {
   showDebug: true,
   showGraph: true,
   showMonitor: true,
+  landmarks: {
+    drawLandmarks: true,
+    pointColor: "green",
+    lineColor: "green",
+    showLabel: false,
+  },
   resetGraph: DebugGraph.resetChart,
 };
 const gui = new GUI({
@@ -38,6 +51,9 @@ export function initialiseDetection(webcamRef: HTMLVideoElement) {
   debugGraphRef = document.getElementById("debugGraphRef") as HTMLCanvasElement;
   vg.showCursor = false; //to not show cursor at loader
   webcamElement = webcamRef;
+  visualCanvasRef = document.getElementById(
+    "visualGraphRef",
+  ) as HTMLCanvasElement;
   initialiseDebugControls();
   initialiseEventListeners();
   if (webcamElement) {
@@ -83,6 +99,9 @@ function startDetection() {
     statsFps.begin();
     landmarks = detect(webcamElement);
     const pointer = landmarks?.landmarks[0];
+    if (pointer && debugObject.landmarks.drawLandmarks) {
+      drawOnCanvas(pointer);
+    }
     // if (pointer) {
     try {
       vg.detect(pointer, performance.now(), debugObject.cursorSpeed);
@@ -126,6 +145,10 @@ function enterTheExperience() {
   };
   const onEnterExperience = (event: KeyboardEvent) => {
     if (event.key === "Enter") {
+      AnalyticsTagManager.sendEvents({
+        event: EAnalyticsEvents[EAnalyticsEvents.ENTER_INTO_EXPERIENCE],
+        data: "entered using enter",
+      });
       onClickExperience();
       document.removeEventListener("keydown", onEnterExperience);
     }
@@ -133,10 +156,19 @@ function enterTheExperience() {
 
   //check weather it is for debug , if so just show the dashboard screen
   const url = window.location.hash;
-  if (url == "#debug") {
+  if (url.includes("#debug")) {
+    AnalyticsTagManager.sendEvents({
+      event: EAnalyticsEvents[EAnalyticsEvents.ENTER_INTO_DEBUG_MODE],
+    });
     onClickExperience();
   } else {
-    loadedText!.onclick = onClickExperience;
+    loadedText!.onclick = () => {
+      AnalyticsTagManager.sendEvents({
+        event: EAnalyticsEvents[EAnalyticsEvents.ENTER_INTO_EXPERIENCE],
+        data: "entered using click",
+      });
+      onClickExperience();
+    };
     document.addEventListener("keydown", onEnterExperience);
   }
 }
@@ -147,6 +179,7 @@ function debug() {
   });
   const cam = gui.addFolder("camera Controls");
   const cursor = gui.addFolder("cursor Controls");
+  const landmarks = gui.addFolder("landmarks");
   const debugGraph = gui.addFolder("debug graph");
   const monitor = document.getElementById("monitor");
   cam.add(debugObject, "showVideo").onChange(() => {
@@ -161,12 +194,21 @@ function debug() {
   });
 
   cursor.add(debugObject, "cursorSpeed").max(2).min(1).step(0.1);
+
+  //landmarks
+  landmarks.add(debugObject.landmarks, "drawLandmarks").onChange(() => {
+    visualCanvas.clear();
+  });
+  landmarks.add(debugObject.landmarks, "showLabel");
+
+  landmarks.addColor(debugObject.landmarks, "pointColor");
+  landmarks.addColor(debugObject.landmarks, "lineColor");
+
   //debug graph
   debugGraph.add(debugObject, "showGraph").onChange((toggle: boolean) => {
     debugGraphRef.style.display = toggle ? "block" : "none";
   });
   debugGraph.add(debugObject, "resetGraph");
-  // gui.close();
 }
 
 function monitor() {
@@ -307,7 +349,7 @@ function testSpace() {
 }
 function initialiseDebugControls() {
   const url = window.location.hash;
-  if (url == "#debug") {
+  if (url.includes("#debug")) {
     monitor();
     debug();
     DebugGraph.initialiseGraph();
@@ -315,15 +357,38 @@ function initialiseDebugControls() {
     const webcamElement = document.getElementById("webcam");
     webcamElement!.style.display = "none";
     debugGraphRef.style.display = "none";
+    (debugObject.showVideo = false),
+      (debugObject.showDebug = false),
+      (debugObject.showGraph = false),
+      (debugObject.showMonitor = false),
+      (debugObject.landmarks.drawLandmarks = false);
     gui.hide();
   }
 }
 
+function drawOnCanvas(landmarks: INormalizedLandmark[]) {
+  landmarks = invertLandmarks(landmarks, "x");
+  if (!visualCanvas) {
+    visualCanvas = new Canvas(visualCanvasRef, webcamElement);
+    visualCanvas.useWorker = { canvasWorkerPath: "canvas-worker.js" };
+  }
+  visualCanvas.clear();
+  visualCanvas.setShowAllLabels = debugObject.landmarks.showLabel;
+  visualCanvas.draw({
+    type: ETensorflow.HAND,
+    dataPoints: landmarks,
+    landmarksStyle: {
+      point: { color: debugObject.landmarks.pointColor },
+      line: { color: debugObject.landmarks.lineColor },
+    },
+  });
+}
 function destory() {
   const removeEventListeners = () => {
     window.removeEventListener("loadeddata", enterTheExperience);
     vg.dispose();
     vg.mouseEvents.dispose();
+    visualCanvas.destroy();
   };
 
   // Object.values(document.getElementsByClassName("contents") as HTMLCollectionOf<HTMLElement>).forEach((folder)=>{

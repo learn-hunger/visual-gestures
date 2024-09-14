@@ -7,3 +7,8 @@ docs
 publish
 __snapshot__
 .github
+example
+example2
+.vercel
+.vscode
+.githooks

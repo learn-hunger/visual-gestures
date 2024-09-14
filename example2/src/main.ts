@@ -16,6 +16,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 <div id="container">
     <video id="webcam" width="100%" height="100%" autoplay></video>
     <canvas id="debugGraphRef"></canvas>
+    <canvas id="visualGraphRef"></canvas>
     <div id="folders" >
         <img class="contents folders" src="experience/folder.png" alt="" draggable="true">
         <img class="contents folders" src="experience/folder.png" alt="" draggable="true">
