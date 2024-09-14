@@ -20,15 +20,15 @@ jobs:
           node-version: 20
       - name: "build"
         run: |
-          npm run deploy
+          npm run check-build
       - name: "deploy"
         uses: amondnet/vercel-action@v25.2.0 #deploy
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           # github-token: ${{ secrets.PAT }} #Optional
           # vercel-args: '--prod' #Optional
-          vercel-org-id: ${{ secrets.ORG_ID}} #Required
-          vercel-project-id: ${{ secrets.PROJECT_ID}} #Required
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} #Required
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required
           working-directory: ./example2/dist
           alias-domains: | #Optional
-            visual-gestures.vercel.app
+            visual-gestures-dev.vercel.app

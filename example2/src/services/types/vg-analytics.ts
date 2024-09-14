@@ -161,6 +161,9 @@ export class AnalyticsTagManager {
    */
   private static destory() {
     const removeEventListeners = () => {
+      this.sendEvents({
+        event: EAnalyticsCommonErrors[EAnalyticsCommonErrors.LEFT_PAGE],
+      });
       window.removeEventListener(
         "unhandledrejection",
         this.unhandledAsyncRejections,
@@ -183,4 +186,5 @@ enum EAnalyticsCommonErrors {
   UNHANDLED_ASYNCHRONOUS_ERRORS,
   HANDLED_ERRORS,
   WARNINGS,
+  LEFT_PAGE,
 }

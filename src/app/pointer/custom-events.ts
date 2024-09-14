@@ -26,11 +26,26 @@ export class VgPointer extends AVgPointerEvents {
 
   fingerKinkRatio!: number;
   stateID?: number;
-  decaWindowPointer?: number; // Variable that is used to track the current index of deca, and tip windows
+  decaWindowPointer!: number; // Variable that is used to track the current index of deca, and tip windows
 
-  decaWindow: [number, number, number, number, number] = [null!, null!, null!, null!, null!]; // Window to track fingerKinkRatio
-  tipWindow: [INormalizedLandmark, INormalizedLandmark, INormalizedLandmark, INormalizedLandmark, INormalizedLandmark] = [null!, null!, null!, null!, null!]; // Window to track tip of Index finger
-  motionWindow: [INormalizedLandmark, INormalizedLandmark] = [null!, null!]; // INDEX_MCP, INDEX_MCP
+  decaWindow: [
+    number | null,
+    number | null,
+    number | null,
+    number | null,
+    number | null,
+  ] = [null, null, null, null, null]; // Window to track fingerKinkRatio
+  tipWindow: [
+    INormalizedLandmark | null,
+    INormalizedLandmark | null,
+    INormalizedLandmark | null,
+    INormalizedLandmark | null,
+    INormalizedLandmark | null,
+  ] = [null, null, null, null, null]; // Window to track tip of Index finger
+  motionWindow: [INormalizedLandmark | null, INormalizedLandmark | null] = [
+    null,
+    null,
+  ]; // INDEX_MCP, INDEX_MCP
 
   constructor() {
     super();
@@ -121,8 +136,6 @@ export class VgPointer extends AVgPointerEvents {
   // }
 
   private testSpace() {
-
-
     /***
      * stateID: flag indicating current operation
      * If stateID==0 then move operation
@@ -131,7 +144,6 @@ export class VgPointer extends AVgPointerEvents {
      * else if stateID==3 then drag operation
      * else if stateID==4 them drag+up= drop operation
      */
-
 
     // Executes during every time-frame to generate structuredLandmarks
     this.staticEventsInitialiser();
@@ -148,12 +160,11 @@ export class VgPointer extends AVgPointerEvents {
     this.pseudoDrop();
 
     // Move Operation
-    if(this.stateID==0){
-
+    if (this.stateID == 0 && this.tipWindow[0]) {
       console.log("___________No Action");
 
       const { x, y } = getElementCoordinatesFromLandmark(
-        this.tipWindow[0],      // This contains the INormalizedLandmark which corresponds to the movement of cursor
+        this.tipWindow[0], // This contains the INormalizedLandmark which corresponds to the movement of cursor
         this.props.sizes!,
       );
       this.mouseInit.clientX = x;
@@ -162,26 +173,20 @@ export class VgPointer extends AVgPointerEvents {
     }
 
     // Cursor control during drag operation
-    if( this.stateID== 3){
-
+    if (this.stateID == 3) {
       const { x, y } = getElementCoordinatesFromLandmark(
-          this.tipWindow[ this.decaWindowPointer ],   // This contains the INormalizedLandmark which corresponds to the movement of cursor
-          this.props.sizes!,
+        this.tipWindow[this.decaWindowPointer]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
+        this.props.sizes!,
       );
-      
+
       this.mouseInit.clientX = x;
       this.mouseInit.clientY = y;
 
       this.triggerMouseDrag(this.mouseInit, this.getProps);
 
-      console.log("____________Drag", document.elementsFromPoint(x,y));
-
+      console.log("____________Drag", document.elementsFromPoint(x, y));
     }
-    
-  
-    
-}
-    
+  }
 
   private isPointerMove(): boolean {
     if (
@@ -194,252 +199,229 @@ export class VgPointer extends AVgPointerEvents {
   }
 
   private pseudoDown(): boolean {
+    if (this.structuredLandmarks && this.fingerKinkRatio && this.stateID == 0) {
+      // Significant decrement in FKR is observed
+      if (
+        this.decaWindow[0] &&
+        this.decaWindow[0] - this.fingerKinkRatio >= 200
+      ) {
+        /**
+         * this.decaWindow[0] contains INormalizedLandmark coordinates where down operation is triggered
+         */
 
-    if (
+        this.decaWindow[1] = this.fingerKinkRatio; // Freeze the FKR at which down is triggered in 1th-index
 
-      this.structuredLandmarks &&
-      this.fingerKinkRatio &&
-      this.stateID==0
-    
-    ){
-        
-        // Significant decrement in FKR is observed
-        if( this.decaWindow[0]-this.fingerKinkRatio >= 200 ){
+        // Nullify the entire decaWindow after 1th- index
+        this.decaWindow[2] = null;
+        this.decaWindow[3] = null;
+        this.decaWindow[4] = null;
 
-          /**
-           * this.decaWindow[0] contains INormalizedLandmark coordinates where down operation is triggered
-           */
+        this.tipWindow[1] = this.structuredLandmarks.data["INDEX"].TIP; // Freeze the (x,y) of index_tip at which down is triggered in 1th-index
 
-          this.decaWindow[1]= this.fingerKinkRatio;   // Freeze the FKR at which down is triggered in 1th-index
+        // Nullify the entire tipWindow after 1th- index
+        this.tipWindow[2] = null;
+        this.tipWindow[3] = null;
+        this.tipWindow[4] = null;
 
-          // Nullify the entire decaWindow after 1th- index
-          this.decaWindow[2]= null; 
-          this.decaWindow[3]= null; 
-          this.decaWindow[4]= null; 
+        this.decaWindowPointer = 1; // Update the pointer pointing to current index
 
-          this.tipWindow[1]= this.structuredLandmarks.data["INDEX"].TIP;  // Freeze the (x,y) of index_tip at which down is triggered in 1th-index
+        this.stateID = 1; // Update the stateID to '1' denoting 'down' operation
 
-          // Nullify the entire tipWindow after 1th- index
-          this.tipWindow[2]= null; 
-          this.tipWindow[3]= null; 
-          this.tipWindow[4]= null; 
+        this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP; // Freeze the motionWindow[0] with INormalizedLandmark of INDEX.MCP at instance where down operation is triggered
+        this.motionWindow[1] = null; // Nullify the motionWindow[0] to store the successive INormalizedLandmarks of INDEX.MCP
 
-          this.decaWindowPointer= 1;  // Update the pointer pointing to current index
+        const { x, y } = getElementCoordinatesFromLandmark(
+          this.tipWindow[0]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
+          this.props.sizes!,
+        );
+        this.mouseInit.clientX = x;
+        this.mouseInit.clientY = y;
+        this.triggerMouseDown(this.mouseInit, this.getProps);
 
-          this.stateID= 1;  // Update the stateID to '1' denoting 'down' operation
+        console.log("_________Down ", document.elementsFromPoint(x, y));
 
-          this.motionWindow[0]= this.structuredLandmarks.data["INDEX"].MCP; // Freeze the motionWindow[0] with INormalizedLandmark of INDEX.MCP at instance where down operation is triggered
-          this.motionWindow[1]= null; // Nullify the motionWindow[0] to store the successive INormalizedLandmarks of INDEX.MCP
-
-          const { x, y } = getElementCoordinatesFromLandmark(
-              this.tipWindow[0],    // This contains the INormalizedLandmark which corresponds to the movement of cursor
-              this.props.sizes!,
-            );
-            this.mouseInit.clientX = x;
-            this.mouseInit.clientY = y;
-          this.triggerMouseDown(this.mouseInit, this.getProps);
-
-          console.log("_________Down ", document.elementsFromPoint(x,y));
-
-          return true;
-        }
-
-        // Significant decrement in FKR is not observed
-        else{
-
-          // decaWindow is not completely filled
-          if( this.decaWindowPointer<4){
-
-            this.decaWindowPointer= this.decaWindowPointer+1; // Increment the decaWindowPointer
-
-            this.decaWindow[ this.decaWindowPointer]= this.fingerKinkRatio; // Append current FKR to decaWindow
-            this.tipWindow[ this.decaWindowPointer]= this.structuredLandmarks.data["INDEX"].TIP;  // Append current INDEX.TIP to tipWindow
-
-          }
-
-          // decaWindow is completely filled
-          else if( this.decaWindowPointer==4){
-
-            // Take copy of values of decaWindow into variables
-            var a= this.decaWindow[1];
-            var b= this.decaWindow[2];
-            var c= this.decaWindow[3]
-            var d= this.decaWindow[4];
-
-            // Update the decaWindow shifting one-index left
-            this.decaWindow[0]= a;
-            this.decaWindow[1]= b;
-            this.decaWindow[2]= c;
-            this.decaWindow[3]= d;
-            this.decaWindow[4]= this.fingerKinkRatio; // Update decaWindow[4] with current FKR
-
-            // Take copy of values of tipWindow into variables
-            const p= this.tipWindow[1];
-            const q= this.tipWindow[2];
-            const r= this.tipWindow[3];
-            const s= this.tipWindow[4];
-
-            // Update the tipWindow shifting one-index left
-            this.tipWindow[0]= p;
-            this.tipWindow[1]= q;
-            this.tipWindow[2]= r;
-            this.tipWindow[3]= s;
-            this.tipWindow[4]= this.structuredLandmarks.data['INDEX'].TIP;  // Update tipWindow[4] with current INDEX.TIP
-
-            // Note: No need to update the decaWindowPointer, keep the value as '4' only [this.decaWindowPointer= 4;]
-
-          }
-
-          this.motionWindow[0]= this.structuredLandmarks.data["INDEX"].MCP; // Update the motionWindow[0] with current INormalizedLandmark of INDEX.MCP
-          this.motionWindow[1]= null; // Nullify the motionWindow[0] to store the successive INormalizedLandmark of INDEX.MCP
-          
-        }
-        return false; 
-      }
-      return false; 
-  }
-
-  private pseudoUp(): boolean{
-
-
-    if( this.stateID==1 || this.stateID==3){
-
-      this.motionWindow[1]= this.structuredLandmarks.data["INDEX"].MCP; // Update the motionWindow[0] with current INDEX.MCP
-
-      // Significant increment in FKR is observed
-      if(this.fingerKinkRatio - this.decaWindow[1] >= 200 ){
-
-        // If previous operation is 'drag'(stateID=3) then update stateID=4 (drop operation)
-        if(this.stateID==3){
-          this.stateID= 4;
-        }
-
-        // If previous operation is 'down'(stateID=1) then trigger stateID=2 (up operation)
-        else{
-          this.stateID= 2;
-        }
-
-        console.log("_____________UP", this.stateID);
-
+        return true;
       }
 
-      // Significant increment in FKR is not observed
-      else{
-
+      // Significant decrement in FKR is not observed
+      else {
         // decaWindow is not completely filled
-        if(this.decaWindowPointer<4){
+        if (this.decaWindowPointer < 4) {
+          this.decaWindowPointer = this.decaWindowPointer + 1; // Increment the decaWindowPointer
 
-          this.decaWindowPointer= this.decaWindowPointer+1; // Increment the decaWindowPointer
-
-          this.decaWindow[ this.decaWindowPointer]= this.fingerKinkRatio; // Append current FKR to decaWindow
-          this.tipWindow[ this.decaWindowPointer]= this.structuredLandmarks.data["INDEX"].TIP;  // Append current INDEX.TIP to tipWindow
-          this.motionWindow[1]= this.structuredLandmarks.data["INDEX"].MCP; // Nullify the motionWindow[0] to store the successive INormalizedLandmarks of INDEX.MCP
-
+          this.decaWindow[this.decaWindowPointer] = this.fingerKinkRatio; // Append current FKR to decaWindow
+          this.tipWindow[this.decaWindowPointer] =
+            this.structuredLandmarks.data["INDEX"].TIP; // Append current INDEX.TIP to tipWindow
         }
 
         // decaWindow is completely filled
-        else if( this.decaWindowPointer== 4){
-         
+        else if (this.decaWindowPointer == 4) {
           // Take copy of values of decaWindow into variables
-          var a= this.decaWindow[3];
-          var b= this.decaWindow[4];
+          var a = this.decaWindow[1];
+          var b = this.decaWindow[2];
+          var c = this.decaWindow[3];
+          var d = this.decaWindow[4];
 
           // Update the decaWindow shifting one-index left
-          this.decaWindow[2]= a;
-          this.decaWindow[3]= b;
-          this.decaWindow[4]= this.fingerKinkRatio; // Update decaWindow[4] with current FKR
+          this.decaWindow[0] = a;
+          this.decaWindow[1] = b;
+          this.decaWindow[2] = c;
+          this.decaWindow[3] = d;
+          this.decaWindow[4] = this.fingerKinkRatio; // Update decaWindow[4] with current FKR
 
           // Take copy of values of tipWindow into variables
-          const p= this.tipWindow[3];
-          const q= this.tipWindow[4];
+          const p = this.tipWindow[1];
+          const q = this.tipWindow[2];
+          const r = this.tipWindow[3];
+          const s = this.tipWindow[4];
 
           // Update the tipWindow shifting one-index left
-          this.tipWindow[2]= p;
-          this.tipWindow[3]= q;
-          this.tipWindow[4]= this.structuredLandmarks.data['INDEX'].TIP;  // Update tipWindow[4] with current INDEX.TIP
+          this.tipWindow[0] = p;
+          this.tipWindow[1] = q;
+          this.tipWindow[2] = r;
+          this.tipWindow[3] = s;
+          this.tipWindow[4] = this.structuredLandmarks.data["INDEX"].TIP; // Update tipWindow[4] with current INDEX.TIP
 
           // Note: No need to update the decaWindowPointer, keep the value as '4' only [this.decaWindowPointer= 4;]
-          
-
-          // Cursor control during drag operation
-          if(this.stateID==3){
-            const { x, y } = getElementCoordinatesFromLandmark( 
-                this.tipWindow[ this.decaWindowPointer],    // This contains the INormalizedLandmark which corresponds to the movement of cursor
-                this.props.sizes!,
-            );
-      
-            
-            this.mouseInit.clientX = x;
-            this.mouseInit.clientY = y;
-      
-            this.triggerMouseMove(this.mouseInit, this.getProps);
-          }
         }
 
+        this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP; // Update the motionWindow[0] with current INormalizedLandmark of INDEX.MCP
+        this.motionWindow[1] = null; // Nullify the motionWindow[0] to store the successive INormalizedLandmark of INDEX.MCP
       }
-    
+      return false;
     }
     return false;
   }
 
-  private pseudoClick(): boolean{
+  private pseudoUp(): boolean {
+    if (this.stateID == 1 || this.stateID == 3) {
+      this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP; // Update the motionWindow[0] with current INDEX.MCP
 
-    if(
-      (
-        this.stateID== 2 &&
-      weightedEuclideanDistance(
-        this.motionWindow[0]!,
-        this.motionWindow[1]!,
-        [1, 1],
-      ) < 0.08
-      ) 
-        || 
-      (
-        this.stateID== 4 &&
+      // Significant increment in FKR is observed
+      if (
+        this.decaWindow[1] &&
+        this.fingerKinkRatio - this.decaWindow[1] >= 200
+      ) {
+        // If previous operation is 'drag'(stateID=3) then update stateID=4 (drop operation)
+        if (this.stateID == 3) {
+          this.stateID = 4;
+        }
+
+        // If previous operation is 'down'(stateID=1) then trigger stateID=2 (up operation)
+        else {
+          this.stateID = 2;
+        }
+
+        console.log("_____________UP", this.stateID);
+      }
+
+      // Significant increment in FKR is not observed
+      else {
+        // decaWindow is not completely filled
+        if (this.decaWindowPointer < 4) {
+          this.decaWindowPointer = this.decaWindowPointer + 1; // Increment the decaWindowPointer
+
+          this.decaWindow[this.decaWindowPointer] = this.fingerKinkRatio; // Append current FKR to decaWindow
+          this.tipWindow[this.decaWindowPointer] =
+            this.structuredLandmarks.data["INDEX"].TIP; // Append current INDEX.TIP to tipWindow
+          this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP; // Nullify the motionWindow[0] to store the successive INormalizedLandmarks of INDEX.MCP
+        }
+
+        // decaWindow is completely filled
+        else if (this.decaWindowPointer == 4) {
+          // Take copy of values of decaWindow into variables
+          var a = this.decaWindow[3];
+          var b = this.decaWindow[4];
+
+          // Update the decaWindow shifting one-index left
+          this.decaWindow[2] = a;
+          this.decaWindow[3] = b;
+          this.decaWindow[4] = this.fingerKinkRatio; // Update decaWindow[4] with current FKR
+
+          // Take copy of values of tipWindow into variables
+          const p = this.tipWindow[3];
+          const q = this.tipWindow[4];
+
+          // Update the tipWindow shifting one-index left
+          this.tipWindow[2] = p;
+          this.tipWindow[3] = q;
+          this.tipWindow[4] = this.structuredLandmarks.data["INDEX"].TIP; // Update tipWindow[4] with current INDEX.TIP
+
+          // Note: No need to update the decaWindowPointer, keep the value as '4' only [this.decaWindowPointer= 4;]
+
+          // Cursor control during drag operation
+          if (this.stateID == 3) {
+            const { x, y } = getElementCoordinatesFromLandmark(
+              this.tipWindow[this.decaWindowPointer]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
+              this.props.sizes!,
+            );
+
+            this.mouseInit.clientX = x;
+            this.mouseInit.clientY = y;
+
+            this.triggerMouseMove(this.mouseInit, this.getProps);
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  private pseudoClick(): boolean {
+    if (
+      (this.stateID == 2 &&
+        weightedEuclideanDistance(
+          this.motionWindow[0]!,
+          this.motionWindow[1]!,
+          [1, 1],
+        ) < 0.08) ||
+      (this.stateID == 4 &&
+        this.motionWindow[0] &&
+        this.motionWindow[1] &&
         weightedEuclideanDistance(
           this.motionWindow[0],
           this.motionWindow[1],
           [1, 1],
-        ) < 0.08
-      )
-    ){
-
+        ) < 0.08)
+    ) {
       const { x, y } = getElementCoordinatesFromLandmark(
-          this.tipWindow[0],      // Contains the INormalizedLandmark which corresponds to the movement of cursor
-          this.props.sizes!,
+        this.tipWindow[0]!, // Contains the INormalizedLandmark which corresponds to the movement of cursor
+        this.props.sizes!,
       );
 
-      
-      this.mouseInit.clientX = x;
-      this.mouseInit.clientY = y;
+      // this.mouseInit.clientX = x;
+      // this.mouseInit.clientY = y;
+      if (!this.props.element) {
+        this.props.element = {};
+      }
+      this.props.element.clickElement = this.getElement(x, y);
 
       this.triggerMouseClick(this.mouseInit, this.getProps);
 
-      console.log("Click", document.elementsFromPoint(x,y));
-      
+      // console.log("Click", document.elementsFromPoint(x,y));
 
-      this.decaWindow[0]= this.fingerKinkRatio; // Update the decaWindow[0] with current FKR at instance where up operation is triggered
-
-      // Nullify the entire decawindow after 1th- index
-      this.decaWindow[1]= null; 
-      this.decaWindow[2]= null;
-      this.decaWindow[3]= null;
-      this.decaWindow[4]= null;
-
-      this.tipWindow[0]= this.structuredLandmarks.data["INDEX"].TIP;  // Update the tipWindow[0] with INDEX.TIP at instance where up operation is triggered
+      this.decaWindow[0] = this.fingerKinkRatio; // Update the decaWindow[0] with current FKR at instance where up operation is triggered
 
       // Nullify the entire decawindow after 1th- index
-      this.tipWindow[1]= null;
-      this.tipWindow[2]= null;
-      this.tipWindow[3]= null;
-      this.tipWindow[4]= null;
+      this.decaWindow[1] = null;
+      this.decaWindow[2] = null;
+      this.decaWindow[3] = null;
+      this.decaWindow[4] = null;
 
-      this.decaWindowPointer= 0;  // Update decaWindowPointer to '0'
+      this.tipWindow[0] = this.structuredLandmarks.data["INDEX"].TIP; // Update the tipWindow[0] with INDEX.TIP at instance where up operation is triggered
 
-      this.motionWindow[0]= this.structuredLandmarks.data["INDEX"].MCP; // Update the motionWindow[0] with current INormalizedLandmark of INDEX.MCP
-      this.motionWindow[1]= null; // Nullify the motionWindow[0] to store the successive INormalizedLandmark of INDEX.MCP
-      
-      this.stateID= 0;  // Update the stateID to '0' denoting 'move' as the current operation and 'click' operation is completed
+      // Nullify the entire decawindow after 1th- index
+      this.tipWindow[1] = null;
+      this.tipWindow[2] = null;
+      this.tipWindow[3] = null;
+      this.tipWindow[4] = null;
+
+      this.decaWindowPointer = 0; // Update decaWindowPointer to '0'
+
+      this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP; // Update the motionWindow[0] with current INormalizedLandmark of INDEX.MCP
+      this.motionWindow[1] = null; // Nullify the motionWindow[0] to store the successive INormalizedLandmark of INDEX.MCP
+
+      this.stateID = 0; // Update the stateID to '0' denoting 'move' as the current operation and 'click' operation is completed
 
       return true;
     }
@@ -447,16 +429,17 @@ export class VgPointer extends AVgPointerEvents {
   }
 
   private pseudoDrag(): boolean {
-    if(
-      this.stateID== 1 &&
+    if (
+      this.stateID == 1 &&
+      this.motionWindow[0] &&
+      this.motionWindow[1] &&
       weightedEuclideanDistance(
         this.motionWindow[0],
         this.motionWindow[1],
         [1, 1],
       ) > 0.08
-    ){
-
-        this.stateID= 3;  // Update the stateID to '3' denoting 'drag' operation
+    ) {
+      this.stateID = 3; // Update the stateID to '3' denoting 'drag' operation
 
         return true;
       }
@@ -464,27 +447,27 @@ export class VgPointer extends AVgPointerEvents {
   }
 
   private pseudoDrop(): boolean {
-
-    if( 
-      (this.stateID== 4 &&
-      weightedEuclideanDistance(
-        this.motionWindow[0],
-        this.motionWindow[1],
-        [1, 1],
-      ) > 0.08) ||
-      (
-        this.stateID== 2 &&
-       weightedEuclideanDistance(
-        this.motionWindow[0],
-        this.motionWindow[1],
-        [1, 1],
-      ) > 0.08)
-      )
-      {
-
+    if (
+      (this.stateID == 4 &&
+        this.motionWindow[0] &&
+        this.motionWindow[1] &&
+        weightedEuclideanDistance(
+          this.motionWindow[0],
+          this.motionWindow[1],
+          [1, 1],
+        ) > 0.08) ||
+      (this.stateID == 2 &&
+        this.motionWindow[0] &&
+        this.motionWindow[1] &&
+        weightedEuclideanDistance(
+          this.motionWindow[0],
+          this.motionWindow[1],
+          [1, 1],
+        ) > 0.08)
+    ) {
       const { x, y } = getElementCoordinatesFromLandmark(
-          this.tipWindow[ this.decaWindowPointer ],   // Contains the INormalizedLandmark which corresponds to the movement of cursor
-          this.props.sizes!,  
+        this.tipWindow[this.decaWindowPointer]!, // Contains the INormalizedLandmark which corresponds to the movement of cursor
+        this.props.sizes!,
       );
 
       this.mouseInit.clientX = x;
@@ -492,31 +475,30 @@ export class VgPointer extends AVgPointerEvents {
 
       this.triggerMouseDrop(this.mouseInit, this.getProps);
 
-      console.log("__________Dropped", document.elementsFromPoint(x,y) );
+      console.log("__________Dropped", document.elementsFromPoint(x, y));
 
-
-      this.decaWindow[0]= this.fingerKinkRatio;  // Update the decaWindow[0] with current FKR at instance where up operation is triggered
-
-      // Nullify the entire sliding window after 1th- index
-      this.decaWindow[1]= null;
-      this.decaWindow[2]= null;
-      this.decaWindow[3]= null;
-      this.decaWindow[4]= null;
-
-      this.tipWindow[0]= this.structuredLandmarks.data["INDEX"].TIP;  // Update the tipWindow[0] with INDEX.TIP at instance where up operation is triggered
+      this.decaWindow[0] = this.fingerKinkRatio; // Update the decaWindow[0] with current FKR at instance where up operation is triggered
 
       // Nullify the entire sliding window after 1th- index
-      this.tipWindow[1]= null;
-      this.tipWindow[2]= null;
-      this.tipWindow[3]= null;
-      this.tipWindow[4]= null;
+      this.decaWindow[1] = null;
+      this.decaWindow[2] = null;
+      this.decaWindow[3] = null;
+      this.decaWindow[4] = null;
 
-      this.decaWindowPointer= 0 // Update decaWindowPointer to '0'
+      this.tipWindow[0] = this.structuredLandmarks.data["INDEX"].TIP; // Update the tipWindow[0] with INDEX.TIP at instance where up operation is triggered
 
-      this.motionWindow[0]= this.structuredLandmarks.data["INDEX"].TIP;
-      this.motionWindow[1]= null;
+      // Nullify the entire sliding window after 1th- index
+      this.tipWindow[1] = null;
+      this.tipWindow[2] = null;
+      this.tipWindow[3] = null;
+      this.tipWindow[4] = null;
 
-      this.stateID= 0;  // Update the stateID to '0' denoting 'move' as the current operation and 'drop' operation is completed
+      this.decaWindowPointer = 0; // Update decaWindowPointer to '0'
+
+      this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].TIP;
+      this.motionWindow[1] = null;
+
+      this.stateID = 0; // Update the stateID to '0' denoting 'move' as the current operation and 'drop' operation is completed
 
       return true;
       }
@@ -581,22 +563,22 @@ export class VgPointer extends AVgPointerEvents {
       [0.5, 1],
     );
 
-    this.fingerKinkRatio = (1000 * this.fingerHeight) / this.palmHeight;  // Calculate FKR
+    this.fingerKinkRatio = (1000 * this.fingerHeight) / this.palmHeight; // Calculate FKR
 
-    if( this.decaWindowPointer== undefined){
-      this.tipWindow= [null!, null!, null!, null!, null!];
-      this.decaWindow= [null!, null!, null!, null!, null!];
-      this.motionWindow= [null!, null!];
+    if (this.decaWindowPointer == undefined) {
+      this.tipWindow = [null!, null!, null!, null!, null!];
+      this.decaWindow = [null!, null!, null!, null!, null!];
+      this.motionWindow = [null!, null!];
 
-      this.decaWindowPointer= 0;  // Initialize decaWindowPointer to 0th-index
-      this.decaWindow[ this.decaWindowPointer ]= this.fingerKinkRatio;  // Initialize the decaWindow with current FKR
-      this.tipWindow[ this.decaWindowPointer ]= this.structuredLandmarks.data["INDEX"].TIP; // Initialize the tipWindow to current INormalizedLandmarks of INDEX.TIP
+      this.decaWindowPointer = 0; // Initialize decaWindowPointer to 0th-index
+      this.decaWindow[this.decaWindowPointer] = this.fingerKinkRatio; // Initialize the decaWindow with current FKR
+      this.tipWindow[this.decaWindowPointer] =
+        this.structuredLandmarks.data["INDEX"].TIP; // Initialize the tipWindow to current INormalizedLandmarks of INDEX.TIP
 
-      this.motionWindow[0]= this.structuredLandmarks.data['INDEX'].MCP; // Initialize the motionWindow[0] with current INormalizedLandmarks of INDEX.MCP to track motion of hand
+      this.motionWindow[0] = this.structuredLandmarks.data["INDEX"].MCP; // Initialize the motionWindow[0] with current INormalizedLandmarks of INDEX.MCP to track motion of hand
 
-      this.stateID= 0;  // Initialize the stateID to '0' which denotes current operation as cursor-move 
+      this.stateID = 0; // Initialize the stateID to '0' which denotes current operation as cursor-move
     }
-
   }
   private get getProps(): IGestureCustomProps {
     this.props.calc = {
