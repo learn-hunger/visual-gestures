@@ -20,11 +20,11 @@ export function eventsListeners() {
       draggingElement = event.target as HTMLElement;
     };
     const folderClick = () => {
-      modalPreview!.innerHTML = "you clicked folder " + index;
+      modalPreview!.innerHTML = "Folder " + index;
       showModal();
     };
     const pdfClick = () => {
-      modalPreview!.innerHTML = "you clicked pdf " + Math.floor(index / 2);
+      modalPreview!.innerHTML = "PDF  " + Math.floor(index / 2);
       showModal();
     };
     const showModal = () => {

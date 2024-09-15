@@ -35,10 +35,10 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 </div>
 
 <div id="modal">
-    <div id="close">X close</div>
+    <div id="close">X &nbsp;&nbsp;&nbsp;Close</div>
     <div id="preview">
         <div id="preview-img">
-            <img src=""/>
+            <img id="modal-img" src="experience/modal-preview-img.png"/>
         </div>
         <p id="preview-content" alt="">hello world</p>
         <p id="preview-static-content">Clicked !</p>
