@@ -9,11 +9,12 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     </div>
     <div id="loader-txt-container">
         <p id="loader-txt">Loading....</p>
-        <button id="loaded-txt">Enter the Experience</button>
+        <button id="loaded-txt">Fly your mouse in air !</button>
     </div>
 </div>
 
 <div id="container">
+
     <video id="webcam" width="100%" height="100%" autoplay></video>
     <canvas id="debugGraphRef"></canvas>
     <canvas id="visualGraphRef"></canvas>

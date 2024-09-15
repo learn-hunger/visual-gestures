@@ -109,7 +109,10 @@ html,
 #dustbin {
   padding: 10px;
   box-sizing: border-box; /* Ensures padding doesn't affect width */
-  /* background-color: black; */
+  /* background-color: #000d41; */
+  /* background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%); */
+  background-image: linear-gradient(to top, #000d24 0%, #01306a 100%);
+  /* background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
 }
 
 #folders {
@@ -181,7 +184,7 @@ html,
 
 /* loader */
 #loader-container {
-  background-color: white;
+  background-color: #e6e6e6;
   width: 100%;
   height: 100vh;
   position: relative;
@@ -191,13 +194,13 @@ html,
 #loader-txt-container {
   bottom: 10%;
   width: 100%;
-  flex: 1;
+  flex: 4;
   /* position: absolute; */
 }
 
 #loader-txt,
 #loaded-txt {
-  color: black;
+  color: #000000;
   display: inline-block;
   padding: 5px;
   margin: auto;
@@ -207,20 +210,35 @@ html,
 
 #loaded-txt {
   cursor: pointer;
-  background-color: rgb(111, 154, 235);
-  color: white;
+  background-color: #e6e6e6;  /* #302fc2; */
+  border-color: #3b3be5;
+  color: #302fc2; /* #e6e6e6; */
+  font-family: "Comic Sans MS", "Comic Sans";
+  font-size: 150%;
+  bottom: 30%;
   display: none;
+  height: 70px;
+  width: 350px; /*18%;*/
 }
+
+#loaded-txt:hover {
+  background-color: #0a1066;
+  color: #ffffff;
+  border-color: #d6d6d6;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 #loader-img {
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height:300px;
   position: absolute;
   top: 50%;
   left: 50%;
+  margin-bottom: -5% ;
   transform: translate(-50%, -50%);
 }
 #loader-img-container {
-  flex: 3;
+  flex: 9;
   position: relative;
 }
 
