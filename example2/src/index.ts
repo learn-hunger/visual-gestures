@@ -361,6 +361,8 @@ function initialiseDebugControls() {
     monitor();
     debug();
     DebugGraph.initialiseGraph();
+    const container = document.getElementById("container");
+    container!.style.backgroundImage = "none";
   } else {
     const webcamElement = document.getElementById("webcam");
     webcamElement!.style.display = "none";

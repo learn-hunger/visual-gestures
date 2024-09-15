@@ -20,8 +20,8 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     <canvas id="visualGraphRef"></canvas>
     <div id="folders" >
         <img class="contents folders" src="experience/folder.png" alt="" draggable="true">
-        <img class="contents folders" src="experience/python-file.png" alt="" draggable="true">
         <img class="contents folders" src="experience/js-file.png" alt="" draggable="true">
+        <img class="contents folders" src="experience/python-file.png" alt="" draggable="true">
         <img class="contents pdf" src="experience/pdf.png" alt="" draggable="true">
         <img class="contents pdf" src="experience/html-file.png" alt="">
 

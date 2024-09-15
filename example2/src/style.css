@@ -87,7 +87,7 @@ html,
   width: 100%;
   height: 100vh;
   display: flex;
-
+  background-image: linear-gradient(to top, #000d24 0%, #01306a 100%);
   flex-flow: wrap;
 }
 
@@ -109,18 +109,19 @@ html,
 #dustbin {
   padding: 10px;
   box-sizing: border-box; /* Ensures padding doesn't affect width */
-  background-image: linear-gradient(to top, #000d24 0%, #01306a 100%);
 }
 
 #folders {
   flex: 4; /* 75% width */
   /* justify-content: start; */
   align-items: flex-start;
-
+  flex-flow: column;
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
   align-content: start;
+  padding: 70px;
+  height: 80%;
 }
 
 #dustbin {
@@ -130,13 +131,12 @@ html,
   display: flex;
   justify-content: center;
   position: relative;
-
   /* justify-items:end; */
 }
 
 .bin {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   position: absolute;
   left: 0;
   /* border: 2px solid green; */
@@ -144,13 +144,14 @@ html,
 
 #dustbin-container {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
+  bottom: 20%;
 }
 .contents {
   width: 100px;
   height: 100px;
-  margin: 10px;
+  margin: 20px;
 }
 
 /* Media query for mobile devices */
@@ -176,6 +177,7 @@ html,
   .contents {
     /* width:50px;
     height: 50px; */
+    margin: 10px;
   }
 }
 
@@ -245,15 +247,16 @@ html,
   position: absolute;
   bottom: 0%;
   left: 0;
-  z-index: -1;
+  z-index: 0;
   background-color: white;
   width: 50% !important;
+  height: 50% !important;
 }
 
 #visualGraphRef {
   width: 100%;
   height: 100%;
-  border: 2px solid red;
+  /* border: 2px solid red; */
   position: absolute;
   left: 0;
   top: 0;
@@ -281,7 +284,6 @@ html,
   display: none;
 }
 
-
 #close {
   color: black;
   position: absolute;
@@ -295,7 +297,7 @@ html,
   height: 55px;
   border-radius: 5px;
   /* padding: 5px; */
-  
+
   /* flex: 1; */
   cursor: pointer;
 }
@@ -321,7 +323,7 @@ html,
   flex: 4;
 }
 
-#modal-img{
+#modal-img {
   width: 90%;
 }
 #preview-content {
