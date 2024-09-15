@@ -95,38 +95,46 @@ export function initialiseDetection(webcamRef: HTMLVideoElement) {
 let lastVideoTime = -1;
 function startDetection() {
   let landmarks: HandLandmarkerResult | null = null;
-  if (lastVideoTime != webcamElement.currentTime) {
-    statsFps.begin();
-    landmarks = detect(webcamElement);
-    const pointer = landmarks?.landmarks[0];
-    if (pointer && debugObject.landmarks.drawLandmarks) {
-      drawOnCanvas(pointer);
-    }
-    // if (pointer) {
-    try {
-      vg.detect(pointer, performance.now(), debugObject.cursorSpeed);
-      //----------analytics logic being--------------------->
-      if (gameVar.firstClassification == false) {
-        AnalyticsTagManager.sendEvents({
-          event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_BEGIN],
-        });
-        gameVar.firstClassification = true;
+  try {
+    if (lastVideoTime != webcamElement.currentTime) {
+      statsFps.begin();
+      landmarks = detect(webcamElement);
+      const pointer = landmarks?.landmarks[0];
+      if (pointer && debugObject.landmarks.drawLandmarks) {
+        drawOnCanvas(pointer);
       }
-      //----------analytics logic end------------->
-    } catch (error: any) {
-      AnalyticsTagManager.sendEvents({
-        event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_ERROR],
-        error: error.stack,
-      });
+      // if (pointer) {
+      try {
+        vg.detect(pointer, performance.now(), debugObject.cursorSpeed);
+        //----------analytics logic being--------------------->
+        if (gameVar.firstClassification == false) {
+          AnalyticsTagManager.sendEvents({
+            event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_BEGIN],
+          });
+          gameVar.firstClassification = true;
+        }
+        //----------analytics logic end------------->
+      } catch (error: any) {
+        AnalyticsTagManager.sendEvents({
+          event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_ERROR],
+          error: error.stack,
+          data: "at visual gestures",
+        });
+      }
+      // } else {
+      //   //landmarks not detected
+      //   AnalyticsTagManager.sendData({
+      //     [EAnalyticsData[EAnalyticsData.LANDMARKS_NOT_DETECTED]]: "",
+      //   });
+      // }
+      statsFps.end();
+      lastVideoTime = webcamElement.currentTime;
     }
-    // } else {
-    //   //landmarks not detected
-    //   AnalyticsTagManager.sendData({
-    //     [EAnalyticsData[EAnalyticsData.LANDMARKS_NOT_DETECTED]]: "",
-    //   });
-    // }
-    statsFps.end();
-    lastVideoTime = webcamElement.currentTime;
+  } catch (error: any) {
+    AnalyticsTagManager.sendEvents({
+      event: EAnalyticsEvents[EAnalyticsEvents.CLASSIFICATION_ERROR],
+      error: error.stack,
+    });
   }
   window.requestAnimationFrame(startDetection);
 }
