@@ -26,7 +26,7 @@ export class VgPointer extends AVgPointerEvents {
 
   fingerKinkRatio!: number;
   stateID?: number;
-  decaWindowPointer!: number; // Variable that is used to track the current index of deca, and tip windows
+  decaWindowPointer?: number; // Variable that is used to track the current index of deca, and tip windows
 
   decaWindow: [
     number | null,
@@ -161,42 +161,47 @@ export class VgPointer extends AVgPointerEvents {
 
     // Move Operation
     if (this.stateID == 0 && this.tipWindow[0]) {
-      console.log("___________No Action");
+      console.log("mouse move");
 
-      const { x, y } = getElementCoordinatesFromLandmark(
-        this.tipWindow[0], // This contains the INormalizedLandmark which corresponds to the movement of cursor
-        this.props.sizes!,
-      );
-      this.mouseInit.clientX = x;
-      this.mouseInit.clientY = y;
+      // const { x, y } = getElementCoordinatesFromLandmark(
+      //   this.tipWindow[0], // This contains the INormalizedLandmark which corresponds to the movement of cursor
+      //   this.props.sizes!,
+      // );
+      // this.mouseInit.clientX = x;
+      // this.mouseInit.clientY = y;
       this.triggerMouseMove(this.mouseInit, this.getProps);
+      this.setElement = document.elementFromPoint(
+        this.mouseInit.clientX!,
+        this.mouseInit.clientY!,
+      );
     }
 
     // Cursor control during drag operation
     if (this.stateID == 3) {
-      const { x, y } = getElementCoordinatesFromLandmark(
-        this.tipWindow[this.decaWindowPointer]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
-        this.props.sizes!,
-      );
+      // const { x, y } = getElementCoordinatesFromLandmark(
+      //   this.tipWindow[this.decaWindowPointer]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
+      //   this.props.sizes!,
+      // );
 
-      this.mouseInit.clientX = x;
-      this.mouseInit.clientY = y;
-
+      // this.mouseInit.clientX = x;
+      // this.mouseInit.clientY = y;
+      this.props.element!.dragElement = this.props.element?.clickElement;
+      console.log("drag", this.props.element?.dragElement);
       this.triggerMouseDrag(this.mouseInit, this.getProps);
 
-      console.log("____________Drag", document.elementsFromPoint(x, y));
+      // console.log("____________Drag", document.elementsFromPoint(x, y));
     }
   }
 
-  private isPointerMove(): boolean {
-    if (
-      this.relativeDist2D * (this.props.time?.deltaTime! / 1000) * 100 >
-      DefaultConfig.instance.flickeringThreshold
-    ) {
-      return true;
-    }
-    return false;
-  }
+  // private isPointerMove(): boolean {
+  //   if (
+  //     this.relativeDist2D * (this.props.time?.deltaTime! / 1000) * 100 >
+  //     DefaultConfig.instance.flickeringThreshold
+  //   ) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   private pseudoDown(): boolean {
     if (this.structuredLandmarks && this.fingerKinkRatio && this.stateID == 0) {
@@ -234,11 +239,13 @@ export class VgPointer extends AVgPointerEvents {
           this.tipWindow[0]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
           this.props.sizes!,
         );
-        this.mouseInit.clientX = x;
-        this.mouseInit.clientY = y;
+        this.props.element!.downElement = this.getElement(x, y);
+        // this.mouseInit.clientX = x;
+        // this.mouseInit.clientY = y;
+        console.log("down", this.props.element?.downElement);
         this.triggerMouseDown(this.mouseInit, this.getProps);
 
-        console.log("_________Down ", document.elementsFromPoint(x, y));
+        // console.log("_________Down ", document.elementsFromPoint(x, y));
 
         return true;
       }
@@ -246,7 +253,7 @@ export class VgPointer extends AVgPointerEvents {
       // Significant decrement in FKR is not observed
       else {
         // decaWindow is not completely filled
-        if (this.decaWindowPointer < 4) {
+        if (this.decaWindowPointer && this.decaWindowPointer < 4) {
           this.decaWindowPointer = this.decaWindowPointer + 1; // Increment the decaWindowPointer
 
           this.decaWindow[this.decaWindowPointer] = this.fingerKinkRatio; // Append current FKR to decaWindow
@@ -313,12 +320,13 @@ export class VgPointer extends AVgPointerEvents {
         }
 
         console.log("_____________UP", this.stateID);
+        //todo trigger up
       }
 
       // Significant increment in FKR is not observed
       else {
         // decaWindow is not completely filled
-        if (this.decaWindowPointer < 4) {
+        if (this.decaWindowPointer && this.decaWindowPointer < 4) {
           this.decaWindowPointer = this.decaWindowPointer + 1; // Increment the decaWindowPointer
 
           this.decaWindow[this.decaWindowPointer] = this.fingerKinkRatio; // Append current FKR to decaWindow
@@ -351,15 +359,19 @@ export class VgPointer extends AVgPointerEvents {
 
           // Cursor control during drag operation
           if (this.stateID == 3) {
-            const { x, y } = getElementCoordinatesFromLandmark(
-              this.tipWindow[this.decaWindowPointer]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
-              this.props.sizes!,
-            );
+            // const { x, y } = getElementCoordinatesFromLandmark(
+            //   this.tipWindow[this.decaWindowPointer]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
+            //   this.props.sizes!,
+            // );
 
-            this.mouseInit.clientX = x;
-            this.mouseInit.clientY = y;
+            // this.mouseInit.clientX = x;
+            // this.mouseInit.clientY = y;
 
             this.triggerMouseMove(this.mouseInit, this.getProps);
+            this.setElement = document.elementFromPoint(
+              this.mouseInit.clientX!,
+              this.mouseInit.clientY!,
+            );
           }
         }
       }
@@ -391,10 +403,11 @@ export class VgPointer extends AVgPointerEvents {
 
       // this.mouseInit.clientX = x;
       // this.mouseInit.clientY = y;
-      if (!this.props.element) {
-        this.props.element = {};
-      }
-      this.props.element.clickElement = this.getElement(x, y);
+      // if (!this.props.element) {
+      //   this.props.element = {};
+      // }
+      this.props.element!.clickElement = this.getElement(x, y);
+      console.log("click", this.props.element?.clickElement);
 
       this.triggerMouseClick(this.mouseInit, this.getProps);
 
@@ -466,16 +479,16 @@ export class VgPointer extends AVgPointerEvents {
         ) > 0.08)
     ) {
       const { x, y } = getElementCoordinatesFromLandmark(
-        this.tipWindow[this.decaWindowPointer]!, // Contains the INormalizedLandmark which corresponds to the movement of cursor
+        this.tipWindow[this.decaWindowPointer!]!, // Contains the INormalizedLandmark which corresponds to the movement of cursor
         this.props.sizes!,
       );
 
-      this.mouseInit.clientX = x;
-      this.mouseInit.clientY = y;
-
+      // this.mouseInit.clientX = x;
+      // this.mouseInit.clientY = y;
+      this.props.element!.dropElement = this.getElement(x, y);
       this.triggerMouseDrop(this.mouseInit, this.getProps);
 
-      console.log("__________Dropped", document.elementsFromPoint(x, y));
+      console.log("__________Dropped", this.props.element?.dropElement);
 
       this.decaWindow[0] = this.fingerKinkRatio; // Update the decaWindow[0] with current FKR at instance where up operation is triggered
 
@@ -587,6 +600,14 @@ export class VgPointer extends AVgPointerEvents {
       relativeDist2D: this.relativeDist2D,
     };
     return this.props;
+  }
+
+  public resetStatesOnNoLandmarks() {
+    this.decaWindow = [null, null, null, null, null];
+    this.tipWindow = [null, null, null, null, null];
+    this.motionWindow = [null, null];
+    this.stateID = undefined;
+    this.decaWindowPointer = undefined;
   }
 
   private getElement(x: number, y: number): Element {

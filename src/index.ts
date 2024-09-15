@@ -22,6 +22,7 @@ export class Main extends AVgCommon {
       cursorElement: this.cursor,
       cursorSpeed: 1,
     };
+    this.props.element = {};
   }
 
   private set setLandmarks(landmarks: INormalizedLandmark[]) {
@@ -131,6 +132,8 @@ export class Main extends AVgCommon {
         this.initialiseSizes();
         this.props.sizes = this.sizes;
       }
+    } else {
+      this.mouseEvents.resetStatesOnNoLandmarks();
     }
   }
 }

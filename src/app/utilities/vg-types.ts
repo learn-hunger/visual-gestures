@@ -127,4 +127,6 @@ export interface IElementsStates {
   to?: Element;
   downElement?: Element | null;
   clickElement?: Element;
+  dropElement?: Element;
+  dragElement?: Element;
 }
