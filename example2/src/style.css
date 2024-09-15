@@ -207,7 +207,7 @@ html,
 
 #loaded-txt {
   cursor: pointer;
-  background-color: #e6e6e6;  /* #302fc2; */
+  background-color: #e6e6e6; /* #302fc2; */
   border-color: #3b3be5;
   color: #302fc2; /* #e6e6e6; */
   font-family: "Comic Sans MS", "Comic Sans";
@@ -227,11 +227,11 @@ html,
 
 #loader-img {
   width: 200px;
-  height:300px;
+  height: 300px;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-bottom: -5% ;
+  margin-bottom: -5%;
   transform: translate(-50%, -50%);
 }
 #loader-img-container {
@@ -288,17 +288,30 @@ html,
   border: 2px solid red;
   border-radius: 5px;
   padding: 5px;
-  flex: 1;
+  /* flex: 1; */
   cursor: pointer;
 }
 
 #preview {
-  flex: 3;
   border: 2px solid violet;
   position: absolute;
-  top: 50%;
-  left: 50%;
   width: 100%;
-  transform: translate(-50%, -50%);
+  height: 80%;
+  display: flex;
+  bottom: 0;
+  flex-flow: column;
   color: black;
+}
+
+#preview-img {
+  width: 80%;
+  border: 2px solid red;
+  margin: auto;
+  flex: 4;
+}
+#preview-content {
+  flex: 1;
+}
+#preview-static-content {
+  flex: 1;
 }

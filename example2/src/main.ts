@@ -37,8 +37,12 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 <div id="modal">
     <div id="close">X close</div>
     <div id="preview">
+        <div id="preview-img">
+            <img src=""/>
+        </div>
         <p id="preview-content" alt="">hello world</p>
-    </div>
+        <p id="preview-static-content">Clicked !</p>
+        </div>
 </div>
       <div id="mouseParent" style="display:none">
            <p> outside </p>
