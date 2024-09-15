@@ -177,21 +177,6 @@ export class VgPointer extends AVgPointerEvents {
     }
 
     // Cursor control during drag operation
-<<<<<<< HEAD
-    // if (this.stateID == 3) {
-    //   const { x, y } = getElementCoordinatesFromLandmark(
-    //     this.tipWindow[this.decaWindowPointer]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
-    //     this.props.sizes!,
-    //   );
-
-    //   this.mouseInit.clientX = x;
-    //   this.mouseInit.clientY = y;
-
-    //   this.triggerMouseDrag(this.mouseInit, this.getProps);
-
-    //   console.log("____________Drag", document.elementsFromPoint(x, y));
-    // }
-=======
     if (this.stateID == 3) {
       // const { x, y } = getElementCoordinatesFromLandmark(
       //   this.tipWindow[this.decaWindowPointer]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
@@ -206,7 +191,6 @@ export class VgPointer extends AVgPointerEvents {
 
       // console.log("____________Drag", document.elementsFromPoint(x, y));
     }
->>>>>>> cf13acb5680c7a58aac8ca3064c8c304dd3c1546
   }
 
   // private isPointerMove(): boolean {
@@ -374,19 +358,6 @@ export class VgPointer extends AVgPointerEvents {
           // Note: No need to update the decaWindowPointer, keep the value as '4' only [this.decaWindowPointer= 4;]
         }
 
-<<<<<<< HEAD
-        // Cursor control during drag operation
-        if (this.stateID == 3) {
-          const { x, y } = getElementCoordinatesFromLandmark(
-            this.tipWindow[this.decaWindowPointer]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
-            this.props.sizes!,
-          );
-
-          this.mouseInit.clientX = x;
-          this.mouseInit.clientY = y;
-
-          this.triggerMouseMove(this.mouseInit, this.getProps);
-=======
           // Cursor control during drag operation
           if (this.stateID == 3) {
             // const { x, y } = getElementCoordinatesFromLandmark(
@@ -403,8 +374,7 @@ export class VgPointer extends AVgPointerEvents {
               this.mouseInit.clientY!,
             );
           }
->>>>>>> cf13acb5680c7a58aac8ca3064c8c304dd3c1546
-        }
+        
       }
     }
     return false;
@@ -515,16 +485,9 @@ export class VgPointer extends AVgPointerEvents {
         this.props.sizes!,
       );
 
-<<<<<<< HEAD
-      this.mouseInit.clientX = x;
-      this.mouseInit.clientY = y;
-
-      this.triggerMouseUp( this.mouseInit, this.getProps);
-=======
       // this.mouseInit.clientX = x;
       // this.mouseInit.clientY = y;
       this.props.element!.dropElement = this.getElement(x, y);
->>>>>>> cf13acb5680c7a58aac8ca3064c8c304dd3c1546
       this.triggerMouseDrop(this.mouseInit, this.getProps);
 
       console.log("__________Dropped", this.props.element?.dropElement);

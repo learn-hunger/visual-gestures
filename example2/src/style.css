@@ -109,10 +109,7 @@ html,
 #dustbin {
   padding: 10px;
   box-sizing: border-box; /* Ensures padding doesn't affect width */
-  /* background-color: #000d41; */
-  /* background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%); */
   background-image: linear-gradient(to top, #000d24 0%, #01306a 100%);
-  /* background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
 }
 
 #folders {
