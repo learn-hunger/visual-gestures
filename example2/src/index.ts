@@ -147,11 +147,11 @@ function enterTheExperience() {
   loadedText!.style.display = "block";
   const onClickExperience = () => {
     startDetection();
-    gui.show();
     vg.showCursor = debugObject.showCursor;
     const loaderContainer = document.getElementById("loader-container");
     loaderContainer!.style.display = "none";
     loadedText!.onclick = null;
+    webcamElement.style.display = "block";
   };
   const onEnterExperience = (event: KeyboardEvent) => {
     if (event.key === "Enter") {
@@ -205,6 +205,7 @@ function camDebug() {
 }
 
 function debug() {
+  gui.show();
   gui.add(debugObject, "showMonitor").onChange((toggle: boolean) => {
     monitor!.style.display = toggle ? "block" : "none";
   });
@@ -378,6 +379,8 @@ function initialiseDebugControls() {
     debugObject.showVideo = true;
     monitor();
     debug();
+    camDebug();
+    webcamElement.classList.remove("video-live");
     DebugGraph.initialiseGraph();
     const container = document.getElementById("container");
     container!.style.backgroundImage = "none";
@@ -390,7 +393,6 @@ function initialiseDebugControls() {
       (debugObject.landmarks.drawLandmarks = false);
     // gui.hide();
   }
-  camDebug();
 }
 
 function drawOnCanvas(landmarks: INormalizedLandmark[]) {

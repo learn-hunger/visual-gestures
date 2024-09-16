@@ -15,7 +15,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
 <div id="container">
 
-    <video id="webcam" width="100%" height="100%" autoplay></video>
+    <video id="webcam" class="video-live" width="100%" height="100%" autoplay></video>
     <canvas id="debugGraphRef"></canvas>
     <canvas id="visualGraphRef"></canvas>
     <div id="folders" >

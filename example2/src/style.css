@@ -45,9 +45,18 @@ video {
   transform: rotateY(180deg);
   position: absolute;
   top: 0;
-  left: 0;
-  z-index: -1;
+  /* left: 0; */
+  z-index: 0;
+  display: none;
   /* transform: scaleX(-1);*/
+}
+.video-live {
+  width: 200px !important;
+  height: 200px !important;
+  right: 4px !important;
+  top: 4px !important;
+  border-radius: 5px;
+  border: 2px solid blue;
 }
 
 body,
@@ -87,7 +96,7 @@ html,
   width: 100%;
   height: 100vh;
   display: flex;
-  /* background-image: linear-gradient(to top, #000d24 0%, #01306a 100%); */
+  background-image: linear-gradient(to top, #000d24 0%, #01306a 100%);
   flex-flow: wrap;
 }
 
