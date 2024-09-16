@@ -123,7 +123,7 @@ export interface ICalculations {
 }
 
 export interface IElementsStates {
-  from?: Element | null;
+  from?: Element;
   to?: Element;
   downElement?: Element;
   clickElement?: Element;

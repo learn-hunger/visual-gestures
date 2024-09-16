@@ -27,7 +27,7 @@ const statsFps = new Stats();
  * debug
  */
 export const debugObject = {
-  showVideo: true,
+  showVideo: false,
   cursorSpeed: 1,
   showCursor: true,
   showDebug: true,
@@ -45,6 +45,7 @@ const gui = new GUI({
   title: "Controls",
   // closeFolders:true
 });
+gui.hide();
 const vg = new Main();
 // loadWeights();
 export function initialiseDetection(webcamRef: HTMLVideoElement) {
@@ -146,6 +147,7 @@ function enterTheExperience() {
   loadedText!.style.display = "block";
   const onClickExperience = () => {
     startDetection();
+    gui.show();
     vg.showCursor = debugObject.showCursor;
     const loaderContainer = document.getElementById("loader-container");
     loaderContainer!.style.display = "none";
@@ -180,22 +182,37 @@ function enterTheExperience() {
     document.addEventListener("keydown", onEnterExperience);
   }
 }
+function camDebug() {
+  const cam = gui.addFolder("camera Controls");
+  const container = document.getElementById("container");
+  if (debugObject.showVideo) {
+    webcamElement.style.visibility = "visible";
+  } else {
+    webcamElement.style.visibility = "none";
+    container!.style.backgroundImage =
+      "linear-gradient(to top, #000d24 0%, #01306a 100%)";
+  }
+  cam.add(debugObject, "showVideo").onChange((toggle: boolean) => {
+    if (toggle) {
+      webcamElement.style.visibility = "visible";
+      container!.style.backgroundImage = "none";
+    } else {
+      webcamElement.style.visibility = "hidden";
+      container!.style.backgroundImage =
+        "linear-gradient(to top, #000d24 0%, #01306a 100%)";
+    }
+  });
+}
 
 function debug() {
   gui.add(debugObject, "showMonitor").onChange((toggle: boolean) => {
     monitor!.style.display = toggle ? "block" : "none";
   });
-  const cam = gui.addFolder("camera Controls");
   const cursor = gui.addFolder("cursor Controls");
   const landmarks = gui.addFolder("landmarks");
   const debugGraph = gui.addFolder("debug graph");
   const monitor = document.getElementById("monitor");
-  cam.add(debugObject, "showVideo").onChange(() => {
-    const webcamStyle = webcamElement.style;
-    debugObject.showVideo
-      ? (webcamStyle.visibility = "visible")
-      : (webcamStyle.visibility = "hidden");
-  });
+
   //cursor
   cursor.add(debugObject, "showCursor").onChange(() => {
     vg.showCursor = !vg._showCursor;
@@ -358,22 +375,22 @@ function testSpace() {
 function initialiseDebugControls() {
   const url = window.location.hash;
   if (url.includes("#debug")) {
+    debugObject.showVideo = true;
     monitor();
     debug();
     DebugGraph.initialiseGraph();
     const container = document.getElementById("container");
     container!.style.backgroundImage = "none";
   } else {
-    const webcamElement = document.getElementById("webcam");
-    webcamElement!.style.display = "none";
     debugGraphRef.style.display = "none";
     (debugObject.showVideo = false),
       (debugObject.showDebug = false),
       (debugObject.showGraph = false),
       (debugObject.showMonitor = false),
       (debugObject.landmarks.drawLandmarks = false);
-    gui.hide();
+    // gui.hide();
   }
+  camDebug();
 }
 
 function drawOnCanvas(landmarks: INormalizedLandmark[]) {

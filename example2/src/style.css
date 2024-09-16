@@ -87,7 +87,7 @@ html,
   width: 100%;
   height: 100vh;
   display: flex;
-  background-image: linear-gradient(to top, #000d24 0%, #01306a 100%);
+  /* background-image: linear-gradient(to top, #000d24 0%, #01306a 100%); */
   flex-flow: wrap;
 }
 

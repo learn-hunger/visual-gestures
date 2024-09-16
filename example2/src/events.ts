@@ -4,6 +4,7 @@ export function eventsListeners() {
   let draggingElement: HTMLElement | null = null;
   let disposeEvents: (() => void)[] = [];
   const modalPreview = document.getElementById("preview-content");
+  const content = ["Folder", "javascript", "python", "pdf", "html"];
   Object.values(
     document.getElementsByClassName(
       "contents",
@@ -20,11 +21,11 @@ export function eventsListeners() {
       draggingElement = event.target as HTMLElement;
     };
     const folderClick = () => {
-      modalPreview!.innerHTML = "Folder " + index;
+      modalPreview!.innerHTML = content[index];
       showModal();
     };
     const pdfClick = () => {
-      modalPreview!.innerHTML = "PDF  " + Math.floor(index / 2);
+      modalPreview!.innerHTML = content[index];
       showModal();
     };
     const showModal = () => {

@@ -65,7 +65,7 @@ export class VgPointer extends AVgPointerEvents {
     this.trigger();
   }
 
-  set setElement(element: Element | null) {
+  set setElement(element: Element) {
     if (!this.props.element) {
       this.props.element = {
         from: element,
@@ -173,7 +173,7 @@ export class VgPointer extends AVgPointerEvents {
       this.setElement = document.elementFromPoint(
         this.mouseInit.clientX!,
         this.mouseInit.clientY!,
-      );
+      )!;
     }
 
     // Cursor control during drag operation
@@ -373,7 +373,7 @@ export class VgPointer extends AVgPointerEvents {
           this.setElement = document.elementFromPoint(
             this.mouseInit.clientX!,
             this.mouseInit.clientY!,
-          );
+          )!;
         }
       }
     }
@@ -407,7 +407,7 @@ export class VgPointer extends AVgPointerEvents {
       // if (!this.props.element) {
       //   this.props.element = {};
       // }
-      this.props.element!.clickElement = this.getElement(x, y);
+      this.props.element!.clickElement = this.props.element?.to;
       console.log("click", this.props.element?.clickElement);
 
       this.triggerMouseUp(this.mouseInit, this.getProps);
