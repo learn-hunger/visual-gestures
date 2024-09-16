@@ -19,11 +19,11 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     <canvas id="debugGraphRef"></canvas>
     <canvas id="visualGraphRef"></canvas>
     <div id="folders" >
-        <img class="contents folders" src="experience/folder.png" alt="" draggable="true">
-        <img class="contents folders" src="experience/js-file.png" alt="" draggable="true">
-        <img class="contents folders" src="experience/python-file.png" alt="" draggable="true">
-        <img class="contents pdf" src="experience/pdf.png" alt="" draggable="true">
-        <img class="contents pdf" src="experience/html-file.png" alt="">
+        <img class="contents folders" id="content0" src="experience/folder.png" alt="" draggable="true">
+        <img class="contents folders" id="content1" src="experience/js-file.png" alt="" draggable="true">
+        <img class="contents folders" id="content2" src="experience/python-file.png" alt="" draggable="true">
+        <img class="contents pdf" id="content3" src="experience/pdf.png" alt="" draggable="true">
+        <img class="contents pdf" id="content4" src="experience/html-file.png" draggable="true" alt="">
 
     </div>
     <div id="dustbin">

@@ -147,6 +147,7 @@ function enterTheExperience() {
   loadedText!.style.display = "block";
   const onClickExperience = () => {
     startDetection();
+    document.getElementById("folders")!.style.visibility = "visible";
     vg.showCursor = debugObject.showCursor;
     const loaderContainer = document.getElementById("loader-container");
     loaderContainer!.style.display = "none";
@@ -159,6 +160,7 @@ function enterTheExperience() {
         event: EAnalyticsEvents[EAnalyticsEvents.ENTER_INTO_EXPERIENCE],
         data: "entered using enter",
       });
+      loadedText!.style.backgroundColor = "#0a1066";
       onClickExperience();
       document.removeEventListener("keydown", onEnterExperience);
     }

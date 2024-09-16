@@ -186,9 +186,15 @@ export class VgPointer extends AVgPointerEvents {
       // this.mouseInit.clientX = x;
       // this.mouseInit.clientY = y;
       if (!this.props.element?.dragElement) {
-        this.props.element!.dragElement = this.props.element!.downElement;
+        const dragElement = this.props.element!.to;
+        if ((dragElement as HTMLElement).draggable) {
+          this.props.element!.dragElement = dragElement;
+        }
+        // console.log("drag happening",dragElement.draggable)
       }
-      this.triggerMouseDrag(this.mouseInit, this.getProps);
+      if (this.props.element?.dragElement) {
+        this.triggerMouseDrag(this.mouseInit, this.getProps);
+      }
 
       // console.log("____________Drag", document.elementsFromPoint(x, y));
     }
@@ -488,8 +494,8 @@ export class VgPointer extends AVgPointerEvents {
       // this.mouseInit.clientX = x;
       // this.mouseInit.clientY = y;
       this.props.element!.dropElement = this.props.element!.to;
-      this.props.element!.dragElement = undefined;
       this.triggerMouseDrop(this.mouseInit, this.getProps);
+      this.props.element!.dragElement = undefined;
 
       console.log("__________Dropped", this.props.element?.dropElement);
 

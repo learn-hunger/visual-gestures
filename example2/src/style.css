@@ -117,6 +117,7 @@ html,
 #folders,
 #dustbin {
   padding: 10px;
+  /* position: absolute; */
   box-sizing: border-box; /* Ensures padding doesn't affect width */
 }
 
@@ -131,8 +132,27 @@ html,
   align-content: start;
   padding: 70px;
   height: 80%;
+  /* gap: 150px; */
+  visibility: hidden;
 }
 
+#folders img {
+  position: absolute;
+}
+
+#content1 {
+  top: 25%;
+}
+#content2 {
+  top: 43%;
+}
+#content3 {
+  left: 200px;
+}
+#content4 {
+  left: 200px;
+  top: 25%;
+}
 #dustbin {
   flex: 2; /* 25% width */
 
@@ -187,6 +207,12 @@ html,
     /* width:50px;
     height: 50px; */
     margin: 10px;
+  }
+  #folders {
+    padding: 20px;
+  }
+  video {
+    display: none !important;
   }
 }
 

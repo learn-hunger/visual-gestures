@@ -1,3 +1,5 @@
+import { VgPointerDrag } from "../../src/app/pointer/custom-events/vg-pointer-drag";
+import { VgPointerDrop } from "../../src/app/pointer/custom-events/vg-pointer-drop";
 import { EVgMouseEvents } from "../../src/app/utilities/vg-constants";
 
 export function eventsListeners() {
@@ -32,6 +34,18 @@ export function eventsListeners() {
       closeModal();
       modal!.style.display = "block";
     };
+    const onPointerDrag = (event: Event) => {
+      const props = event as VgPointerDrag;
+      const { clientX, clientY } = props;
+      folder.style.left = clientX.toString() + "px";
+      folder.style.top = clientY.toString() + "px";
+      console.log(
+        "drag happending",
+        clientX.toString() + "px",
+        props.cursorElement.style.left,
+        clientX.toString() + "px",
+      );
+    };
 
     folder.addEventListener("dragstart", dragStart);
     folder.addEventListener("mouseenter", folderPointerEnter);
@@ -48,11 +62,15 @@ export function eventsListeners() {
       folder.addEventListener("click", pdfClick);
       folder.addEventListener(EVgMouseEvents.MOUSE_CLICK, pdfClick);
     }
+
+    folder.addEventListener(EVgMouseEvents.MOUSE_DRAG, onPointerDrag);
     //todo dispose events
     const removeEventListeners = () => {
       folder.removeEventListener("dragstart", dragStart);
       folder.removeEventListener("mouseenter", folderPointerEnter);
       folder.removeEventListener("mouseleave", folderPointerLeave);
+      folder.removeEventListener(EVgMouseEvents.MOUSE_DRAG, onPointerDrag);
+
       //vg events
       folder.removeEventListener(
         EVgMouseEvents.MOUSE_ENTER,
@@ -94,12 +112,23 @@ export function eventsListeners() {
     }
     binPointerLeave();
   };
+
+  const onPointerDrop = (event: Event) => {
+    const props = event as VgPointerDrop;
+    console.log("drop happening");
+    const dragElement = props.element!.dragElement! as HTMLElement;
+    dragElement.style.display = "none";
+  };
+
   const binDropOver = (event: Event) => {
     event.preventDefault();
     console.log("drop over trigge");
     binPointerEnter();
   };
 
+  binContainer!.addEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
+  bin[0]!.addEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
+  bin[1]!.addEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
   binContainer!.addEventListener("mouseenter", binPointerEnter);
   binContainer!.addEventListener("mouseleave", binPointerLeave);
   binContainer!.addEventListener("drop", binDrop);
@@ -130,7 +159,9 @@ export function eventsListeners() {
     //vg dispose
     bin[1]!.removeEventListener(EVgMouseEvents.MOUSE_ENTER, binPointerEnter);
     bin[0]!.removeEventListener(EVgMouseEvents.MOUSE_LEAVE, binPointerLeave);
-
+    binContainer!.removeEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
+    bin[0]!.removeEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
+    bin[1]!.removeEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
     closeButton?.removeEventListener("click", closeModal);
     closeButton?.removeEventListener(EVgMouseEvents.MOUSE_CLICK, closeModal);
     disposeEvents.forEach((eachFolderEvents) => {
