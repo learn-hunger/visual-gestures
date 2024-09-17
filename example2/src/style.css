@@ -51,8 +51,8 @@ video {
   /* transform: scaleX(-1);*/
 }
 .video-live {
-  width: 200px !important;
-  height: 200px !important;
+  width: 500px !important;
+  height: 350px !important;
   right: 4px !important;
   top: 4px !important;
   border-radius: 5px;
