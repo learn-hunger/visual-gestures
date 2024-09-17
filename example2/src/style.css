@@ -224,6 +224,7 @@ html,
   position: relative;
   display: flex;
   flex-direction: column;
+  z-index: 2;
 }
 #loader-txt-container {
   bottom: 10%;
