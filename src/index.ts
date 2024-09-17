@@ -80,7 +80,6 @@ export class Main extends AVgCommon {
     pointerX = pointerX * speed < 0 ? 0 : pointerX * speed;
     pointerY = pointerY * speed < 0 ? 0 : pointerY * speed;
     pointerY = pointerY * speed > 1 ? 1 : pointerY * speed;
-    // console.log(pointerY,"sizes")
     //TODO Z axis
 
     //screen wise normalisation to fit into view port lower boundaries

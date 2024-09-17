@@ -39,12 +39,6 @@ export function eventsListeners() {
       const { clientX, clientY } = props;
       folder.style.left = clientX.toString() + "px";
       folder.style.top = clientY.toString() + "px";
-      console.log(
-        "drag happending",
-        clientX.toString() + "px",
-        props.cursorElement.style.left,
-        clientX.toString() + "px",
-      );
     };
 
     folder.addEventListener("dragstart", dragStart);
@@ -100,12 +94,10 @@ export function eventsListeners() {
     (bin[0] as HTMLElement).style.scale = "1.2";
   };
   const binPointerLeave = () => {
-    // console.log("drop end");
     (bin[1] as HTMLElement).style.display = "block";
     (bin[0] as HTMLElement).style.scale = "1";
   };
   const binDrop = (event: Event) => {
-    console.log("dropping", event);
     event.preventDefault();
     if (draggingElement) {
       draggingElement.style.display = "none";
@@ -115,14 +107,12 @@ export function eventsListeners() {
 
   const onPointerDrop = (event: Event) => {
     const props = event as VgPointerDrop;
-    console.log("drop happening");
     const dragElement = props.element!.dragElement! as HTMLElement;
     dragElement.style.display = "none";
   };
 
   const binDropOver = (event: Event) => {
     event.preventDefault();
-    console.log("drop over trigge");
     binPointerEnter();
   };
 

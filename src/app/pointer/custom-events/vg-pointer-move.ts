@@ -19,7 +19,7 @@ export class VgPointerMove
       DefaultConfig.instance.cursor.vgpointermove;
     const { baseURI } = DefaultConfig.instance.cursor;
     if (showCursor && this.cursorElement.src != baseURI + path) {
-      console.log(this.cursorElement.src, baseURI + path, "cursor");
+      // console.log(this.cursorElement.src, baseURI + path, "cursor");
       this.cursorElement.src = path;
       this.cursorElement.style.scale = scale.toString();
     }

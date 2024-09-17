@@ -250,24 +250,22 @@ function initialiseEventListeners() {
 
   //callbacks
   vg.mouseEvents.onPointerEnter = () => {
-    console.log("callback pointer entered");
+    // console.log("callback pointer entered");
   };
   vg.mouseEvents.onPointerLeave = () => {
-    console.log("callback pointer leave");
+    // console.log("callback pointer leave");
   };
   let dt: number = 0;
   let dydt: number = 0;
   let eleState: any;
   let mouseDown = false;
   vg.mouseEvents.onPointerMove = (event) => {
-    // console.log(event?.time?.timeStamp,event?.distance2D,event,"timer");
     if (event.time?.timeStamp && event.structuredLandmarks) {
       const landmark = event.structuredLandmarks?.data.INDEX;
       const mcp = landmark?.MCP.y;
       const tip = landmark?.TIP.y;
       let z = event.structuredLandmarks.data.INDEX.TIP.z * 10 ** 6;
       z = Math.max(0.1, z);
-      // console.log(mcp-tip)
       if (mcp && tip && event.sizes) {
         const deltaTime = event.time.deltaTime;
         const manDist = (mcp - tip) / deltaTime;
@@ -275,16 +273,11 @@ function initialiseEventListeners() {
         const sd = manDist - dydt;
         dydt = manDist;
         dt = deltaTime;
-        // console.log(manDist,"distance");
         if (manDist < 0.001) {
-          // console.log(ele,"mouseDown")
           mouseDown = true;
         } else if (manDist > 0.002) {
-          // console.log(ele,"mouseUp");
           if (eleState == ele && mouseDown == true) {
-            // console.log("click",ele)
           } else if (mouseDown == true) {
-            // console.log("click fail",eleState,ele,eleState==event.element?.from)
           }
           eleState = ele;
           mouseDown = false;
@@ -296,19 +289,19 @@ function initialiseEventListeners() {
   };
 
   vg.mouseEvents.onPointerDown = (event) => {
-    console.log("callback pointer down");
+    // console.log("callback pointer down");
   };
   vg.mouseEvents.onPointerUp = () => {
-    console.log("callback pointer up");
+    // console.log("callback pointer up");
   };
   vg.mouseEvents.onPointerClick = () => {
     // console.log("callback pointer Click");
   };
   vg.mouseEvents.onPointerDrop = () => {
-    console.log("callback pointer drop");
+    // console.log("callback pointer drop");
   };
   vg.mouseEvents.onPointerDrag = () => {
-    console.log("callback pointer drag");
+    // console.log("callback pointer drag");
   };
 }
 
@@ -316,7 +309,6 @@ function testSpace() {
   const parent = document.getElementById("mouseParent");
   const child = document.getElementById("mouseChild");
   parent?.addEventListener(EVgMouseEvents.MOUSE_ENTER, (event) => {
-    // console.log("pointer enter");
     parent.children[0].innerHTML = "mouse Entered";
   });
 
