@@ -198,7 +198,7 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
   triggerMouseDrop(mouseInit: MouseEventInit, props: IGestureCustomProps) {
     this.vgPointerDrop = new VgPointerDrop(mouseInit, props);
     this.dispatch(
-      this.vgPointerDrop?.element?.from as HTMLElement,
+      this.vgPointerDrop?.element?.dropElement as HTMLElement,
       this.vgPointerDrop,
     );
     this.onPointerDrop && this.onPointerDrop(this.vgPointerDrop);
@@ -222,7 +222,7 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
   triggerMouseDrag(mouseInit: MouseEventInit, props: IGestureCustomProps) {
     this.vgPointerDrag = new VgPointerDrag(mouseInit, props);
     this.dispatch(
-      this.vgPointerDrag?.element?.from as HTMLElement,
+      this.vgPointerDrag?.element?.dragElement as HTMLElement,
       this.vgPointerDrag,
     );
     this.onPointerDrag && this.onPointerDrag(this.vgPointerDrag);

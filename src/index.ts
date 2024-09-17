@@ -22,6 +22,7 @@ export class Main extends AVgCommon {
       cursorElement: this.cursor,
       cursorSpeed: 1,
     };
+    this.props.element = {};
   }
 
   private set setLandmarks(landmarks: INormalizedLandmark[]) {
@@ -79,7 +80,6 @@ export class Main extends AVgCommon {
     pointerX = pointerX * speed < 0 ? 0 : pointerX * speed;
     pointerY = pointerY * speed < 0 ? 0 : pointerY * speed;
     pointerY = pointerY * speed > 1 ? 1 : pointerY * speed;
-    // console.log(pointerY,"sizes")
     //TODO Z axis
 
     //screen wise normalisation to fit into view port lower boundaries
@@ -131,6 +131,8 @@ export class Main extends AVgCommon {
         this.initialiseSizes();
         this.props.sizes = this.sizes;
       }
+    } else {
+      this.mouseEvents.resetStatesOnNoLandmarks();
     }
   }
 }

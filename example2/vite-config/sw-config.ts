@@ -5,9 +5,10 @@ const swConfig: Partial<VitePWAOptions> = {
   includeManifestIcons: true,
   devOptions: {
     enabled: true,
+    type: "module",
   },
   workbox: {
-    // globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+    globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
     //custom scripts to append
     // swDest: 'dist/sw.js',
     // importScripts: ["custom-sw.js"],
@@ -72,10 +73,10 @@ const swConfig: Partial<VitePWAOptions> = {
   },
   includeAssets: [
     "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
-    // "fonts/*.ttf",
-    // "images/*.png",
-    // "*/*.svg",
-    // "/*.png"
+    "fonts/*.ttf",
+    "images/*.png",
+    "**/*.svg",
+    "**/*.png",
   ],
   // manifest: false,
 };

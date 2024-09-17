@@ -14,7 +14,6 @@ export class VgPointerEnter extends ACommonMouseProps {
       DefaultConfig.instance.cursor.vgpointerenter;
     const { baseURI } = DefaultConfig.instance.cursor;
     if (showCursor && this.cursorElement.src != baseURI + path) {
-      console.log(this.cursorElement.src, baseURI + path, "cursor enter");
       this.cursorElement.src = path;
       this.cursorElement.style.scale = scale.toString();
     }

@@ -9,19 +9,21 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     </div>
     <div id="loader-txt-container">
         <p id="loader-txt">Loading....</p>
-        <button id="loaded-txt">Enter the Experience</button>
+        <button id="loaded-txt">Fly your mouse in air !</button>
     </div>
 </div>
 
 <div id="container">
-    <video id="webcam" width="100%" height="100%" autoplay></video>
+
+    <video id="webcam" class="video-live" width="100%" height="100%" autoplay></video>
     <canvas id="debugGraphRef"></canvas>
+    <canvas id="visualGraphRef"></canvas>
     <div id="folders" >
-        <img class="contents folders" src="experience/folder.png" alt="" draggable="true">
-        <img class="contents folders" src="experience/folder.png" alt="" draggable="true">
-        <img class="contents folders" src="experience/folder.png" alt="" draggable="true">
-        <img class="contents pdf" src="experience/pdf.png" alt="" draggable="true">
-        <img class="contents pdf" src="experience/pdf.png" alt="">
+        <img class="contents folders" id="content0" src="experience/folder.png" alt="" draggable="true">
+        <img class="contents folders" id="content1" src="experience/js-file.png" alt="" draggable="true">
+        <img class="contents folders" id="content2" src="experience/python-file.png" alt="" draggable="true">
+        <img class="contents pdf" id="content3" src="experience/pdf.png" alt="" draggable="true">
+        <img class="contents pdf" id="content4" src="experience/html-file.png" draggable="true" alt="">
 
     </div>
     <div id="dustbin">
@@ -33,10 +35,14 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 </div>
 
 <div id="modal">
-    <div id="close">X close</div>
+    <div id="close">X &nbsp;&nbsp;&nbsp;Close</div>
     <div id="preview">
+        <div id="preview-img">
+            <img id="modal-img" src="experience/modal-preview-img.png"/>
+        </div>
         <p id="preview-content" alt="">hello world</p>
-    </div>
+        <p id="preview-static-content">Clicked !</p>
+        </div>
 </div>
       <div id="mouseParent" style="display:none">
            <p> outside </p>

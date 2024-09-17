@@ -1,9 +1,12 @@
+import { VgPointerDrag } from "../../src/app/pointer/custom-events/vg-pointer-drag";
+import { VgPointerDrop } from "../../src/app/pointer/custom-events/vg-pointer-drop";
 import { EVgMouseEvents } from "../../src/app/utilities/vg-constants";
 
 export function eventsListeners() {
   let draggingElement: HTMLElement | null = null;
   let disposeEvents: (() => void)[] = [];
   const modalPreview = document.getElementById("preview-content");
+  const content = ["Folder", "javascript", "python", "pdf", "html"];
   Object.values(
     document.getElementsByClassName(
       "contents",
@@ -20,16 +23,22 @@ export function eventsListeners() {
       draggingElement = event.target as HTMLElement;
     };
     const folderClick = () => {
-      modalPreview!.innerHTML = "you clicked folder " + index;
+      modalPreview!.innerHTML = content[index];
       showModal();
     };
     const pdfClick = () => {
-      modalPreview!.innerHTML = "you clicked pdf " + Math.floor(index / 2);
+      modalPreview!.innerHTML = content[index];
       showModal();
     };
     const showModal = () => {
       closeModal();
       modal!.style.display = "block";
+    };
+    const onPointerDrag = (event: Event) => {
+      const props = event as VgPointerDrag;
+      const { clientX, clientY } = props;
+      folder.style.left = clientX.toString() + "px";
+      folder.style.top = clientY.toString() + "px";
     };
 
     folder.addEventListener("dragstart", dragStart);
@@ -47,11 +56,15 @@ export function eventsListeners() {
       folder.addEventListener("click", pdfClick);
       folder.addEventListener(EVgMouseEvents.MOUSE_CLICK, pdfClick);
     }
+
+    folder.addEventListener(EVgMouseEvents.MOUSE_DRAG, onPointerDrag);
     //todo dispose events
     const removeEventListeners = () => {
       folder.removeEventListener("dragstart", dragStart);
       folder.removeEventListener("mouseenter", folderPointerEnter);
       folder.removeEventListener("mouseleave", folderPointerLeave);
+      folder.removeEventListener(EVgMouseEvents.MOUSE_DRAG, onPointerDrag);
+
       //vg events
       folder.removeEventListener(
         EVgMouseEvents.MOUSE_ENTER,
@@ -81,24 +94,31 @@ export function eventsListeners() {
     (bin[0] as HTMLElement).style.scale = "1.2";
   };
   const binPointerLeave = () => {
-    // console.log("drop end");
     (bin[1] as HTMLElement).style.display = "block";
     (bin[0] as HTMLElement).style.scale = "1";
   };
   const binDrop = (event: Event) => {
-    console.log("dropping", event);
     event.preventDefault();
     if (draggingElement) {
       draggingElement.style.display = "none";
     }
     binPointerLeave();
   };
+
+  const onPointerDrop = (event: Event) => {
+    const props = event as VgPointerDrop;
+    const dragElement = props.element!.dragElement! as HTMLElement;
+    dragElement.style.display = "none";
+  };
+
   const binDropOver = (event: Event) => {
     event.preventDefault();
-    console.log("drop over trigge");
     binPointerEnter();
   };
 
+  binContainer!.addEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
+  bin[0]!.addEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
+  bin[1]!.addEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
   binContainer!.addEventListener("mouseenter", binPointerEnter);
   binContainer!.addEventListener("mouseleave", binPointerLeave);
   binContainer!.addEventListener("drop", binDrop);
@@ -129,7 +149,9 @@ export function eventsListeners() {
     //vg dispose
     bin[1]!.removeEventListener(EVgMouseEvents.MOUSE_ENTER, binPointerEnter);
     bin[0]!.removeEventListener(EVgMouseEvents.MOUSE_LEAVE, binPointerLeave);
-
+    binContainer!.removeEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
+    bin[0]!.removeEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
+    bin[1]!.removeEventListener(EVgMouseEvents.MOUSE_DROP, onPointerDrop);
     closeButton?.removeEventListener("click", closeModal);
     closeButton?.removeEventListener(EVgMouseEvents.MOUSE_CLICK, closeModal);
     disposeEvents.forEach((eachFolderEvents) => {
