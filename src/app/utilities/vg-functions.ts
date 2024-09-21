@@ -1,10 +1,5 @@
-import {
-  IFingerKeypoints,
-  INormalizedLandmark,
-  TFingersData,
-} from "./vg-types-handlandmarks";
-import { VgHandLandmarksDTO } from "../pointer/DTO/vg-handlandmark";
 import { EFingers } from "./vg-constants";
+import { INormalizedLandmark, TFingersData } from "./vg-types-handlandmarks";
 
 export function distance(
   point1: number,

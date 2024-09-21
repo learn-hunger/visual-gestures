@@ -176,11 +176,6 @@ export class VgPointer extends AVgPointerEvents {
 
     // Cursor control during drag operation
     if (this.stateID == 3) {
-      const { x, y } = getElementCoordinatesFromLandmark(
-        this.tipWindow[this.decaWindowPointer!]!, // This contains the INormalizedLandmark which corresponds to the movement of cursor
-        this.props.sizes!,
-      );
-
       // this.mouseInit.clientX = x;
       // this.mouseInit.clientY = y;
       if (!this.props.element?.dragElement) {
@@ -400,11 +395,6 @@ export class VgPointer extends AVgPointerEvents {
           [1, 1],
         ) < 0.08)
     ) {
-      const { x, y } = getElementCoordinatesFromLandmark(
-        this.tipWindow[0]!, // Contains the INormalizedLandmark which corresponds to the movement of cursor
-        this.props.sizes!,
-      );
-
       // this.mouseInit.clientX = x;
       // this.mouseInit.clientY = y;
       // if (!this.props.element) {
@@ -483,11 +473,6 @@ export class VgPointer extends AVgPointerEvents {
           [1, 1],
         ) > 0.08)
     ) {
-      const { x, y } = getElementCoordinatesFromLandmark(
-        this.tipWindow[this.decaWindowPointer!]!, // Contains the INormalizedLandmark which corresponds to the movement of cursor
-        this.props.sizes!,
-      );
-
       // this.mouseInit.clientX = x;
       // this.mouseInit.clientY = y;
       this.props.element!.dropElement = this.props.element!.to;
@@ -526,7 +511,6 @@ export class VgPointer extends AVgPointerEvents {
 
   private staticEventsInitialiser() {
     // Structuring raw landmarks
-    const landmark: INormalizedLandmark[] = this.props.currentLandmarks!;
     this.structuredLandmarks = this.props.structuredLandmarks!;
     for (let finger of Object.keys(this.structuredLandmarks.data) as Array<
       keyof typeof EFingers

@@ -1,7 +1,6 @@
 import { DefaultConfig } from "../config/defalut-config";
 import { cursorStyle } from "../utilities/vg-constants";
 import { IElementsSizes } from "../utilities/vg-types";
-import { INormalizedLandmark } from "../utilities/vg-types-handlandmarks";
 
 class CursorDom {
   container: HTMLElement;
@@ -21,7 +20,9 @@ class CursorDom {
 
 export class CursorObject extends CursorDom {
   public _showCursor: boolean;
+  //@ts-ignore
   private _cursorPath: string;
+  //@ts-ignore
   private _cursorScale: number;
   public sizes: IElementsSizes;
   constructor(container: HTMLElement = DefaultConfig.instance.cursorContainer) {

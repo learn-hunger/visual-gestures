@@ -64,11 +64,7 @@ export class Main extends AVgCommon {
   }
 
   private get mouseInit(): MouseEventInit {
-    let {
-      x: pointerX,
-      y: pointerY,
-      z: pointerZ,
-    } = this.props.pointer.currentLandmark;
+    let { x: pointerX, y: pointerY } = this.props.pointer.currentLandmark;
     const { clientWidth: cursorX, clientHeight: cursorY } = this.sizes.cursor;
     const { clientWidth: containerX, clientHeight: containerY } =
       this.sizes.container;

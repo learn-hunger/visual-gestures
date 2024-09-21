@@ -1,5 +1,5 @@
 import { EHandLandmarks, EVgMouseEvents } from "../utilities/vg-constants";
-import { ICursorProp, TCursors } from "../utilities/vg-types";
+import { TCursors } from "../utilities/vg-types";
 import { INormalizedLandmark } from "../utilities/vg-types-handlandmarks";
 
 export class DefaultConfig {

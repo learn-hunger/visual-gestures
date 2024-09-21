@@ -1,19 +1,17 @@
+import { Main } from "@learn-hunger/visual-gestures/src/index";
+import { Canvas } from "@learn-hunger/visualise-data-kit/src/blueprints/canvas/canvas";
+import { ETensorflow } from "@learn-hunger/visualise-data-kit/src/utils/constants/canvas/constants";
+import { invertLandmarks } from "@learn-hunger/visualise-data-kit/src/utils/functions";
 import { HandLandmarkerResult } from "@mediapipe/tasks-vision";
 import GUI from "lil-gui";
 import Stats from "stats.js";
-import { Chart } from "chart.js";
-import { Main } from "@learn-hunger/visual-gestures/src/index";
-import { EVgMouseEvents } from "../../src/app/utilities/vg-constants";
-import { detect, loadWeights } from "./services/handLandmarks";
-import { enableWebcam } from "./utils/camera";
-import { AnalyticsTagManager } from "./services/types/vg-analytics";
-import { EAnalyticsData, EAnalyticsEvents, gameVar } from "./utils/constants";
+import { INormalizedLandmark } from "../../src/app/utilities/vg-types-handlandmarks";
 import { eventsListeners } from "./events";
 import { DebugGraph } from "./graph";
-import { INormalizedLandmark } from "../../src/app/utilities/vg-types-handlandmarks";
-import { ETensorflow } from "@learn-hunger/visualise-data-kit/src/utils/constants/canvas/constants";
-import { Canvas } from "@learn-hunger/visualise-data-kit/src/blueprints/canvas/canvas";
-import { invertLandmarks } from "@learn-hunger/visualise-data-kit/src/utils/functions";
+import { detect, loadWeights } from "./services/handLandmarks";
+import { AnalyticsTagManager } from "./services/types/vg-analytics";
+import { enableWebcam } from "./utils/camera";
+import { EAnalyticsEvents, gameVar } from "./utils/constants";
 let webcamElement: HTMLVideoElement;
 let debugGraphRef: HTMLCanvasElement;
 let visualCanvasRef: HTMLCanvasElement;
@@ -255,7 +253,9 @@ function initialiseEventListeners() {
   vg.mouseEvents.onPointerLeave = () => {
     // console.log("callback pointer leave");
   };
+  //@ts-ignore
   let dt: number = 0;
+  //@ts-ignore
   let dydt: number = 0;
   let eleState: any;
   let mouseDown = false;
@@ -270,7 +270,6 @@ function initialiseEventListeners() {
         const deltaTime = event.time.deltaTime;
         const manDist = (mcp - tip) / deltaTime;
         const ele = event.element?.to;
-        const sd = manDist - dydt;
         dydt = manDist;
         dt = deltaTime;
         if (manDist < 0.001) {
@@ -305,68 +304,6 @@ function initialiseEventListeners() {
   };
 }
 
-function testSpace() {
-  const parent = document.getElementById("mouseParent");
-  const child = document.getElementById("mouseChild");
-  parent?.addEventListener(EVgMouseEvents.MOUSE_ENTER, (event) => {
-    parent.children[0].innerHTML = "mouse Entered";
-  });
-
-  parent?.addEventListener(EVgMouseEvents.MOUSE_LEAVE, (event) => {
-    parent.children[0].innerHTML = "mouse Leaved";
-  });
-
-  child?.addEventListener(EVgMouseEvents.MOUSE_LEAVE, (event) => {
-    child.children[0].innerHTML = "mouse Leaved";
-  });
-
-  child?.addEventListener(EVgMouseEvents.MOUSE_ENTER, (event) => {
-    child.children[0].innerHTML = "mouse Entered";
-  });
-
-  //mouse down
-  parent?.addEventListener(EVgMouseEvents.MOUSE_DOWN, (event) => {
-    parent.children[0].innerHTML = "mouse Down";
-  });
-
-  child?.addEventListener(EVgMouseEvents.MOUSE_DOWN, (event) => {
-    child.children[0].innerHTML = "mouse Down";
-  });
-
-  //mouse up
-  parent?.addEventListener(EVgMouseEvents.MOUSE_UP, (event) => {
-    parent.children[0].innerHTML = "mouse up";
-  });
-
-  child?.addEventListener(EVgMouseEvents.MOUSE_UP, (event) => {
-    child.children[0].innerHTML = "mouse up";
-  });
-
-  //mouse click
-  parent?.addEventListener(EVgMouseEvents.MOUSE_CLICK, (event) => {
-    parent.children[0].innerHTML = "mouse clicked";
-  });
-
-  child?.addEventListener(EVgMouseEvents.MOUSE_CLICK, (event) => {
-    child.children[0].innerHTML = "mouse clicked";
-  });
-  //mouse drop
-  parent?.addEventListener(EVgMouseEvents.MOUSE_DROP, (event) => {
-    parent.children[0].innerHTML = "mouse drop";
-  });
-
-  child?.addEventListener(EVgMouseEvents.MOUSE_DROP, (event) => {
-    child.children[0].innerHTML = "mouse drop";
-  });
-  //mouse drag
-  parent?.addEventListener(EVgMouseEvents.MOUSE_DRAG, (event) => {
-    parent.children[0].innerHTML = "mouse drag";
-  });
-
-  child?.addEventListener(EVgMouseEvents.MOUSE_DRAG, (event) => {
-    child.children[0].innerHTML = "mouse drag";
-  });
-}
 function initialiseDebugControls() {
   const url = window.location.hash;
   if (url.includes("#debug")) {

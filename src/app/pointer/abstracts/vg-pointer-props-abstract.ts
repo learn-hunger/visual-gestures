@@ -1,5 +1,3 @@
-import { DefaultConfig } from "../../config/defalut-config";
-import { euclideanDistance } from "../../utilities/vg-functions";
 import {
   ICalculations,
   IElementsSizes,

@@ -5,6 +5,11 @@
     "target": "es2018",
     "outDir": "./dist/",
     "moduleResolution": "Node",
-    "declaration": true
+    "declaration": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true
   }
 }
