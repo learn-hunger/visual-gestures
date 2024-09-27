@@ -11,6 +11,11 @@ import { INormalizedLandmark } from "../utilities/vg-types-handlandmarks";
 import { VgHandLandmarksDTO } from "./DTO/vg-handlandmark";
 import { AVgPointerEvents } from "./abstracts/vg-pointer-events";
 
+/**
+ * Central Class to store states of the hand landmarks
+ * handles triggering events
+ * Core logic for hand gestures is maintained here
+ */
 export class VgPointer extends AVgPointerEvents {
   distance2D!: number;
   distance3D!: number;
@@ -51,20 +56,6 @@ export class VgPointer extends AVgPointerEvents {
     super();
   }
 
-  updateProps(mouseProp: MouseEventInit, customProps: IGestureCustomProps) {
-    this.mouseInit = mouseProp;
-    this.props = customProps;
-    const { x, y, z } =
-      this.props.pointer.deltaLandmark ?? DefaultConfig.instance.deltaLandmark;
-    this.distance2D = euclideanDistance(x, y);
-    this.distance3D = euclideanDistance(x, y, z);
-    this.relativeDist2D = euclideanDistance(
-      x * this.mouseInit.clientX!,
-      y * this.mouseInit.clientY!,
-    );
-    this.trigger();
-  }
-
   set setElement(element: Element) {
     if (!this.props.element) {
       this.props.element = {
@@ -91,6 +82,29 @@ export class VgPointer extends AVgPointerEvents {
     }
   }
 
+  private get getProps(): IGestureCustomProps {
+    this.props.calc = {
+      distance2D: this.distance2D,
+      distance3D: this.distance3D,
+      relativeDist2D: this.relativeDist2D,
+    };
+    return this.props;
+  }
+
+  updateProps(mouseProp: MouseEventInit, customProps: IGestureCustomProps) {
+    this.mouseInit = mouseProp;
+    this.props = customProps;
+    const { x, y, z } =
+      this.props.pointer.deltaLandmark ?? DefaultConfig.instance.deltaLandmark;
+    this.distance2D = euclideanDistance(x, y);
+    this.distance3D = euclideanDistance(x, y, z);
+    this.relativeDist2D = euclideanDistance(
+      x * this.mouseInit.clientX!,
+      y * this.mouseInit.clientY!,
+    );
+    this.trigger();
+  }
+
   trigger() {
     // this.isPointerDown();
     // if (this.mouseDown == false) {
@@ -102,7 +116,7 @@ export class VgPointer extends AVgPointerEvents {
     //   );
     // }
 
-    this.testSpace();
+    this.kinkLogic();
   }
 
   // public state!: number;
@@ -135,7 +149,7 @@ export class VgPointer extends AVgPointerEvents {
   //   }
   // }
 
-  private testSpace() {
+  private kinkLogic() {
     /***
      * stateID: flag indicating current operation
      * If stateID==0 then move operation
@@ -582,14 +596,6 @@ export class VgPointer extends AVgPointerEvents {
 
       this.stateID = 0; // Initialize the stateID to '0' which denotes current operation as cursor-move
     }
-  }
-  private get getProps(): IGestureCustomProps {
-    this.props.calc = {
-      distance2D: this.distance2D,
-      distance3D: this.distance3D,
-      relativeDist2D: this.relativeDist2D,
-    };
-    return this.props;
   }
 
   public resetStatesOnNoLandmarks() {

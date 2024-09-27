@@ -30,6 +30,9 @@ export interface IVgPointerEvents
   dispose(): void;
 }
 
+/**
+ * Pointer move handlers
+ */
 interface IVgPointerMove {
   vgPointerMove: VgPointerMove;
   _onPointerMoveCallback?: IEvents["onPointerMove"];
@@ -38,6 +41,9 @@ interface IVgPointerMove {
   triggerMouseMove(mouseInit: MouseEventInit, props: IGestureCustomProps): void;
 }
 
+/**
+ * Pointer Enter handlers
+ */
 interface IVgPointerEnter {
   vgPointerEnter: VgPointerEnter;
   _onPointerEnterCallback?: IEvents["onPointerEnter"];
@@ -49,6 +55,9 @@ interface IVgPointerEnter {
   ): void;
 }
 
+/**
+ * pointerLeave handlers
+ */
 interface IVgPointerLeave {
   vgPointerLeave: VgPointerLeave;
   _onPointerLeaveCallback?: IEvents["onPointerLeave"];
@@ -60,6 +69,9 @@ interface IVgPointerLeave {
   ): void;
 }
 
+/**
+ * Pointer down handlers
+ */
 interface IVgPointerDown {
   vgPointerDown: VgPointerDown;
   _onPointerDownCallback?: IEvents["onPointerDown"];
@@ -68,6 +80,9 @@ interface IVgPointerDown {
   triggerMouseDown(mouseInit: MouseEventInit, props: IGestureCustomProps): void;
 }
 
+/**
+ * Pointer up handlers
+ */
 interface IVgPointerUp {
   vgPointerUp: VgPointerUp;
   _onPointerUpCallback?: IEvents["onPointerUp"];
@@ -76,6 +91,9 @@ interface IVgPointerUp {
   triggerMouseUp(mouseInit: MouseEventInit, props: IGestureCustomProps): void;
 }
 
+/**
+ * Pointer click handlers
+ */
 interface IVgPointerClick {
   vgPointerClick: VgPointerClick;
   _onPointerClickCallback?: IEvents["onPointerClick"];
@@ -87,6 +105,9 @@ interface IVgPointerClick {
   ): void;
 }
 
+/**
+ * Pointer drop handlers
+ */
 interface IVgPointerDrop {
   vgPointerDrop: VgPointerDrop;
   _onPointerDropCallback?: IEvents["onPointerDrop"];
@@ -95,6 +116,9 @@ interface IVgPointerDrop {
   triggerMouseDrop(mouseInit: MouseEventInit, props: IGestureCustomProps): void;
 }
 
+/**
+ * Pointer drag handlers
+ */
 interface IVgPointerDrag {
   vgPointerDrag: VgPointerDrag;
   _onPointerDragCallback?: IEvents["onPointerDrag"];

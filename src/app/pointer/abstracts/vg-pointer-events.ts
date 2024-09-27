@@ -9,9 +9,14 @@ import { VgPointerClick } from "../custom-events/vg-pointer-click";
 import { VgPointerDrop } from "../custom-events/vg-pointer-drop";
 import { VgPointerDrag } from "../custom-events/vg-pointer-drag";
 
+/**
+ * spefically events are triggered here
+ * corresponding event callbacks are triggered here
+ *
+ */
 export abstract class AVgPointerEvents implements IVgPointerEvents {
   /**
-   * common utility
+   * common utility to trigger events
    * @param element
    * @param event
    */
@@ -19,6 +24,9 @@ export abstract class AVgPointerEvents implements IVgPointerEvents {
     element?.dispatchEvent(event);
   }
 
+  /**
+   * resetting the event callbacks
+   */
   dispose(): void {
     this._onPointerEnterCallback = undefined;
     this._onPointerLeaveCallback = undefined;

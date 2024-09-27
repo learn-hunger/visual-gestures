@@ -4,6 +4,12 @@ import { IGestureCustomProps } from "../../utilities/vg-types";
 import { ACommonMouseProps } from "../abstracts/vg-pointer-props-abstract";
 import { IVgCommonMethods } from "../interfaces/vg-common-event-methods";
 
+/**
+ * custom Event which is fired when the user do finger motion visual action
+ * it is triggered from AvgPointerMove class
+ * when the user moves his hand(by default index finger is taken as pointer)
+ * it gets dispatched
+ */
 export class VgPointerMove
   extends ACommonMouseProps
   implements IVgCommonMethods
@@ -14,6 +20,11 @@ export class VgPointerMove
     this.moveCursor();
   }
 
+  /**
+   * to set the cursor path or image like hand pointer image etc
+   * TODO since the fluctations are high between the events ,
+   * the image is getting fluctuated so currently hold
+   */
   setCursor(): void {
     const { path, scale, showCursor } =
       DefaultConfig.instance.cursor.vgpointermove;
@@ -25,6 +36,9 @@ export class VgPointerMove
     }
   }
 
+  /**
+   * move the cursor in between the viewport using position values
+   */
   moveCursor() {
     this.cursorElement.style.left = this.clientX.toString() + "px";
     this.cursorElement.style.top = this.clientY.toString() + "px";
