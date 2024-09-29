@@ -21,7 +21,12 @@ export function manhettanDistance(point1: number, point2: number): number {
   return Math.pow(distance(point1, point2, 1), 0.5);
 }
 
-// Calcuate Weighted Euclidean Distance
+/**
+ * Calcuates WeightedEuclideanDistance 
+ * Used to weight x, y-axis based on the context
+ * To calculate 'palmHeight', 'fingerHeight', and distances in FingerOpenRatio (FOR), 'y' magnitude is weighted more than 'x' magnitude
+ * To calculate displacement of hand for 'pseudoClick', 'pseudoDrag', 'x' and 'y' magnitudes are weighted the same
+*/
 export function weightedEuclideanDistance(
   landmark1: INormalizedLandmark,
   landmark2: INormalizedLandmark,
@@ -33,7 +38,11 @@ export function weightedEuclideanDistance(
   );
 }
 
-// Calculate PiecewiseFingerDistance
+/**
+ * Calculates PiecewiseFingerDistance
+ * Denominator term in FingerOpenRatio (FOR)
+ * Corresponds to distance
+*/
 export function piecewiseFingerDistance(
   fingerData: Omit<TFingersData, "WRIST">,
   fingerName: Exclude<keyof typeof EFingers, "WRIST">,
