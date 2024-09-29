@@ -268,7 +268,8 @@ export class VgPointer extends AVgPointerEvents {
 
 
   /**
-   * pseudoDown() function is used to check whether the mouse is down at current instance of time 
+   * pseudoDown() function
+   * Used to check whether the mouse is down at current instance of time 
    * If 'structuredLandmarks' are correctly detected, 'fingerKinkRatio' is calculated, and current 'stateID == 0' (onmousemove event)
    * * If 'decaWindow[0]' (fingerKinkRatio of previous frame) is calculated and significant decrement (magnitude= 200) in 'fingerKinkRatio' is observed
    * * * Store current 'fingerKinkRatio' at 'decaWindow[1]' [ decaWindow[0], decaWindow[1] attains hibernation ]
