@@ -5,7 +5,7 @@
 ![Markdown](https://img.shields.io/badge/build-passing-brightgreen)
 ![Markdown](https://img.shields.io/badge/License-MIT-blue.svg)
 
-# FingerPointer.js
+# VisualGestures.js
 FingerPointer.js is an open-source TypeScript package that empowers users to effortlessly control the cursor, including actions such as hover, click, drag, and drop, through precise finger movements in the air.
 <br><br>
 **Hands-Free Interaction** <br>
@@ -14,6 +14,10 @@ Eliminates the need for physical input devices like a mouse or touchpad, making 
 Offers a unique and engaging user experience, often perceived as more immersive compared to conventional interfaces, particularly appealing for applications in gaming, virtual reality, and creative industries. <br><br>
 **Customizable for Various Applications** <br>
 Tailored for different industries such as controlling machinery in factories, navigating interfaces in automotive displays, interacting with public information kiosks without touching a screen.
+<br><br>
+**Cross-Platform Compatibility** <br> Accessible across various platforms, from web browsers to native applications, providing versatile solutions for diverse business environments.
+<br><br>
+**Offline Support** Developed in TypeScript, works anywhere with full offline functionality without the continuous requirement of internet, making it remotely available
 <br><br>
 <a href="#"> Click here </a> to watch demo of how it works!
 
