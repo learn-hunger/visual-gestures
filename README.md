@@ -17,8 +17,8 @@ Tailored for different industries such as controlling machinery in factories, na
 <br><br>
 **Offline Support** Developed in TypeScript, works anywhere with full offline functionality without the continuous requirement of internet, making it remotely available
 <br><br>
-<a href="src/assets/visual_gestures_promo_main.mp4"> Click here </a> to watch demo of how it works!
-
+<a href="https://github.com/user-attachments/assets/a24cc183-36cd-42a9-9910-b8405c45327f"> Click here </a> to watch demo of how it works!
+<br>
 ## Table of Contents</h2>
 - [Getting Started](#getting-started)
 - [Compatibility](#compatibility)
