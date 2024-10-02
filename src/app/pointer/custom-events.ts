@@ -268,8 +268,11 @@ export class VgPointer extends AVgPointerEvents {
 
 
   /**
-   * pseudoDown() function
-   * Used to check whether the mouse is down at current instance of time 
+   * Signature   : pseudoDown()
+   * Description :  Used to check whether the mouse(cursor) is in 'down' state at current instance of time 
+   * _____________________________________________________________________________________
+   *                                   ALGORITHM
+   * _____________________________________________________________________________________
    * If 'structuredLandmarks' are correctly detected, 'fingerKinkRatio' is calculated, and current 'stateID == 0' (onmousemove event)
    * * If 'decaWindow[0]' (fingerKinkRatio of previous frame) is calculated and significant decrement (magnitude= 200) in 'fingerKinkRatio' is observed
    * * * Store current 'fingerKinkRatio' at 'decaWindow[1]' [ decaWindow[0], decaWindow[1] attains hibernation ]
@@ -281,7 +284,7 @@ export class VgPointer extends AVgPointerEvents {
    * * * Set 'motionWindow[0]' with INormalizedLandmark of INDEX.MCP at instance where down operation is triggered
    * * * Call 'triggerMouseDown' event at 'tipWindow[0]' which contains INormalizedLandmark which corresponds to the starting(initial) coordinates from where 'onmousedown' event is started
    * * * Nullify the 'motionWindow[0]' to hold the successive INormalizedLandmarks of INDEX.MCP
-   * * * 'True' is returned indicating mouse is down at the current instance of time
+   * * * 'true' is returned indicating mouse is down at the current instance of time
    * * Else
    * * * If 'decaWindow' is not completely filled
    * * * * Increment decaWindowPointer by 1
@@ -294,9 +297,9 @@ export class VgPointer extends AVgPointerEvents {
    * * * * Update 'tipWindow[4]' with current INDEX.TIP
    * * * Set 'motionWindow[0]' with current 'INormalizedLandmark' of INDEX.MCP
    * * * Nullify 'motionWindow[1]' as current event being performed is 'onmousedown' 
-   * * * 'False' is returned indicating mouse is not down at the current instance of time
+   * * * 'false' is returned indicating mouse is not down at the current instance of time
    * Else
-   * * 'False' is returned indicating mouse is not down at the current instance of time
+   * * 'false' is returned indicating mouse is not down at the current instance of time
    */
   private pseudoDown(): boolean {
     if (this.structuredLandmarks && this.fingerKinkRatio && this.stateID == 0) {
@@ -362,7 +365,7 @@ export class VgPointer extends AVgPointerEvents {
         // 'decaWindow' is not completely filled
         if (this.decaWindowPointer && this.decaWindowPointer < 4) {
 
-          // Increment decaWindowPointer by 1
+          // Increment 'decaWindowPointer' by 1
           this.decaWindowPointer = this.decaWindowPointer + 1;
 
           // Append current 'fingerKinkRatio' to 'decaWindow'
@@ -382,7 +385,7 @@ export class VgPointer extends AVgPointerEvents {
           var c = this.decaWindow[3];
           var d = this.decaWindow[4];
 
-          // Update the decaWindow shifting one-index left
+          // Update the 'decaWindow' shifting one-index left
           this.decaWindow[0] = a;
           this.decaWindow[1] = b;
           this.decaWindow[2] = c;
@@ -391,13 +394,13 @@ export class VgPointer extends AVgPointerEvents {
           // Update 'decaWindow[4]' with current 'fingerKinkRatio'
           this.decaWindow[4] = this.fingerKinkRatio; 
 
-          // Take copy of values of tipWindow into variables
+          // Take copy of values of 'tipWindow' into variables
           const p = this.tipWindow[1];
           const q = this.tipWindow[2];
           const r = this.tipWindow[3];
           const s = this.tipWindow[4];
 
-          // Update the tipWindow shifting one-index left
+          // Update the 'tipWindow' shifting one-index left
           this.tipWindow[0] = p;
           this.tipWindow[1] = q;
           this.tipWindow[2] = r;
@@ -420,22 +423,61 @@ export class VgPointer extends AVgPointerEvents {
     return false;
   }
 
+  /**
+   * Signature   : pseudoUp()
+   * Description :  Used to check whether the mouse(cursor) is in 'up' state at current instance of time 
+   * _____________________________________________________________________________________
+   *                                   ALGORITHM
+   * _____________________________________________________________________________________
+   * If current state of cusor is 'onmousedown'(stateID == 1) or 'onmousedrag'(stateID == 3)
+   * * Update the motionWindow[1] with current INDEX.MCP to track movement of hand from initial position (position at which 'pseudoDown()' is triggered)
+   * * If significant increment (>=200) in 'fingerKinkRatio' is observed
+   * * * If previous operation is 'drag'(stateID=3)
+   * * * * Set 'stateID = 4' representing 'onmousedrop' event
+   * * * Else (if previous operation is 'down'[stateID=1])
+   * * * * Set 'stateID = 2' representing 'onmouseup' event
+   * * Else
+   * * * If 'decaWindow' is completely filled using 'decaWindowPointer'
+   * * * * Increment 'decaWindowPointer' by 1
+   * * * * Append current 'fingerKinkRatio' to 'decaWindow'
+   * * * * Append current INDEX.TIP to 'tipWindow'
+   * * * * Update the motionWindow[1] with current INDEX.MCP to track movement of hand from initial position (position at which 'pseudoDown()' is triggered)
+   * * * Else if 'decaWindow' is completely filled
+   * * * * Take copy of values of 'decaWindow' into variables
+   * * * * Update the 'decaWindow' shifting one-index left
+   * * * * Update 'decaWindow[4]' with current 'fingerKinkRatio'
+   * * * * Take copy of values of 'tipWindow' into variables
+   * * * * Update the 'tipWindow' shifting one-index left
+   * * * * Update 'tipWindow[4]' with current INDEX.TIP
+   * * * If current event is 'onmousedrag' ('stateID == 3') 
+   * * * * Call 'triggerMouseMove' event (corresponds to onmousemove in traditional mouse-based controls)
+   * 'false' is returned indicating mouse is not up at the current instance of time
+   */
   private pseudoUp(): boolean {
-    if (this.stateID == 1 || this.stateID == 3) {
-      this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP; // Update the motionWindow[0] with current INDEX.MCP
 
-      // Significant increment in FKR is observed
+    // Check whether current state of cusor is 'onmousedown'(stateID == 1) or 'onmousedrag'(stateID == 3)
+    if (this.stateID == 1 || this.stateID == 3) {
+
+      // Update the motionWindow[1] with current INDEX.MCP to track movement of hand from initial position (position at which 'pseudoDown()' is triggered)
+      this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
+
+      // Significant increment (>=200) in 'fingerKinkRatio' is observed
       if (
         this.decaWindow[1] &&
         this.fingerKinkRatio - this.decaWindow[1] >= 200
       ) {
-        // If previous operation is 'drag'(stateID=3) then update stateID=4 (drop operation)
+        
+        // If previous operation is 'drag'(stateID=3)
         if (this.stateID == 3) {
+
+          // Set 'stateID = 4' representing 'onmousedrop' event
           this.stateID = 4;
         }
 
-        // If previous operation is 'down'(stateID=1) then trigger stateID=2 (up operation)
+        // If previous operation is 'down'(stateID=1)
         else {
+
+          // Set 'stateID = 2' representing 'onmouseup' event
           this.stateID = 2;
         }
 
@@ -444,35 +486,52 @@ export class VgPointer extends AVgPointerEvents {
 
       // Significant increment in FKR is not observed
       else {
-        // decaWindow is not completely filled
-        if (this.decaWindowPointer && this.decaWindowPointer < 4) {
-          this.decaWindowPointer = this.decaWindowPointer + 1; // Increment the decaWindowPointer
 
-          this.decaWindow[this.decaWindowPointer] = this.fingerKinkRatio; // Append current FKR to decaWindow
+        // Check whether 'decaWindow' is completely filled
+        if (this.decaWindowPointer && this.decaWindowPointer < 4) {
+
+          // Increment 'decaWindowPointer' by 1
+          this.decaWindowPointer = this.decaWindowPointer + 1;
+
+          // Append current 'fingerKinkRatio' to 'decaWindow'
+          this.decaWindow[this.decaWindowPointer] = this.fingerKinkRatio;
+          
+          // Append current INDEX.TIP to 'tipWindow'
           this.tipWindow[this.decaWindowPointer] =
-            this.structuredLandmarks.data["INDEX"].TIP; // Append current INDEX.TIP to tipWindow
-          this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP; // Nullify the motionWindow[0] to store the successive INormalizedLandmarks of INDEX.MCP
+            this.structuredLandmarks.data["INDEX"].TIP;
+
+          // Update the motionWindow[1] with current INDEX.MCP to track movement of hand from initial position (position at which 'pseudoDown()' is triggered)
+          this.motionWindow[1] = this.structuredLandmarks.data["INDEX"].MCP;
         }
 
-        // decaWindow is completely filled
+        // 'decaWindow' is completely filled
         else if (this.decaWindowPointer == 4) {
-          // Take copy of values of decaWindow into variables
+         
+          /**
+           * No sliding window operations are performed on hibernated indices of 'decaWindow' and 'tipWindow' [0,1,2]
+          */
+
+          // Take copy of values of 'decaWindow' into variables
           var a = this.decaWindow[3];
           var b = this.decaWindow[4];
 
-          // Update the decaWindow shifting one-index left
+          // Update the 'decaWindow' shifting one-index left
           this.decaWindow[2] = a;
           this.decaWindow[3] = b;
-          this.decaWindow[4] = this.fingerKinkRatio; // Update decaWindow[4] with current FKR
 
-          // Take copy of values of tipWindow into variables
+          // Update 'decaWindow[4]' with current 'fingerKinkRatio'
+          this.decaWindow[4] = this.fingerKinkRatio;
+
+          // Take copy of values of 'tipWindow' into variables
           const p = this.tipWindow[3];
           const q = this.tipWindow[4];
 
-          // Update the tipWindow shifting one-index left
+          // Update the 'tipWindow' shifting one-index left
           this.tipWindow[2] = p;
           this.tipWindow[3] = q;
-          this.tipWindow[4] = this.structuredLandmarks.data["INDEX"].TIP; // Update tipWindow[4] with current INDEX.TIP
+
+          // Update 'tipWindow[4]' with current INDEX.TIP
+          this.tipWindow[4] = this.structuredLandmarks.data["INDEX"].TIP;
 
           // Note: No need to update the decaWindowPointer, keep the value as '4' only [this.decaWindowPointer= 4;]
         }
@@ -487,7 +546,9 @@ export class VgPointer extends AVgPointerEvents {
           // this.mouseInit.clientX = x;
           // this.mouseInit.clientY = y;
 
+          // Call 'triggerMouseMove' event (corresponds to onmousemove in traditional mouse-based controls)
           this.triggerMouseMove(this.mouseInit, this.getProps);
+
           this.setElement = document.elementFromPoint(
             this.mouseInit.clientX!,
             this.mouseInit.clientY!,
@@ -498,6 +559,13 @@ export class VgPointer extends AVgPointerEvents {
     return false;
   }
 
+  /**
+   * Signature   : pseudoClick()
+   * Description :  Used to check whether the mouse(cursor) is in 'click' state at current instance of time 
+   * _____________________________________________________________________________________
+   *                                   ALGORITHM
+   * _____________________________________________________________________________________
+  */
   private pseudoClick(): boolean {
     if (
       (this.stateID == 2 &&
@@ -556,6 +624,13 @@ export class VgPointer extends AVgPointerEvents {
     return false;
   }
 
+  /**
+   * Signature   : pseudoDrag()
+   * Description : Used to check whether the mouse(cursor) is in 'drag' state at current instance of time 
+   * _____________________________________________________________________________________
+   *                                   ALGORITHM
+   * _____________________________________________________________________________________
+  */
   private pseudoDrag(): boolean {
     if (
       this.stateID == 1 &&
@@ -574,6 +649,13 @@ export class VgPointer extends AVgPointerEvents {
     return false;
   }
 
+  /**
+   * Signature   : pseudoDrop()
+   * Description : Used to check whether the mouse(cursor) is in 'drop' state at current instance of time 
+   * _____________________________________________________________________________________
+   *                                   ALGORITHM
+   * _____________________________________________________________________________________
+  */
   private pseudoDrop(): boolean {
     if (
       (this.stateID == 4 &&
