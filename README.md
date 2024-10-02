@@ -6,7 +6,7 @@
 ![Markdown](https://img.shields.io/badge/License-MIT-blue.svg)
 
 # VisualGestures.js
-FingerPointer.js is an open-source TypeScript package that empowers users to effortlessly control the cursor, including actions such as hover, click, drag, and drop, through precise finger movements in the air.
+VisualGestures.js is an open-source TypeScript package that empowers users to effortlessly control the cursor, including actions such as hover, click, drag, and drop, through precise finger movements in the air.
 <br><br>
 **Immersive and Engaging User Experience** <br>
 Offers a unique and engaging user experience, often perceived as more immersive, and touch-free compared to conventional interfaces, particularly appealing for applications in gaming, virtual reality, and creative industries. <br><br>
@@ -17,7 +17,7 @@ Tailored for different industries such as controlling machinery in factories, na
 <br><br>
 **Offline Support** Developed in TypeScript, works anywhere with full offline functionality without the continuous requirement of internet, making it remotely available
 <br><br>
-<a href="#"> Click here </a> to watch demo of how it works!
+<a href="#visual_gestures_promo_main.mp4"> Click here </a> to watch demo of how it works!
 
 ## Table of Contents</h2>
 - [Getting Started](#getting-started)
