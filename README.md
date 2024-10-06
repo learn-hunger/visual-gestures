@@ -132,15 +132,14 @@ _______________e
 
 ## Contribute
 We'd love to embrace your contribution to VisualGestures.js. Please refer to <a href="___contribution.md">CONTRIUTION.md</a>
+<br><br>
+⭐ Starring the repository to show your appreciation. <br>
+🐛 Reporting bugs and suggesting improvements by opening issues. <br>
+🔥 Contributing to the development by submitting pull requests. <br>
 
 ## Support
 We greatly appreciate your support in making <b>VisualGestures.js</b> even better!
 <br> <br>
-If you find this project useful, please consider:
-<br>
-⭐ Starring the repository to show your appreciation. <br>
-🐛 Reporting bugs and suggesting improvements by opening issues. <br>
-🔥 Contributing to the development by submitting pull requests. <br>
 🌍 Sharing the project with your community to help spread the word. <br>
 💼 If you're interested in sponsoring our work, we would love your support! Your sponsorship will help us continue innovating and delivering high-quality updates. Please reach out to us directly for more information. <br><br>
 Your kind feedback, contributions, and sponsorships are invaluable in helping us continue to improve and grow this project!
