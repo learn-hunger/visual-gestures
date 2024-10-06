@@ -1,5 +1,5 @@
 ![plot](./src/assets/Banner.png)
-![Markdown](https://img.shields.io/npm/v/finger-pointer)
+![Markdown](https://img.shields.io/npm/v/visual-gesture-events)
 ![Markdown](https://img.shields.io/github/v/release/learn-hunger/visual-gesture-events)
 ![Markdown](https://img.shields.io/github/downloads/learn-hunger/visual-gesture-events/latest/total)
 ![Markdown](https://img.shields.io/badge/build-passing-brightgreen)
@@ -13,8 +13,6 @@ Offers a unique and engaging user experience, often perceived as more immersive,
 <br><br>
 **Offline Support** <br>
 Developed in TypeScript, works anywhere with full offline functionality without the continuous requirement of internet, making it remotely available
-<br><br>
-**Cross-Platform Compatibility** <br> Accessible across various platforms, from web browsers to native applications, providing versatile solutions for diverse business environments.
 <br><br>
 **Customizable for Various Applications** <br>
 Tailored for different industries such as controlling machinery in factories, navigating interfaces in automotive displays, interacting with public information kiosks without touching a screen.
@@ -32,11 +30,11 @@ Tailored for different industries such as controlling machinery in factories, na
 
 ## Getting Started
 
-**1. ________________Install using the code______________**
+**1. Install our npm package**
 > ```java
 > npm install finger-pointer
 > ```
-**2. Usage**
+**2. Integrate into your existing website**
 > ```java
 > pointer= new VGPointer();
 > pointer.isPointerClick(); // To check whether the pointer is clicked
@@ -44,43 +42,43 @@ Tailored for different industries such as controlling machinery in factories, na
 
 **3. Available Methods**
 ```java
-isPointerMove() // to move cursor
-isPointerDown() // _________
-isPointerUp()   // _________
-isPointerClick() //____________
-isPointerDrag() //_______________
-isPointerDrop() //____________
+pseudoMove() // to move cursor
+pseudoDown() // _________
+pseudoUp()   // _________
+pseudoClick() //____________
+pseudoDrag() //_______________
+pseudoDrop() //____________
  ```
 
-**3.1. isPointerMove()**
-Moves the cursor
+**3.1. pseudoMove()** <br>
+Function corresponds to 'onmousemove' event in traditional cursor-based controls
 >   ```java
-> isPointerMove()
+> pseudoMove()
 > ```
-**3.2. isPointerDown()**
-Down the cursor
+**3.2. pseudoDown()** <br>
+Function corresponds to 'onmousedown' event in traditional cursor-based controls
 >   ```java
-> isPointerDown()
+> pseudoDown()
 > ```
-**3.3 isPointerUp()**
-Up the cursor
+**3.3. pseudoUp()** <br>
+Function corresponds to 'onmouseup' event in traditional cursor-based controls
 >   ```java
-> isPointerUp()
+> pseudoUp()
 > ```
-**3.4. isPointerClick()**
-Click the element
+**3.4. pseudoClick()** <br>
+Function corresponds to 'onmouseclick' event in traditional cursor-based controls
 >   ```java
-> isPointerClick()
+> pseudoClick()
 > ```
-**3.5. isPointerDrag()**
-Drag the element
+**3.5. pseudoDrag()** <br>
+Function corresponds to 'onmousedrag' event in traditional cursor-based controls
 >   ```java
-> isPointerDrag()
+> pseudoDrag()
 > ```
-**3.6.isPointerDrop()**
-Drops the element
+**3.6. pseudoDrop()** <br>
+Function corresponds to 'onmousedrop' event in traditional cursor-based controls
 >```java
->isPointerDrop()
+>pseudoDrop()
 >```
 
 
@@ -100,18 +98,27 @@ Drops the element
 |Android| ✔️| ✔️ | - | ✔️| ✔️ |
 
 ## Contribute
-We'd love to embrace your contribution to FingerPointer.js. Please refer to <a href="___contribution.md">CONTRIUTION.md</a>
+We'd love to embrace your contribution to VisualGestures.js. Please refer to <a href="___contribution.md">CONTRIUTION.md</a>
 
 ## Support
-We want your kind support
+We greatly appreciate your support in making <b>VisualGestures.js</b> even better!
+<br> <br>
+If you find this project useful, please consider:
+<br>
+⭐ Starring the repository to show your appreciation. <br>
+🐛 Reporting bugs and suggesting improvements by opening issues. <br>
+🔥 Contributing to the development by submitting pull requests. <br>
+🌍 Sharing the project with your community to help spread the word. <br>
+💼 If you're interested in sponsoring our work, we would love your support! Your sponsorship will help us continue innovating and delivering high-quality updates. Please reach out to us directly for more information. <br><br>
+Your kind feedback, contributions, and sponsorships are invaluable in helping us continue to improve and grow this project!
 
 ## Maintainers
-<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddy</a>, <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
+<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddy</a>& <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
 
 ## Citation
 >@software{ <br/>
 >  package = {NagaSri2024visual-gestures}, <br/> 
->  authors = {Nagendra Dharmireddy, Boddu Sri Pavan}, <br/>
+>  authors = {Nagendra Dharmireddy& Boddu Sri Pavan}, <br/>
 >  title = {{visual-gestures}}, <br/>
 >  year = {2024}, <br/>
 >  version = {0.0.1}, <br/>
