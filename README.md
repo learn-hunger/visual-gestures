@@ -35,69 +35,72 @@ Tailored for different industries such as controlling machinery in factories, na
 
 **1. Install our npm package**
 
-> ```javascript
-> npm install @learn-hunger/visual-gestures
-> ```
+>  ```javascript
+>  npm install @learn-hunger/visual-gestures
+>  ```
 
 **2. Integrate into your existing website**
 
-> ```javascript
-> import { VisualGestures } from "@learn-hunger/visual-gestures/dist/";
-> /**
->  *create instance of visual-gestures
->  *which accepts optional parameters of container and the landmark to be used as pointer
->  *[Default body and landmark 8 is used respectively]
->  */
-> const vg = new VisualGestures();
-> //get hand landmarks from mediapipe's taskvision
-> //here video corresponds to 'HTMLVideoElement' with live webcam stream
-> const landmarks = handDetector.detectForVideo(video, performance.now());
-> vg.detect(landmarks.landmarks[0], performance.now());
-> // Virtual cursor can be seen once model loading and detection started successfully
-> ```
+>  ```javascript
+>  import { VisualGestures } from "@learn-hunger/visual-gestures/dist/";
+>
+>  /**
+>   *create instance of visual-gestures
+>   *which accepts optional parameters of container and the landmark to be used as pointer
+>   *[Default body and landmark 8 is used respectively]
+>   */
+>  const vg = new VisualGestures();
+>
+>  // get hand landmarks from mediapipe's taskvision
+>  // here video corresponds to 'HTMLVideoElement' with live webcam stream
+>  const landmarks = handDetector.detectForVideo(video, performance.now());
+>  vg.detect(landmarks.landmarks[0], performance.now());
+>  // Virtual cursor can be seen once model loading and detection started successfully
+>  ```
 
 For more information about handDetector, refer to the <a href="https://www.npmjs.com/package/@mediapipe/tasks-vision">mediapipe handLandmarker</a> documentation.<br/><br/>
 **3. Available Events** <br/>
 
-```javascript
-//one can find all possible event types in EVgMouseEvents
-import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
-//possible events are
-vgPointerMove(); // to move cursor
-vgPointerEnter(); //hover
-vgPointerLeave(); //unHover element
-vgPointerDown(); //finger enclosed on an element to click or drag etc
-vgPointerUp(); //finger ....TODO
-vgPointerClick(); //
-vgPointerDrag(); //_______________
-vgPointerDrop(); //____________
-```
+>  ```javascript
+>  // one can find all possible event types in EVgMouseEvents
+>  import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
+>
+>  // currently offered cursor control events
+>  vgPointerMove();  // corresponds to 'onmousemove'
+>  vgPointerEnter(); // corresponds to 'onmouseenter'
+>  vgPointerLeave(); // corresponds to 'onmouseleave'
+>  vgPointerDown(); // corresponds to 'onmousedown'
+>  vgPointerUp(); // corresponds to 'onmouseup'
+>  vgPointerClick(); // corresponds to 'onclick'
+>  vgPointerDrag(); // corresponds to 'onmousedrag' ('onclick'+'onmousemove')
+>  vgPointerDrop(); // corresponds to 'onmousedrop' ('onclick'+'onmousemove'+'onmouseup')
+>  ```
 
 ##### For each event, you can use a callback on the vgInstance[3.1] or via traditional event listeners [3.2], similar to cursor-based controls.
 
-**3.1.Instance Based Listening** <br>
+**3.1. Instance Based Listening** <br>
+
 Function corresponds to 'onmousemove' event in traditional cursor-based controls
 
-> ```javascript
-> vg.mouseEvents.onPointerMove = () => {
->   // console.log("callback pointer moved");
-> };
-> ```
+>  ```javascript
+>  vg.mouseEvents.onPointerMove = () => {
+>    // console.log("callback pointer moved");
+>  };
+>  ```
 
 **3.2. Traditional Event Based Listening** <br>
 
-> Function corresponds to 'onmousemove' event in traditional cursor-based controls
->
-> ```javascript
-> import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
-> document.addEventListener(EVgMouseEvents.MOUSE_MOVE, () => {
->   // console.log("callback pointer moved");
-> });
-> ```
->
-> <br/>
+Function corresponds to 'onmousemove' event in traditional cursor-based controls
 
-#### Similarily MOUSE_ENTER, MOUSE_LEAVE, MOUSE_DOWN, MOUSE_UP, MOUSE_CLICK, MOUSE_DRAG, MOUSE_DROP events can be listened via instance based listening or traditional based.
+>  ```javascript
+>  import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
+>  document.addEventListener(EVgMouseEvents.MOUSE_MOVE, () => {
+>    // console.log("callback pointer moved");
+>  });
+>  ```
+<br/>
+
+#### Similarily MOUSE_ENTER, MOUSE_LEAVE, MOUSE_DOWN, MOUSE_UP, MOUSE_CLICK, MOUSE_DRAG, MOUSE_DROP events can be listened via instance based or traditional based listening.
 
 ## Comprehensive Ecosystem
 
