@@ -23,12 +23,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pvscreations/npm.git"
+    "url": "git+https://github.com/learn-hunger/visual-gestures.git"
   },
   "keywords": [
     "tensorflowjs",
     "tensorflow",
-    "canvas",
+    "visual gestures",
+    "debugging tools",
     "visualisation",
     "visualization",
     "landmarks",
@@ -36,17 +37,16 @@
     "data",
     "kit"
   ],
-  "author": "Nagendra dharmireddi (pvscreations)",
+  "author": "Nagendra dharmireddi, Boddu Sri Pavan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pvscreations/npm/issues"
+    "url": "https://github.com/learn-hunger/visual-gestures/issues"
   },
-  "homepage": "https://github.com/pvscreations/npm#readme",
+  "homepage": "https://visual-gestures.vercel.app/",
   "dependencies": {
     "fs": "^0.0.1-security",
     "prettier": "^3.2.5",
-    "tsc-node": "^0.0.3",
-    "vercel": "^34.2.7"
+    "tsc-node": "^0.0.3"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",

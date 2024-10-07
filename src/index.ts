@@ -9,7 +9,7 @@ import { VgHandLandmarksDTO } from "./app/pointer/DTO/vg-handlandmark";
  * Central Class to Hold all kinds of gestures such as hand for now and
  * may be audio gestures for future
  */
-export class Main extends AVgCommon {
+export class VisualGestures extends AVgCommon {
   /**
    * props are the properties being sent to the
    * event handlers and its corresponding custom event classes

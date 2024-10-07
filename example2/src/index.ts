@@ -1,4 +1,4 @@
-import { Main } from "@learn-hunger/visual-gestures/src/index";
+import { VisualGestures } from "@learn-hunger/visual-gestures/src/";
 import { Canvas } from "@learn-hunger/visualise-data-kit/src/blueprints/canvas/canvas";
 import { ETensorflow } from "@learn-hunger/visualise-data-kit/src/utils/constants/canvas/constants";
 import { invertLandmarks } from "@learn-hunger/visualise-data-kit/src/utils/functions";
@@ -44,7 +44,7 @@ const gui = new GUI({
   // closeFolders:true
 });
 gui.hide();
-const vg = new Main();
+const vg = new VisualGestures();
 // loadWeights();
 export function initialiseDetection(webcamRef: HTMLVideoElement) {
   debugGraphRef = document.getElementById("debugGraphRef") as HTMLCanvasElement;
@@ -98,13 +98,13 @@ function startDetection() {
     if (lastVideoTime != webcamElement.currentTime) {
       statsFps.begin();
       landmarks = detect(webcamElement);
-      const pointer = landmarks?.landmarks[0];
-      if (pointer && debugObject.landmarks.drawLandmarks) {
-        drawOnCanvas(pointer);
+      const handLandmark = landmarks?.landmarks[0];
+      if (handLandmark && debugObject.landmarks.drawLandmarks) {
+        drawOnCanvas(handLandmark);
       }
       // if (pointer) {
       try {
-        vg.detect(pointer, performance.now(), debugObject.cursorSpeed);
+        vg.detect(handLandmark, performance.now(), debugObject.cursorSpeed);
         //----------analytics logic being--------------------->
         if (gameVar.firstClassification == false) {
           AnalyticsTagManager.sendEvents({

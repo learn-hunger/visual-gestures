@@ -1,6 +1,6 @@
 import { VgPointerDrag } from "../../src/app/pointer/custom-events/vg-pointer-drag";
 import { VgPointerDrop } from "../../src/app/pointer/custom-events/vg-pointer-drop";
-import { EVgMouseEvents } from "../../src/app/utilities/vg-constants";
+import { EVgMouseEvents } from "@learn-hunger/visual-gestures/src/app/utilities/vg-constants";
 
 export function eventsListeners() {
   let draggingElement: HTMLElement | null = null;
