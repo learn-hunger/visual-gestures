@@ -1,7 +1,7 @@
 ![plot](./src/assets/Banner.png)
-![Markdown](https://img.shields.io/npm/v/visual-gesture-events)
-![Markdown](https://img.shields.io/github/v/release/learn-hunger/visual-gesture-events)
-![Markdown](https://img.shields.io/github/downloads/learn-hunger/visual-gesture-events/latest/total)
+![Markdown](https://img.shields.io/npm/v/@learn-hunger/visual-gestures)
+![Markdown](https://img.shields.io/github/v/release/learn-hunger/visual-gestures)
+![Markdown](https://img.shields.io/github/downloads/learn-hunger/visual-gestures/latest/total)
 ![Markdown](https://img.shields.io/badge/build-passing-brightgreen)
 ![Markdown](https://img.shields.io/badge/License-MIT-blue.svg)
 
