@@ -39,15 +39,16 @@ Tailored for different industries such as controlling machinery in factories, na
 > ```javascript
 > import { VisualGestures } from "@learn-hunger/visual-gestures/dist/";
 > /**
-> *create instance of visual-gestures, it accepts optional parameters of container and which landmark
-> *to be used as pointer, by default body and landmark 8 is used respectively
+> *create instance of visual-gestures
+> *which accepts optional parameters of container and the landmark to be used as pointer
+> *[Default body and landmark 8 is used respectively]
 > */
 > const vg = new VisualGestures();
-> //get handlandmarks from mediapipe taskvision
-> //here video is the HTMLVideoElement with live webcam stream
+> //get hand landmarks from mediapipe's taskvision
+> //here video corresponds to 'HTMLVideoElement' with live webcam stream
 > const landmarks = handDetector.detectForVideo(video, performance.now());
 > vg.detect(landmarks.landmarks[0], performance.now())
-> //once the model loading and detection start, you can see a virtual cursor on the screen (which implies integration is successfull)
+> // Virtual cursor can be seen once model loading and detection started successfully
 > ```
 For more information about handDetector, refer to the <a href="https://www.npmjs.com/package/@mediapipe/tasks-vision">mediapipe handLandmarker</a> documentation.<br/><br/>
 **3. Available Events** <br/>
@@ -81,7 +82,7 @@ Function corresponds to 'onmousemove' event in traditional cursor-based controls
 >   });
 > ```
 ><br/>   
-#### Similarily ,enter,leave,down,up,click,drag,drop events can be listened via instance based listening or traditional based.
+#### Similarily MOUSE_ENTER, MOUSE_LEAVE, MOUSE_DOWN, MOUSE_UP, MOUSE_CLICK, MOUSE_DRAG, MOUSE_DROP events can be listened via instance based listening or traditional based.
 
 
 ## Comprehensive Ecosystem
