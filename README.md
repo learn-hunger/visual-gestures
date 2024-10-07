@@ -32,86 +32,88 @@ Tailored for different industries such as controlling machinery in factories, na
 ## Getting Started
 
 **1. Install our npm package**
-> ```java
-> npm install finger-pointer
+> ```javascript
+> npm install @learn-hunger/visual-gestures
 > ```
 **2. Integrate into your existing website**
-> ```java
-> pointer= new VGPointer();
-> pointer.isPointerClick(); // To check whether the pointer is clicked
+> ```javascript
+> import { VisualGestures } from "@learn-hunger/visual-gestures/dist/";
+> /**
+> *create instance of visual-gestures, it accepts optional parameters of container and which landmark
+> *to be used as pointer, by default body and landmark 8 is used respectively
+> */
+> const vg = new VisualGestures();
+> //get handlandmarks from mediapipe taskvision
+> //here video is the HTMLVideoElement with live webcam stream
+> const landmarks = handDetector.detectForVideo(video, performance.now());
+> vg.detect(landmarks.landmarks[0], performance.now())
+> //once the model loading and detection start, you can see a virtual cursor on the screen (which implies integration is successfull)
 > ```
-
-**3. Available Methods**
-```java
-pseudoMove() // to move cursor
-pseudoDown() // _________
-pseudoUp()   // _________
-pseudoClick() //____________
-pseudoDrag() //_______________
-pseudoDrop() //____________
+For more information about handDetector, refer to the <a href="https://www.npmjs.com/package/@mediapipe/tasks-vision">mediapipe handLandmarker</a> documentation.<br/><br/>
+**3. Available Events** <br/>
+```javascript
+//one can find all possible event types in EVgMouseEvents
+import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
+//possible events are
+vgPointerMove() // to move cursor
+vgPointerEnter() //hover
+vgPointerLeave() //unHover element
+vgPointerDown() //finger enclosed on an element to click or drag etc
+vgPointerUp() //finger ....TODO
+vgPointerClick() //
+vgPointerDrag() //_______________
+vgPointerDrop() //____________
  ```
-
-**3.1. pseudoMove()** <br>
+##### For each event, you can use a callback on the vgInstance[3.1] or via traditional event listeners [3.2], similar to cursor-based controls. 
+**3.1.Instance Based Listening** <br>
 Function corresponds to 'onmousemove' event in traditional cursor-based controls
->   ```java
-> pseudoMove()
+>   ```javascript
+>   vg.mouseEvents.onPointerMove = () => {
+>       // console.log("callback pointer moved");
+>     };
 > ```
-**3.2. pseudoDown()** <br>
-Function corresponds to 'onmousedown' event in traditional cursor-based controls
->   ```java
-> pseudoDown()
+**3.2. Traditional Event Based Listening** <br>
+Function corresponds to 'onmousemove' event in traditional cursor-based controls
+> ```javascript
+> import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
+> document.addEventListener(EVgMouseEvents.MOUSE_MOVE, ()=>{
+> // console.log("callback pointer moved");
+>   });
 > ```
-**3.3. pseudoUp()** <br>
-Function corresponds to 'onmouseup' event in traditional cursor-based controls
->   ```java
-> pseudoUp()
-> ```
-**3.4. pseudoClick()** <br>
-Function corresponds to 'onmouseclick' event in traditional cursor-based controls
->   ```java
-> pseudoClick()
-> ```
-**3.5. pseudoDrag()** <br>
-Function corresponds to 'onmousedrag' event in traditional cursor-based controls
->   ```java
-> pseudoDrag()
-> ```
-**3.6. pseudoDrop()** <br>
-Function corresponds to 'onmousedrop' event in traditional cursor-based controls
->```java
->pseudoDrop()
->```
+><br/>   
+#### Similarily ,enter,leave,down,up,click,drag,drop events can be listened via instance based listening or traditional based.
+
 
 ## Comprehensive Ecosystem
 Our custom-built methods seamlessly integrate with your projects, offering flexibility and unmatched performance—perfect for developers looking to innovate and contribute.
 
 **1. ______a()** <br>
 _______________a
->```java
+>```javascript
 >______a()
 >```
 
 **2. ______b()** <br>
 _______________b
->```java
+>```javascript
 > ______b()
 >```
 
 **3. ______c()** <br>
 _______________c
->```java
+>```javascript
 >______c()
 >```
 
 **4. ______d()** <br>
 _______________d
->```java
+>```javascript
 >______d()
 >```
 
 **5. ______e()** <br>
 _______________e
->```java
+>```javascript
 >______e()
 >```
 
@@ -131,31 +133,31 @@ _______________e
 |Android| ✔️| ✔️ | - | ✔️| ✔️ |
 
 ## Contribute
-We'd love to embrace your contribution to VisualGestures.js. Please refer to <a href="___contribution.md">CONTRIUTION.md</a>
+We'd love to embrace your contribution to VisualGestures.js. Please refer to <a href="https://github.com/learn-hunger/visual-gesture-events/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
 <br><br>
-⭐ Starring the repository to show your appreciation. <br>
-🐛 Reporting bugs and suggesting improvements by opening issues. <br>
-🔥 Contributing to the development by submitting pull requests. <br>
+⭐ [Starring the repository](https://github.com/learn-hunger/visual-gesture-events) to show your appreciation. <br>
+🐛 [Reporting bugs](https://github.com/learn-hunger/visual-gesture-events/issues) and suggesting improvements by opening issues. <br>
+🔥 [Contributing](https://github.com/learn-hunger/visual-gesture-events/blob/main/CONTRIBUTING.md) to the development by submitting pull requests. <br>
 
 ## Support
-We greatly appreciate your support in making <b>VisualGestures.js</b> even better!
+We greatly appreciate your support in making <b>VisualGestures</b> even better!
 <br> <br>
 🌍 Sharing the project with your community to help spread the word. <br>
-💼 If you're interested in sponsoring our work, we would love your support! Your sponsorship will help us continue innovating and delivering high-quality updates. Please reach out to us directly for more information. <br><br>
-Your kind feedback, contributions, and sponsorships are invaluable in helping us continue to improve and grow this project!
+💼 If you're interested in [sponsoring](https://github.com/sponsors/learn-hunger) our work, we would love your support! Your sponsorship will help us continue innovating and delivering high-quality updates. Please reach out to us directly for more information. <br><br>
+Your kind [feedback](https://github.com/learn-hunger/visual-gesture-events/issues), [contributions](https://github.com/learn-hunger/visual-gesture-events/blob/main/CONTRIBUTING.md), and [sponsorships](https://github.com/sponsors/learn-hunger) are invaluable in helping us continue to improve and grow this project!
 
 ## Maintainers
 <a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddy</a>& <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
 
 ## Citation
 >@software{ <br/>
->  package = {NagaSri2024visual-gestures}, <br/> 
+>  package = {@learn-hunger/visual-gestures}, <br/> 
 >  authors = {Nagendra Dharmireddy& Boddu Sri Pavan}, <br/>
 >  title = {{visual-gestures}}, <br/>
 >  year = {2024}, <br/>
 >  version = {0.0.1}, <br/>
->  url = {https://github.com/yourusername/packagename}, <br/>
->  howpublished = {\url{https://www.npmjs.com/package/packagename}} <br/>
+>  url = {https://github.com/learn-hunger/visual-gesture-events}, <br/>
+>  howpublished = {\url{https://www.npmjs.com/package/@learn-hunger/visual-gestures}} <br/>
 >}
 
 ## Thank You !
