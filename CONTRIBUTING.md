@@ -44,15 +44,15 @@
 
 By default the webpage runs using this hostname [http://localhost:5173/](http://localhost:5173/)<br/><br/>
 **6. [Debuging Panel](https://drive.google.com/file/d/1MmnZ9IVeZ5S004y1gVhQKTHF6z-mhCuw/view?usp=drive_link)**<br/>
-There are various debugging tools all placed at one place for smooth development and inference, It includes
+There are various debugging tools placed under single interface for smooth development, troubleshooting, and inference. It includes
 
 1. Performance Monitors
 2. Debug UI
-3. Graphs
-4. Custom Landmarks Drawing. [Know more about it here](https://www.npmjs.com/package/@learn-hunger/visualise-data-kit)
+3. Graphical Visualization(s)
+4. Custom Landmarks Drawing. Know more about it [here](https://www.npmjs.com/package/@learn-hunger/visualise-data-kit)
 
 > You can view the Live Panel [here](https://visual-gestures.vercel.app/#debug)<br/>
-> You can view in local by adding "#debug" path to host ie using the url [http://localhost:5173/#debug](http://localhost:5173/#debug) <br/>
+> You can view in local by adding "#debug" path to host i.e., using the url [http://localhost:5173/#debug](http://localhost:5173/#debug) <br/>
 
 **5. To Contribute ie raise pull request or creating branches etc** <br/>
 
