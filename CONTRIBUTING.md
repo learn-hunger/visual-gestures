@@ -1,5 +1,7 @@
 ![plot](./src/assets/Banner.png)
 
+<b>VisualGestures.js</b> is an open-source TypeScript package that empowers users to effortlessly control the cursor, including actions such as hover, click, drag, and drop, through precise finger movements in the air. <br>
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
