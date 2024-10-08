@@ -60,7 +60,7 @@ Tailored for different industries such as controlling machinery in factories, na
 
 For more information about handDetector, refer to the <a href="https://www.npmjs.com/package/@mediapipe/tasks-vision">mediapipe handLandmarker</a> documentation.<br/><br/>
 **3. Available Events** <br/>
-One can find a quick guide below on how to use the gestures
+Refer to the quick guide below for effective gesture usage.
 <img src="https://drive.google.com/uc?export=view&id=1cC-AqEBq_Y7VOgGUpTmN39lX3pHpcPBv"/><br/>
 >  ```javascript
 >  // one can find all possible event types in EVgMouseEvents
