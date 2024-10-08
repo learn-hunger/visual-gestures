@@ -44,7 +44,7 @@
 
 By default the webpage runs using this hostname [http://localhost:5173/](http://localhost:5173/)<br/><br/>
 **6. [Debuging Panel](https://drive.google.com/file/d/1MmnZ9IVeZ5S004y1gVhQKTHF6z-mhCuw/view?usp=drive_link)**<br/>
-There are various debugging tools placed under single interface for smooth development, troubleshooting, and inference. It includes
+There are various debugging tools placed under one interface for smooth development, quick troubleshooting, and inference. It includes
 
 1. Performance Monitors
 2. Debug UI
@@ -97,7 +97,8 @@ Your kind [feedback](https://github.com/learn-hunger/visual-gesture-events/issue
 
 ## Maintainers
 
-<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddi</a>& <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
+<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddi</a>& <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a> <br>
+Join our [Discord community](https://discord.gg/czWwQjBW) to engage with us directly, and don't forget to follow us on LinkedIn and [GitHub](https://github.com/learn-hunger) to stay updated on our latest projects, collaborations, and innovations!
 
 ## Citation
 
