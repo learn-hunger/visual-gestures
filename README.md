@@ -61,7 +61,11 @@ Tailored for different industries such as controlling machinery in factories, na
 For more information about handDetector, refer to the <a href="https://www.npmjs.com/package/@mediapipe/tasks-vision">mediapipe handLandmarker</a> documentation.<br/><br/>
 **3. Available Events** <br/>
 Refer to the quick guide below for effective gesture usage.
-<img src="https://drive.google.com/uc?export=view&id=1cC-AqEBq_Y7VOgGUpTmN39lX3pHpcPBv"/><br/>
+<p align= "center">
+ <img src="https://drive.google.com/uc?export=view&id=1cC-AqEBq_Y7VOgGUpTmN39lX3pHpcPBv" height="50%" width= "65%"/>
+</p> 
+<br/>
+
 >  ```javascript
 >  // one can find all possible event types in EVgMouseEvents
 >  import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
@@ -122,7 +126,7 @@ providing developers with the flexibility and performance needed to innovate and
 |macOS| ✔️| ✔️ | ✔️ | ✔️| ✔️ | 
 |Ubuntu LTS 18.04| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
 
-**Mobile platforms**
+**Mobile Platforms**
 |OS/Browser|Chrome|Edge|FireFox|Safari|Opera
 |:---:|:---:|:---:|:---:|:---:|:---:|
 |iOS| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
