@@ -144,17 +144,17 @@ Our custom-built methods seamlessly integrate with your projects, offering flexi
 ## Compatibility
 
 **Desktop Platforms**
-|OS/Browser|Chrome|Edge|FireFox|Safari|Opera|Electron|Node.js|
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|Windows 10| ✔️| ✔️ | - | ✔️| ✔️ | - | ✔️|
-|macOS| ✔️| ✔️ | - | ✔️| ✔️ | - | ✔️|
-|Ubuntu LTS 18.04| ✔️| ✔️ | - | ✔️| ✔️ | - | ✔️|
+|OS/Browser|Chrome|Edge|FireFox|Safari|Opera|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|Windows| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
+|macOS| ✔️| ✔️ | ✔️ | ✔️| ✔️ | 
+|Ubuntu LTS 18.04| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
 
 **Mobile platforms**
 |OS/Browser|Chrome|Edge|FireFox|Safari|Opera
 |:---:|:---:|:---:|:---:|:---:|:---:|
-|iOS| ✔️| ✔️ | - | ✔️| ✔️ |
-|Android| ✔️| ✔️ | - | ✔️| ✔️ |
+|iOS| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
+|Android| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
 
 ## Contribute
 
