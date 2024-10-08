@@ -103,11 +103,11 @@ Your kind [feedback](https://github.com/learn-hunger/visual-gesture-events/issue
 
 > @software{ <br/>
 > package = {@learn-hunger/visual-gestures}, <br/>
-> authors = {Nagendra Dharmireddy& Boddu Sri Pavan}, <br/>
+> authors = {Nagendra Dharmireddi& Boddu Sri Pavan}, <br/>
 > title = {{visual-gestures}}, <br/>
 > year = {2024}, <br/>
 > version = {0.0.1}, <br/>
-> url = {https://github.com/learn-hunger/visual-gesture-events}, <br/>
+> url = {https://github.com/learn-hunger/visual-gestures}, <br/>
 > howpublished = {\url{https://www.npmjs.com/package/@learn-hunger/visual-gestures}} <br/>
 > }
 
