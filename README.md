@@ -146,7 +146,8 @@ Your kind [feedback](https://github.com/learn-hunger/visual-gesture-events/issue
 
 ## Maintainers
 
-<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddi</a>& <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
+<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddi</a>& <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a><br/>
+Join our [Discord community](https://discord.gg/czWwQjBW) to engage with us directly, and don't forget to follow us on LinkedIn and [GitHub](https://github.com/learn-hunger) to stay updated on our latest projects, collaborations, and innovations!
 
 ## Citation
 
