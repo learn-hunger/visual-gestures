@@ -97,7 +97,7 @@ Your kind [feedback](https://github.com/learn-hunger/visual-gesture-events/issue
 
 ## Maintainers
 
-<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddy</a>& <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
+<a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddi</a>& <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a>
 
 ## Citation
 
