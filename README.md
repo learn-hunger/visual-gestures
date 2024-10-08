@@ -60,7 +60,8 @@ Tailored for different industries such as controlling machinery in factories, na
 
 For more information about handDetector, refer to the <a href="https://www.npmjs.com/package/@mediapipe/tasks-vision">mediapipe handLandmarker</a> documentation.<br/><br/>
 **3. Available Events** <br/>
-
+One can find a quick guide below on how to use the gestures
+<img src="https://drive.google.com/uc?export=view&id=1cC-AqEBq_Y7VOgGUpTmN39lX3pHpcPBv"/><br/>
 >  ```javascript
 >  // one can find all possible event types in EVgMouseEvents
 >  import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
@@ -104,43 +105,14 @@ Function corresponds to 'onmousemove' event in traditional cursor-based controls
 
 ## Comprehensive Ecosystem
 
-Our custom-built methods seamlessly integrate with your projects, offering flexibility and unmatched performance—perfect for developers looking to innovate and contribute.
+Our custom-built project seamlessly integrates tools like [Central Logger](https://analytics.google.com/analytics/web/#/p458601436/reports/reportinghub?params=_u..nav%3Dmaui),
+Vercel auto build, [GitHub release management](https://github.com/learn-hunger/visual-gestures/releases), 
+[debugging tools](https://visual-gestures.vercel.app/#debug), 
+[CI/CD pipelines](https://drive.google.com/file/d/1Yd7y5yqpNi6e2v3zJWHMRDf_dzPzTCIo/view?usp=sharing), and 
+[automated code reviews](https://drive.google.com/file/d/1gsiI8DUTc3D_zSQNSCXAayqNUmVfnug7/view?usp=sharing),
+providing developers with the flexibility and performance needed to innovate and contribute effortlessly.
 
-**1. **\_\_**a()** <br>
-**\*\***\_\_\_**\*\***a
-
-> ```javascript
-> ______a();
-> ```
-
-**2. **\_\_**b()** <br>
-**\*\***\_\_\_**\*\***b
-
-> ```javascript
-> ______b();
-> ```
-
-**3. **\_\_**c()** <br>
-**\*\***\_\_\_**\*\***c
-
-> ```javascript
-> ______c();
-> ```
-
-**4. **\_\_**d()** <br>
-**\*\***\_\_\_**\*\***d
-
-> ```javascript
-> ______d();
-> ```
-
-**5. **\_\_**e()** <br>
-**\*\***\_\_\_**\*\***e
-
-> ```javascript
-> ______e();
-> ```
-
+<img src="https://drive.google.com/uc?export=view&id=1FC_riMhdfaF182kOoCNPsJ3foCh-Ijxn"/><br/>
 ## Compatibility
 
 **Desktop Platforms**
