@@ -6,6 +6,7 @@
 
 - [Getting Started](#getting-started)
 - [Architecture](#architecture)
+- [Future Scope](#future-scope)
 - [Contribute](#contribute)
 - [Support](#support)
 - [Maintainers](#maintainers)
@@ -44,7 +45,7 @@
 
 By default the webpage runs using this hostname [http://localhost:5173/](http://localhost:5173/)<br/><br/>
 **6. [Debuging Panel](https://drive.google.com/file/d/1MmnZ9IVeZ5S004y1gVhQKTHF6z-mhCuw/view?usp=drive_link)**<br/>
-There are various debugging tools placed under one interface for smooth development, quick troubleshooting, and inference. It includes
+Various debugging tools are placed under one interface for smooth development, quick troubleshooting, and inference, which includes:
 
 1. Performance Monitors
 2. Debug UI
@@ -79,6 +80,10 @@ You can view the architecture via
 > 1. [drive](https://drive.google.com/file/d/10X_ZtTe-baZZelIYLQuHwS-8FZwOnWE2/view?usp=sharing) or
 > 2. [draw.io](https://app.diagrams.net/#G10X_ZtTe-baZZelIYLQuHwS-8FZwOnWE2#%7B%22pageId%22%3A%22c4acf3e9-155e-7222-9cf6-157b1a14988f%22%7D)
 
+## Future Scope
+
+As we continue to refine our system, future improvements will focus on enhancing algorithmic precision for more accurate gesture recognition in diverse environments, including low-light conditions and faster gestures, ensuring a more robust and responsive interaction experience.
+
 ## Contribute
 
 We'd love to embrace your contribution to VisualGestures.js. Please refer to <a href="https://github.com/learn-hunger/visual-gesture-events/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
@@ -98,7 +103,7 @@ Your kind [feedback](https://github.com/learn-hunger/visual-gesture-events/issue
 ## Maintainers
 
 <a href="https://www.linkedin.com/in/nagendra-dharmireddi-27a4651b1/">Nagendra Dharmireddi</a>& <a href= "https://www.linkedin.com/in/boddusripavan/"> Boddu Sri Pavan </a> <br>
-Join our [Discord community](https://discord.gg/czWwQjBW) to engage with us directly, and don't forget to follow us on LinkedIn and [GitHub](https://github.com/learn-hunger) to stay updated on our latest projects, collaborations, and innovations!
+Join our [Discord community](https://discord.gg/czWwQjBW) to engage with us directly, and don't forget to follow us on [GitHub](https://github.com/learn-hunger) to stay updated on our latest projects, collaborations, and innovations!
 
 ## Citation
 
