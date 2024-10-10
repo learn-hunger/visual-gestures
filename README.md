@@ -26,6 +26,7 @@ Tailored for different industries such as controlling machinery in factories, na
 - [Getting Started](#getting-started)
 - [Comprehensive Ecosystem](#comprehensive-ecosystem)
 - [Compatibility](#compatibility)
+- [Future Scope](#future-scope)
 - [Contribute](#contribute)
 - [Support](#support)
 - [Maintainers](#maintainers)
@@ -67,7 +68,7 @@ Refer to the quick guide below for effective gesture usage.
 <br/>
 
 >  ```javascript
->  // one can find all possible event types in EVgMouseEvents
+>  // comprehensive list of all potential event types can be found within the 'EVgMouseEvents'
 >  import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
 >
 >  // currently offered cursor control events
@@ -131,6 +132,10 @@ providing developers with the flexibility and performance needed to innovate and
 |:---:|:---:|:---:|:---:|:---:|:---:|
 |iOS| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
 |Android| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
+
+## Future Scope
+
+As we continue to refine our system, future improvements will focus on enhancing algorithmic precision for more accurate gesture recognition in diverse environments, including low-light conditions and faster gestures, ensuring a more robust and responsive interaction experience.
 
 ## Contribute
 
