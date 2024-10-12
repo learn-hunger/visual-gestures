@@ -1,7 +1,7 @@
 {
   "name": "@learn-hunger/visual-gestures",
   "version": "0.0.1",
-  "description": "A package for visulisation ,especially for landmarks",
+  "description": "VisualGestures.js is a package that empowers users to effortlessly control the cursor, including actions such as hover, click, drag, and drop, through precise finger movements in the air.",
   "files": [
     "dist/"
   ],
