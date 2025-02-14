@@ -1,5 +1,5 @@
 ---
-title: 'visual-gestures.js- Lets you control the cursor with hand or finger movements'
+title: visual-gestures.js- Lets you control the cursor with hand or finger movements
 tags:
   - typescript
   - tensorflowjs
