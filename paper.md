@@ -35,7 +35,7 @@ bibliography: paper.bib
 # Summary
 
 **visual-gestures.js** is an open-source TypeScript library enabling precise
-cursor control—hover, click, drag, and drop—through hand gestures in the air.
+cursor control hover, click, drag, and drop through hand gestures in the air.
 It replaces traditional touch-based interactions with intuitive, 
 natural gestures, offering seamless performance, offline support, and 
 uninterrupted productivity. Designed with a modular architecture, it is highly
@@ -61,7 +61,7 @@ physical touch. Gesture recognition is achieved by extracting hand landmarks
 using Google MediaPipe's Hand Landmarker.
 
 At the core of our approach is the Fluid Kink Ratio Algorithm (FKR Algorithm), 
-a novel technique for gesture-based decision-making. FKRA dynamically tracks 
+a novel technique, we propose, for gesture-based decision-making. FKR Algorithm dynamically tracks 
 the ratio of two key segment lengths: (i) Index fingertip to its base and 
 (ii) Index finger base to wrist base. This ratio is monitored within a 
 hibernating sliding window of the last five recorded frames, ensuring 
@@ -74,12 +74,12 @@ $$\text{Weighted Euclidean Distance}=
 \sqrt{\alpha(x_1-x_2)^2 + \beta(y_1-y_2)^2} $$
 $$where \text{ } \alpha,\text{ }\beta \in [0,1]$$
 
-Figure \autoref{fig:example}  below illustrate the sequential gesture transitions within the
+Figure 1, 2  illustrate the sequential gesture transitions within the
 sliding window, visualized using KitikiPlot, depicting movement trends across 
 consecutive time frames.
 
 
-![Visualization of user action sequences using KitikiPlot \label{fig:example}](./src/assets/Banner.png)
+![Visualization of user action sequences using KitikiPlot](./src/assets/VisualGesturesJS_0.png)
 *Figure 1: Visualization of user action sequences using KitikiPlot where 
 the x-axis represents user action detected for each frame, and the y-axis 
 consecutive sliding windows of length 5, stride 1, where distinct colors 
@@ -87,18 +87,21 @@ represent different events, enabling clear identification
 and differentiation of user interactions during 
 gesture-based operations.*
 
-![Figure 2: Sliding window visualization focusing specifically on cursor up 
+![Visualization of user action sequences using KitikiPlot](./src/assets/VisualGesturesJS_1.png)
+*Figure 2: Sliding window visualization focusing specifically on cursor up 
 and down events, where the x-axis represents user action detected for 
 each frame, and the y-axis consecutive sliding windows of length 5, 
 highlighting the frame-level sequential relationship within the 
-user gesture actions.](VisualGesturesJS_1.png){ width=100% }
+user gesture actions.*
 
-Figures can be included like this:
-![Caption for example figure.\label{fig:example}](VisualGesturesJS_1.png)
-and referenced from text using \autoref{fig:example}
+We developed a robust debugging panel, as shown in Figure 3 featuring memory and 
+CPU utilization tracking, framerate monitoring, landmark skeletal 
+visualization, a live finger kink ratio graph, and a customizable debug UI. 
+This enables developers to extend and tailor the system to their specific 
+use cases efficiently.
 
-
-We developed a robust debugging panel featuring memory and CPU utilization tracking, framerate monitoring, landmark skeletal visualization, a live finger kink ratio graph, and a customizable debug UI. This enables developers to extend and tailor the system to their specific use cases efficiently.
+![Visualization of user action sequences using KitikiPlot](./src/assets/Debugging_Panel.png)
+*Figure 3: Comprehensive Debugging Panel*
 
 # Acknowledgements
 
