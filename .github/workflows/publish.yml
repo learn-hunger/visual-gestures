@@ -23,13 +23,13 @@ jobs:
           npm install
           npm run check-build
       - name: uploading npm artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: npm_artifacts # Unique name for this artifact
           path: ./dist # Path to the general build output
 
       - name: uploading vercel artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vercel_artifacts # Unique name for this artifact
           path: ./example2/dist # Path to the Vercel-specific build output
