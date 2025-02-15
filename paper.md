@@ -38,8 +38,8 @@ bibliography: paper.bib
 cursor control hover, click, drag, and drop through hand gestures in the air.
 It replaces traditional touch-based interactions with intuitive, 
 natural gestures, offering seamless performance, offline support, and 
-uninterrupted productivity. Designed with a modular architecture, it is highly
-extensible across diverse applications. The library is open-source and 
+uninterrupted productivity. Designed with an event-driven architecture, it is 
+highly extensible across diverse applications. The library is open-source and 
 available on GitHub \: https://github.com/learn-hunger/visual-gestures
 
 # Statement of need
