@@ -111,7 +111,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: Downloading npm build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: npm_artifacts
           path: ./dist
@@ -135,7 +135,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: downloading vercel artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vercel_artifacts
           path: ./example2/dist
