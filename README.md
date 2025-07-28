@@ -36,51 +36,81 @@ Tailored for different industries such as controlling machinery in factories, na
 
 **1. Install our npm package**
 
->  ```javascript
->  npm install @learn-hunger/visual-gestures
->  ```
+> ```javascript
+> npm install @learn-hunger/visual-gestures
+> ```
 
 **2. Integrate into your existing website**
 
->  ```javascript
->  import { VisualGestures } from "@learn-hunger/visual-gestures/dist/";
+> ```javascript
+> import { VisualGestures } from "@learn-hunger/visual-gestures/dist/";
+> import {
+>   FilesetResolver,
+>   HandLandmarker,
+>   HandLandmarkerResult,
+> } from "@mediapipe/tasks-vision";
+> // create instance of visual-gestures
+> // which accepts optional parameters of container and the landmark to be used as pointer
+> // [Default body and landmark 8 is used respectively]
+> const vg = new VisualGestures();
 >
->  /**
->   *create instance of visual-gestures
->   *which accepts optional parameters of container and the landmark to be used as pointer
->   *[Default body and landmark 8 is used respectively]
->   */
->  const vg = new VisualGestures();
+> // load weights using task vision handlandmarker
+> // one can take refrence from [https://github.com/learn-hunger/visual-gestures/blob/main/example/src/services/handLandmarks.ts]
+> let handDetector: HandLandmarker;
+> export async function loadWeights() {
+>   if (handDetector) {
+>     return handDetector;
+>   }
+>   const vision = await FilesetResolver.forVisionTasks(
+>     "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm",
+>   );
+>   handDetector = await HandLandmarker.createFromOptions(vision, {
+>     baseOptions: {
+>       modelAssetPath: `https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task`,
+>       delegate: "GPU",
+>     },
+>     runningMode: "VIDEO",
+>     numHands: 2,
+>   });
 >
->  // get hand landmarks from mediapipe's taskvision
->  // here video corresponds to 'HTMLVideoElement' with live webcam stream
->  const landmarks = handDetector.detectForVideo(video, performance.now());
->  vg.detect(landmarks.landmarks[0], performance.now());
->  // Virtual cursor can be seen once model loading and detection started successfully
->  ```
+>   return handDetector;
+> }
+> // ask for camera permission [https://github.com/learn-hunger/visual-gestures/blob/main/example/src/utils/camera.ts]
+> // then detect hand landmarks [https://github.com/learn-hunger/visual-gestures/blob/main/example/src/services/handLandmarks.ts]
+> // get hand landmarks from mediapipe's taskvision
+> // here video corresponds to 'HTMLVideoElement' with live webcam stream [https://github.com/learn-hunger/visual-gestures/blob/main/example/src/index.ts]
+> const landmarks = handDetector.detectForVideo(video, performance.now());
+> vg.detect(landmarks.landmarks[0], performance.now());
+> // Virtual cursor can be seen once model loading and detection started successfully
+> ```
+>
+> ```
+>
+> ```
 
 For more information about handDetector, refer to the <a href="https://www.npmjs.com/package/@mediapipe/tasks-vision">mediapipe handLandmarker</a> documentation.<br/><br/>
 **3. Available Events** <br/>
 Refer to the quick guide below for effective gesture usage.
+
 <p align= "center">
  <img src="https://drive.google.com/uc?export=view&id=1cC-AqEBq_Y7VOgGUpTmN39lX3pHpcPBv" height="50%" width= "65%"/>
 </p> 
 <br/>
 
->  ```javascript
->  // comprehensive list of all potential event types can be found within the 'EVgMouseEvents'
->  import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
+> ```javascript
+> // comprehensive list of all potential event types can be found within the 'EVgMouseEvents'
+> import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
 >
->  // currently offered cursor control events
->  vgPointerMove();  // corresponds to 'onmousemove'
->  vgPointerEnter(); // corresponds to 'onmouseenter'
->  vgPointerLeave(); // corresponds to 'onmouseleave'
->  vgPointerDown(); // corresponds to 'onmousedown'
->  vgPointerUp(); // corresponds to 'onmouseup'
->  vgPointerClick(); // corresponds to 'onclick'
->  vgPointerDrag(); // corresponds to 'onmousedrag' ('onclick'+'onmousemove')
->  vgPointerDrop(); // corresponds to 'onmousedrop' ('onclick'+'onmousemove'+'onmouseup')
->  ```
+> // currently offered cursor control events
+> vgPointerMove(); // corresponds to 'onmousemove'
+> vgPointerEnter(); // corresponds to 'onmouseenter'
+> vgPointerLeave(); // corresponds to 'onmouseleave'
+> vgPointerDown(); // corresponds to 'onmousedown'
+> vgPointerUp(); // corresponds to 'onmouseup'
+> vgPointerClick(); // corresponds to 'onclick'
+> vgPointerDrag(); // corresponds to 'onmousedrag' ('onclick'+'onmousemove')
+> vgPointerDrop(); // corresponds to 'onmousedrop' ('onclick'+'onmousemove'+'onmouseup')
+> ```
 
 ##### For each event, you can use a callback on the vgInstance[3.1] or via traditional event listeners [3.2], similar to cursor-based controls.
 
@@ -88,43 +118,45 @@ Refer to the quick guide below for effective gesture usage.
 
 Function corresponds to 'onmousemove' event in traditional cursor-based controls
 
->  ```javascript
->  vg.mouseEvents.onPointerMove = () => {
->    // console.log("callback pointer moved");
->  };
->  ```
+> ```javascript
+> vg.mouseEvents.onPointerMove = () => {
+>   // console.log("callback pointer moved");
+> };
+> ```
 
 **3.2. Traditional Event Based Listening** <br>
 
 Function corresponds to 'onmousemove' event in traditional cursor-based controls
 
->  ```javascript
->  import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
->  document.addEventListener(EVgMouseEvents.MOUSE_MOVE, () => {
->    // console.log("callback pointer moved");
->  });
->  ```
-<br/>
+> ```javascript
+> import { EVgMouseEvents } from "@learn-hunger/visual-gestures/dist/app/utilities/vg-constants";
+> document.addEventListener(EVgMouseEvents.MOUSE_MOVE, () => {
+>   // console.log("callback pointer moved");
+> });
+> ```
+>
+> <br/>
 
 #### Similarily MOUSE_ENTER, MOUSE_LEAVE, MOUSE_DOWN, MOUSE_UP, MOUSE_CLICK, MOUSE_DRAG, MOUSE_DROP events can be listened via instance based or traditional based listening.
 
 ## Comprehensive Ecosystem
 
 Our custom-built project seamlessly integrates tools like [Central Logger](https://analytics.google.com/analytics/web/#/p458601436/reports/reportinghub?params=_u..nav%3Dmaui),
-Vercel auto build, [GitHub release management](https://github.com/learn-hunger/visual-gestures/releases), 
-[debugging tools](https://visual-gestures.vercel.app/#debug), 
-[CI/CD pipelines](https://drive.google.com/file/d/1Yd7y5yqpNi6e2v3zJWHMRDf_dzPzTCIo/view?usp=sharing), and 
+Vercel auto build, [GitHub release management](https://github.com/learn-hunger/visual-gestures/releases),
+[debugging tools](https://visual-gestures.vercel.app/#debug),
+[CI/CD pipelines](https://drive.google.com/file/d/1Yd7y5yqpNi6e2v3zJWHMRDf_dzPzTCIo/view?usp=sharing), and
 [automated code reviews](https://drive.google.com/file/d/1gsiI8DUTc3D_zSQNSCXAayqNUmVfnug7/view?usp=sharing),
 providing developers with the flexibility and performance needed to innovate and contribute effortlessly.
 
 <img src="https://drive.google.com/uc?export=view&id=1FC_riMhdfaF182kOoCNPsJ3foCh-Ijxn"/><br/>
+
 ## Compatibility
 
 **Desktop Platforms**
 |OS/Browser|Chrome|Edge|FireFox|Safari|Opera|
 |:---:|:---:|:---:|:---:|:---:|:---:|
 |Windows| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
-|macOS| ✔️| ✔️ | ✔️ | ✔️| ✔️ | 
+|macOS| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
 |Ubuntu LTS 18.04| ✔️| ✔️ | ✔️ | ✔️| ✔️ |
 
 **Mobile Platforms**
