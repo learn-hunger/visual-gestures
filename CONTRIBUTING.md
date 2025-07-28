@@ -25,7 +25,7 @@
 
 > ```bash
 > npm install
-> cd example2
+> cd example
 > npm install
 > ```
 
@@ -39,7 +39,7 @@
 **4. Run the example**
 
 > ```bash
-> cd example2
+> cd example
 > npm run dev
 > ```
 

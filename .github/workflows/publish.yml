@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vercel_artifacts # Unique name for this artifact
-          path: ./example2/dist # Path to the Vercel-specific build output
+          path: ./example/dist # Path to the Vercel-specific build output
 
   get_version:
     needs: [build]
@@ -138,7 +138,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vercel_artifacts
-          path: ./example2/dist
+          path: ./example/dist
       - name: "deploy"
         uses: amondnet/vercel-action@v25.2.0 #deploy
         with:
@@ -148,6 +148,6 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} #Required
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required
           vercel-args: "--prod --confirm"
-          working-directory: ./example2/dist
+          working-directory: ./example/dist
           alias-domains: | #Optional
             visual-gestures.vercel.app
