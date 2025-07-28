@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 .vercel
 ./example2/dev-dist/
+./example/dev-dist/
