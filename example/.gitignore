@@ -23,5 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
-./example2/dev-dist/*
-./example/dev-dist/*
+./example2/dev-dist/
+./example/dev-dist/
