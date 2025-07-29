@@ -111,3 +111,13 @@ their unwavering support. This work is conducted with the gracious blessings of
 Paramatma.
 
 # References
+
+google-ai-edge. (2019). mediapipe: Cross-platform, customizable ML solutions for live and streaming media. *GitHub*. [https://github.com/google-ai-edge/mediapipe](https://github.com/google-ai-edge/mediapipe)
+
+google-ai-edge. (2019). MediaPipe Hand Landmarker (Hand Landmarks Detection Guide). *Google AI Edge*. [https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker](https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker)
+
+Hongyi Xu, Eduard Gabriel Bazavan, Andrei Zanfir, William T. Freeman, Rahul Sukthankar, Cristian Sminchisescu. (2020). GHUM & GHUML: Generative 3D Human Shape and Articulated Pose Models. *Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 6184-6193. [https://openaccess.thecvf.com/content_CVPR_2020/html/Xu_GHUM__GHUML_Generative_3D_Human_Shape_and_Articulated_Pose_CVPR_2020_paper.html](https://openaccess.thecvf.com/content_CVPR_2020/html/Xu_GHUM__GHUML_Generative_3D_Human_Shape_and_Articulated_Pose_CVPR_2020_paper.html)
+
+Boddu Sri Pavan, Chandrasheker Thummanagoti, & Boddu Swathi Sree. (2025). KitikiPlot A Python library to visualize categorical sliding window data. *Zenodo*. [https://doi.org/10.5281/zenodo.14632005](https://doi.org/10.5281/zenodo.14632005)
+
+Nagendra Dharmireddi, & Jhansi Pyla. (2024). visualise-data-kit: Skeleton based visualizations of Google's MediaPipe. *GitHub*. [https://github.com/learn-hunger/visualise-data-kit](https://github.com/learn-hunger/visualise-data-kit)
