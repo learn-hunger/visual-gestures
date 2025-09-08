@@ -59,7 +59,7 @@ high customizability, including debugger support for rapid development.
 We introduce pseudo events, gesture-based equivalents of traditional 
 cursor events, enabling seamless human-computer interaction without 
 physical touch. Gesture recognition is achieved by extracting hand landmarks 
-using Google MediaPipe's Hand Landmarker.
+using Google MediaPipe's Hand Landmarker @50649 @mediapipe @mediapipe-hand-landmarker.
 
 At the core of our approach is the Fluid Kink Ratio Algorithm (FKR Algorithm), 
 a novel technique, we propose, for gesture-based decision-making. FKR Algorithm dynamically tracks 
@@ -76,7 +76,7 @@ $$\text{Weighted Euclidean Distance}=
 $$where \text{ } \alpha,\text{ }\beta \in [0,1]$$
 
 Figure 1, 2  illustrate the sequential gesture transitions within the
-sliding window, visualized using KitikiPlot, depicting movement trends across 
+sliding window, visualized using KitikiPlot @boddu_sri_pavan_2025_14632005 depicting movement trends across 
 consecutive time frames.
 
 
@@ -97,7 +97,7 @@ user gesture actions.*
 
 We developed a robust debugging panel, as shown in Figure 3 featuring memory and 
 CPU utilization tracking, framerate monitoring, landmark skeletal 
-visualization, a live finger kink ratio graph, and a customizable debug UI. 
+visualization @visualise-data-kit , a live finger kink ratio graph, and a customizable debug UI. 
 This enables developers to extend and tailor the system to their specific 
 use cases efficiently.
 
@@ -111,13 +111,3 @@ their unwavering support. This work is conducted with the gracious blessings of
 Paramatma.
 
 # References
-
-google-ai-edge. (2019). mediapipe: Cross-platform, customizable ML solutions for live and streaming media. *GitHub*. [https://github.com/google-ai-edge/mediapipe](https://github.com/google-ai-edge/mediapipe)
-
-google-ai-edge. (2019). MediaPipe Hand Landmarker (Hand Landmarks Detection Guide). *Google AI Edge*. [https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker](https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker)
-
-Hongyi Xu, Eduard Gabriel Bazavan, Andrei Zanfir, William T. Freeman, Rahul Sukthankar, Cristian Sminchisescu. (2020). GHUM & GHUML: Generative 3D Human Shape and Articulated Pose Models. *Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 6184-6193. [https://openaccess.thecvf.com/content_CVPR_2020/html/Xu_GHUM__GHUML_Generative_3D_Human_Shape_and_Articulated_Pose_CVPR_2020_paper.html](https://openaccess.thecvf.com/content_CVPR_2020/html/Xu_GHUM__GHUML_Generative_3D_Human_Shape_and_Articulated_Pose_CVPR_2020_paper.html)
-
-Boddu Sri Pavan, Chandrasheker Thummanagoti, & Boddu Swathi Sree. (2025). KitikiPlot A Python library to visualize categorical sliding window data. *Zenodo*. [https://doi.org/10.5281/zenodo.14632005](https://doi.org/10.5281/zenodo.14632005)
-
-Nagendra Dharmireddi, & Jhansi Pyla. (2024). visualise-data-kit: Skeleton based visualizations of Google's MediaPipe. *GitHub*. [https://github.com/learn-hunger/visualise-data-kit](https://github.com/learn-hunger/visualise-data-kit)
