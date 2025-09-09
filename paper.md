@@ -50,9 +50,9 @@ physical contact with a device. Transitioning to gesture-based control
 enhances user experience across various domains, including AR, VR, gaming, 
 healthcare, e-commerce, and industrial automation.
 
-While MediaPipe @50649 @mediapipe @mediapipe-hand-landmarker offers strong hand-tracking,
-it is not a ready-to-use cursor control toolkit. visual-gestures.js bridges this gap 
-with ready-to-integrate, open-source solution, offering seamless integration, 
+While MediaPipe @50649 @mediapipe @mediapipe-hand-landmarker and OpenCV @opencv_library offer strong hand-tracking,
+they are not ready-to-use cursor control toolkits. **visual-gestures.js** bridges this gap 
+by providing a ready-to-integrate, open-source solution, offering seamless integration, 
 offline functionality, and high customizability, including debugger support for 
 rapid development.
 
