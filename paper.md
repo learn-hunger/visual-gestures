@@ -50,9 +50,11 @@ physical contact with a device. Transitioning to gesture-based control
 enhances user experience across various domains, including AR, VR, gaming, 
 healthcare, e-commerce, and industrial automation.
 
-visual-gestures.js addresses the need for a ready-to-integrate, open-source 
-solution, offering seamless integration, offline functionality, and 
-high customizability, including debugger support for rapid development.
+While MediaPipe @50649 @mediapipe @mediapipe-hand-landmarker offers strong hand-tracking,
+it is not a ready-to-use cursor control toolkit. visual-gestures.js bridges this gap 
+with ready-to-integrate, open-source solution, offering seamless integration, 
+offline functionality, and high customizability, including debugger support for 
+rapid development.
 
 # Proposed Methodology
 
