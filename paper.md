@@ -51,6 +51,7 @@ and OpenCV @opencv_library provide accurate hand landmarks, they leave developer
 Turning these into usable interactions still requires custom rule-based logic and event handling.
 
 visual-gestures.js fills this gap by:
+
 - Performing the rule-based classification of landmarks into gestures like click, drag, and hover.
 - Exposing these gestures through an API that mimics native browser pointer events (pointerMove, pointerDown, pointerUp),
   making integration seamless.
